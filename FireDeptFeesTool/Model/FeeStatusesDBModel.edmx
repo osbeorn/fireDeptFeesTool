@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FeeStatusesDBModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0"
+              ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="FeeStatusesDBModelStoreContainer">
+          <EntitySet Name="FeeLogs" EntityType="FeeStatusesDBModel.Store.FeeLogs" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="FeeStatusesDBModel.Store.Member" store:Type="Tables" />
+          <EntitySet Name="PaymentStatus" EntityType="FeeStatusesDBModel.Store.PaymentStatus" store:Type="Tables" />
+          <AssociationSet Name="MemberFeeLogs" Association="FeeStatusesDBModel.Store.MemberFeeLogs">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="FeeLogs" EntitySet="FeeLogs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="FeeLogs">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="VulkanID" />
+          </Key>
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="VulkanID" Type="nvarchar" Nullable="false" MaxLength="6" />
+          <Property Name="PaymentStatusID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="VulkanID" />
+          </Key>
+          <Property Name="VulkanID" Type="nvarchar" Nullable="false" MaxLength="6" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Surname" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="DateOfBirth" Type="datetime" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Gender" Type="bit" Nullable="false" />
+          <Property Name="MustPay" Type="bit" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentStatus">
+          <Key>
+            <PropertyRef Name="PaymentStatusID" />
+          </Key>
+          <Property Name="PaymentStatusID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="MemberFeeLogs">
+          <End Role="Member" Type="FeeStatusesDBModel.Store.Member" Multiplicity="1" />
+          <End Role="FeeLogs" Type="FeeStatusesDBModel.Store.FeeLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="VulkanID" />
+            </Principal>
+            <Dependent Role="FeeLogs">
+              <PropertyRef Name="VulkanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FeeStatusesDBModel" Alias="Self" p1:UseStrongSpatialTypes="false"
+              xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+              xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FeeStatusesDBContext" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="FeeLogs" EntityType="FeeStatusesDBModel.FeeLogs" />
+          <EntitySet Name="Member" EntityType="FeeStatusesDBModel.Member" />
+          <EntitySet Name="PaymentStatus" EntityType="FeeStatusesDBModel.PaymentStatus" />
+          <AssociationSet Name="MemberFeeLogs" Association="FeeStatusesDBModel.MemberFeeLogs">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="FeeLogs" EntitySet="FeeLogs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="FeeLogs">
+          <Key>
+            <PropertyRef Name="Year" />
+            <PropertyRef Name="VulkanID" />
+          </Key>
+          <Property Type="Int32" Name="Year" Nullable="false" />
+          <Property Type="String" Name="VulkanID" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PaymentStatusID" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="FeeStatusesDBModel.MemberFeeLogs" FromRole="FeeLogs"
+                              ToRole="Member" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="VulkanID" />
+          </Key>
+          <Property Type="String" Name="VulkanID" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="DateOfBirth" Nullable="false" Precision="3" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Gender" Nullable="false" />
+          <Property Type="Boolean" Name="MustPay" Nullable="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <NavigationProperty Name="FeeLogs" Relationship="FeeStatusesDBModel.MemberFeeLogs" FromRole="Member"
+                              ToRole="FeeLogs" />
+        </EntityType>
+        <EntityType Name="PaymentStatus">
+          <Key>
+            <PropertyRef Name="PaymentStatusID" />
+          </Key>
+          <Property Type="Int32" Name="PaymentStatusID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Text" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="MemberFeeLogs">
+          <End Type="FeeStatusesDBModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="FeeStatusesDBModel.FeeLogs" Role="FeeLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="VulkanID" />
+            </Principal>
+            <Dependent Role="FeeLogs">
+              <PropertyRef Name="VulkanID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FeeStatusesDBModelStoreContainer"
+                                CdmEntityContainer="FeeStatusesDBContext">
+          <EntitySetMapping Name="FeeLogs">
+            <EntityTypeMapping TypeName="FeeStatusesDBModel.FeeLogs">
+              <MappingFragment StoreEntitySet="FeeLogs">
+                <ScalarProperty Name="PaymentStatusID" ColumnName="PaymentStatusID" />
+                <ScalarProperty Name="VulkanID" ColumnName="VulkanID" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Member">
+            <EntityTypeMapping TypeName="FeeStatusesDBModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="MustPay" ColumnName="MustPay" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="VulkanID" ColumnName="VulkanID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentStatus">
+            <EntityTypeMapping TypeName="FeeStatusesDBModel.PaymentStatus">
+              <MappingFragment StoreEntitySet="PaymentStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="PaymentStatusID" ColumnName="PaymentStatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

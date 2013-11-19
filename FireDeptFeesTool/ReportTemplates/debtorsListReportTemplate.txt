@@ -1,0 +1,21 @@
+﻿<p style="text-align: justify">
+	<font size="4">Obvestilo: #{ime_in_priimek}</font>
+	<br />
+	<br />
+	<br />
+	<font size="3">
+		Upravni odbor PGD Zagradec je pri pregledu plačil članarine ugotovil, da je še niste
+		poravnali za #{leto_leti_leta} <strong>#{seznam_let}</strong>.
+		<br />
+		Prosimo vas, da zaostalo članarino v skupni višini <strong>#{znesek}€</strong>
+		plačate ob prihodu na naslednji občni zbor ali na TRR 0202 2001 3530 684 (glej priloženo položnico).
+		<br />
+		Za vse, ki članarine niste plačali 3 leta ali več, velja to obvestilo kot zadnji opomin pred izključitvijo!
+		<br />
+		<br />
+		Če ste zaostalo članarino med tem časom že poravnali, obvestilo jemljite za brezpredmetno!
+		<p style="text-align: right">
+			Upravni odbor PGD Zagradec pri Grosupljem
+		<p>
+	</font>
+</p>

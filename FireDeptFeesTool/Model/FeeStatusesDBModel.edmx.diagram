@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cba56147bb514354a2d7f80fbbfab3a3" Name="Diagram1" ZoomLevel="72">
+        <EntityTypeShape EntityType="FeeStatusesDBModel.FeeLogs" Width="1.5" PointX="5.3884763575105357" PointY="28.787953852111453" />
+        <EntityTypeShape EntityType="FeeStatusesDBModel.Member" Width="1.5" PointX="2.5581732888511257" PointY="17.408059038877514" />
+        <EntityTypeShape EntityType="FeeStatusesDBModel.PaymentStatus" Width="1.5" PointX="4.5166589676014421" PointY="17.154550456048245" />
+        <AssociationConnector Association="FeeStatusesDBModel.MemberFeeLogs" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
