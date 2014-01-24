@@ -40,6 +40,7 @@
             this.openSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pomočToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statisticsTabPage = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -50,6 +51,7 @@
             this.tabControl.Controls.Add(this.paymentsTabPage);
             this.tabControl.Controls.Add(this.billsTabPage);
             this.tabControl.Controls.Add(this.remindersTabPage);
+            this.tabControl.Controls.Add(this.statisticsTabPage);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.HotTrack = true;
             this.tabControl.Location = new System.Drawing.Point(0, 24);
@@ -128,7 +130,7 @@
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
             this.exitToolStripMenuItem.Text = "Izhod";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -143,7 +145,7 @@
             // openSettingsToolStripMenuItem
             // 
             this.openSettingsToolStripMenuItem.Name = "openSettingsToolStripMenuItem";
-            this.openSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openSettingsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.openSettingsToolStripMenuItem.Text = "Nastavitve...";
             this.openSettingsToolStripMenuItem.Click += new System.EventHandler(this.OpenSettingsToolStripMenuItem_Click);
             // 
@@ -162,6 +164,16 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.aboutToolStripMenuItem.Text = "O programu";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
+            // 
+            // statisticsTabPage
+            // 
+            this.statisticsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.statisticsTabPage.Name = "statisticsTabPage";
+            this.statisticsTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.statisticsTabPage.Size = new System.Drawing.Size(984, 670);
+            this.statisticsTabPage.TabIndex = 4;
+            this.statisticsTabPage.Text = "Statistika";
+            this.statisticsTabPage.UseVisualStyleBackColor = true;
             // 
             // ShellForm
             // 
@@ -198,5 +210,6 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.TabPage statisticsTabPage;
     }
 }

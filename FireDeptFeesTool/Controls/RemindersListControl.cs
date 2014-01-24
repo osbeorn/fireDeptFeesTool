@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using FireDeptFeesTool.Forms;
 using FireDeptFeesTool.Helpers;
 using FireDeptFeesTool.Lib;
 using FireDeptFeesTool.Model;
-using FireDeptFeesTool.ViewModels;
+using FireDeptFeesTool.ReportModels;
 using Microsoft.Reporting.WinForms;
 
 namespace FireDeptFeesTool.Controls
@@ -21,8 +22,7 @@ namespace FireDeptFeesTool.Controls
         private int minYear;
         private IEnumerable<int> yearsGlobal;
 
-        public RemindersListControl(ShellForm container)
-            : base(container)
+        public RemindersListControl(ShellForm container) : base(container)
         {
             InitializeComponent();
 
@@ -39,7 +39,7 @@ namespace FireDeptFeesTool.Controls
         {
             using (var db = new FeeStatusesDBContext())
             {
-                IOrderedQueryable<Member> members =
+                var members =
                     allYears
                         ? db.Member.Where(
                             m =>
@@ -52,7 +52,7 @@ namespace FireDeptFeesTool.Controls
                                 fl => fl.PaymentStatusID == PaymentStatus.NI_PLACAL && fl.Year >= min && fl.Year <= max))
                               .OrderBy(m => m.Surname).ThenBy(m => m.Name);
 
-                List<FeeLogs> feeLogs =
+                var feeLogs =
                     allYears
                         ? members.SelectMany(m => m.FeeLogs.Where(fl => fl.PaymentStatusID == PaymentStatus.NI_PLACAL)).
                               ToList() // tudi NI_PODATKA ??
@@ -85,7 +85,7 @@ namespace FireDeptFeesTool.Controls
                             col = new DataGridViewCheckBoxColumn
                                       {
                                           Name = "Year" + year,
-                                          HeaderText = year.ToString(),
+                                          HeaderText = year.ToString(CultureInfo.InvariantCulture),
                                           DataPropertyName = "Year" + year
                                       };
                             paymentDebtsDataGridView.Columns.Insert(2 + i, col);
@@ -152,12 +152,20 @@ namespace FireDeptFeesTool.Controls
                 return;
             }
 
-            new ReportViewerForm(REPORT_NAME, GetReportDataSet()).Show();
+            //new ReportViewerForm(REPORT_NAME, GetReportDataSet(), new List<ReportParameter>()).Show();
+            
+            //form.SetReport(selectedStat.ReportPath, selectedStat.DataSource, selectedStat.Parameters);
+
+            ReportViewerForm.GetInstance().SetReport(
+                REPORT_NAME,
+                GetReportDataSet(),
+                new List<ReportParameter>()
+            );
         }
 
         private ReportDataSource GetReportDataSet()
         {
-            var debtors = new List<DebtorViewModel>();
+            var debtors = new List<DebtorReportModel>();
 
             using (var db = new FeeStatusesDBContext())
             {
@@ -176,7 +184,7 @@ namespace FireDeptFeesTool.Controls
                     if (cols.Count > 0)
                     {
                         Member member = db.Member.Find(data[0].ToString());
-                        var debtor = new DebtorViewModel
+                        var debtor = new DebtorReportModel
                                          {
                                              RepDefinition =
                                                  ConfigHelper.GetConfigValue<string>(ConfigFields.DEBTS_TEMPLATE),

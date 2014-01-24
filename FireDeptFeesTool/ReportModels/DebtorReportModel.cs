@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FireDeptFeesTool.ViewModels
+namespace FireDeptFeesTool.ReportModels
 {
-    public class DebtorViewModel
+    public class DebtorReportModel
     {
         public string RepDefinition { get; set; }
         public string FirstName { get; set; }
@@ -35,35 +35,29 @@ namespace FireDeptFeesTool.ViewModels
 
         private string GetCorrectYearNoun(IList<short> list)
         {
-            if (list.Count == 1)
+            switch (list.Count)
             {
-                return "leto";
-            }
-            else if (list.Count == 2)
-            {
-                return "leti";
-            }
-            else
-            {
-                return "leta";
+                case 1:
+                    return "leto";
+                case 2:
+                    return "leti";
+                default:
+                    return "leta";
             }
         }
 
         private string GetStringFromYearsList(IList<short> list)
         {
-            if (list.Count == 1)
+            switch (list.Count)
             {
-                return list[0].ToString();
-            }
-            else if (list.Count == 2)
-            {
-                return string.Join(" ", list[0], "in", list[1]);
-            }
-            else
-            {
-                return string.Join(" ",
-                                   string.Join(", ", list.Select(l => l.ToString()).ToArray<string>(), 0, list.Count - 1),
-                                   "in", list.Last());
+                case 1:
+                    return list[0].ToString();
+                case 2:
+                    return string.Join(" ", list[0], "in", list[1]);
+                default:
+                    return string.Join(" ",
+                                       string.Join(", ", list.Select(l => l.ToString()).ToArray<string>(), 0, list.Count - 1),
+                                       "in", list.Last());
             }
         }
     }

@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.addOptionButtonContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,7 +51,6 @@
             this.printButton = new System.Windows.Forms.Button();
             this.printButtonContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.printPaymentsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.printStatisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addOptionButtonContextMenuStrip.SuspendLayout();
             this.importDataContextMenuStrip.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -153,8 +152,8 @@
             // 
             this.paymentsDataGridView.AllowUserToAddRows = false;
             this.paymentsDataGridView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightCyan;
-            this.paymentsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightCyan;
+            this.paymentsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.paymentsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.paymentsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.VulkanID,
@@ -162,14 +161,14 @@
             this.MemberName,
             this.DateOfBirth});
             this.tableLayoutPanel1.SetColumnSpan(this.paymentsDataGridView, 5);
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.paymentsDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.paymentsDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.paymentsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.paymentsDataGridView.Location = new System.Drawing.Point(3, 3);
             this.paymentsDataGridView.Name = "paymentsDataGridView";
@@ -249,24 +248,16 @@
             // printButtonContextMenuStrip
             // 
             this.printButtonContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.printPaymentsListToolStripMenuItem,
-            this.printStatisticsToolStripMenuItem});
+            this.printPaymentsListToolStripMenuItem});
             this.printButtonContextMenuStrip.Name = "printButtonContextMenuStrip";
-            this.printButtonContextMenuStrip.Size = new System.Drawing.Size(122, 48);
+            this.printButtonContextMenuStrip.Size = new System.Drawing.Size(153, 48);
             // 
             // printPaymentsListToolStripMenuItem
             // 
             this.printPaymentsListToolStripMenuItem.Name = "printPaymentsListToolStripMenuItem";
-            this.printPaymentsListToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.printPaymentsListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.printPaymentsListToolStripMenuItem.Text = "Seznam";
             this.printPaymentsListToolStripMenuItem.Click += new System.EventHandler(this.PrintPaymentsListToolStripMenuItem_Click);
-            // 
-            // printStatisticsToolStripMenuItem
-            // 
-            this.printStatisticsToolStripMenuItem.Name = "printStatisticsToolStripMenuItem";
-            this.printStatisticsToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
-            this.printStatisticsToolStripMenuItem.Text = "Statistike";
-            this.printStatisticsToolStripMenuItem.Click += new System.EventHandler(this.PrintStatisticsToolStripMenuItem_Click);
             // 
             // PaymentsListControl
             // 
@@ -308,6 +299,5 @@
         private System.Windows.Forms.Button printButton;
         private System.Windows.Forms.ContextMenuStrip printButtonContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem printPaymentsListToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem printStatisticsToolStripMenuItem;
     }
 }

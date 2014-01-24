@@ -68,7 +68,7 @@ namespace FireDeptFeesTool.Forms
                                     new BankExportDocumentSelectionViewModel
                                         {
                                             Member = vulkanId,
-                                            Years = year.HasValue ? year.Value.ToString() : "",
+                                            Years = year.HasValue ? year.Type.ToString() : "",
                                             BankDocData = doc.NazivPartnerja + "; " + doc.Namen + "; " + doc.Znesek + "€",
                                             //Warning = doc.Znesek > 10,
                                             Selected = (vulkanId != null && year.HasValue && doc.Znesek == 10)

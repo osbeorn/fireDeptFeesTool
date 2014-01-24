@@ -98,8 +98,17 @@
     <Compile Include="Controls\RemindersListControl.Designer.cs">
       <DependentUpon>RemindersListControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ReportsMainControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ReportsMainControl.Designer.cs">
+      <DependentUpon>ReportsMainControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\RegularNonPayersDataSet.cs" />
+    <Compile Include="DataSets\SelectedYearNonPayersDataSet.cs" />
     <Compile Include="Enums\PrintType.cs" />
-    <Compile Include="Enums\Reports.cs" />
+    <Compile Include="Lib\Reports.cs" />
+    <Compile Include="Enums\ReportTypes.cs" />
     <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,11 +153,13 @@
     </Compile>
     <Compile Include="Helpers\BankExportDocumentsReader.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
+    <Compile Include="Helpers\ControlsHelper.cs" />
     <Compile Include="Helpers\DrawHelper.cs" />
-    <Compile Include="Helpers\ReportDatasetHelper.cs" />
+    <Compile Include="Helpers\ReportDataSourceHelper.cs" />
     <Compile Include="Lib\BankExportDocument.cs" />
     <Compile Include="Lib\Messages.cs" />
     <Compile Include="Lib\ReportColumn.cs" />
+    <Compile Include="Lib\ReportParameterControl.cs" />
     <Compile Include="ModelPartial\Member.cs" />
     <Compile Include="ModelPartial\PaymentStatus.cs" />
     <Compile Include="Model\FeeLogs.cs">
@@ -190,9 +201,11 @@
     <Compile Include="ReportGenerator\RdlGenerator.cs" />
     <Compile Include="ReportGenerator\ReportDefinition.cs" />
     <Compile Include="ReportGenerator\TableRdlGenerator.cs" />
+    <Compile Include="ReportModels\RegularNonPayersReportModel.cs" />
+    <Compile Include="ReportModels\SelectedYearNonPayersReportModel.cs" />
     <Compile Include="Schemas\camt.053.001.02.Designer.cs" />
     <Compile Include="ViewModels\BankExportDocumentSelectionViewModel.cs" />
-    <Compile Include="ViewModels\DebtorViewModel.cs" />
+    <Compile Include="ReportModels\DebtorReportModel.cs" />
     <Compile Include="ViewModels\MemberViewModel.cs" />
     <Compile Include="ViewModels\PaymentViewModel.cs" />
     <EmbeddedResource Include="Controls\BillsListControl.resx">
@@ -206,6 +219,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\RemindersListControl.resx">
       <DependentUpon>RemindersListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ReportsMainControl.resx">
+      <DependentUpon>ReportsMainControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
@@ -238,6 +254,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Reports\RegularNonPayers.rdlc" />
+    <EmbeddedResource Include="Reports\SelectedYearNonPayers.rdlc" />
     <EmbeddedResource Include="Reports\DebtorsListReport.rdlc" />
     <EmbeddedResource Include="Reports\PaymentsStatistics.rdlc" />
     <EntityDeploy Include="Model\FeeStatusesDBModel.edmx">
@@ -258,6 +276,8 @@
       <LastGenOutput>FeeStatusesDBModel.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.RegularNonPayersDataSet.datasource" />
+    <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.SelectedYearNonPayersDataSet.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -290,7 +310,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="Properties\DataSources\" />
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>

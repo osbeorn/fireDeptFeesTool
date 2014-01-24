@@ -63,6 +63,17 @@ namespace FireDeptFeesTool.Forms
             controlsDict.Add("RemindersListControl", tempControl);
 
             #endregion remindersTabPage
+
+            #region statisticsTabPage
+
+            tempControl = new ReportsMainControl();
+
+            tabControl.TabPages["statisticsTabPage"].Controls.Add(tempControl);
+            tabControl.TabPages["statisticsTabPage"].Controls[0].Dock = DockStyle.Fill;
+
+            controlsDict.Add("ReportsMainControl", tempControl);
+
+            #endregion
         }
 
         private void TabControl1_Deselected(object sender, TabControlEventArgs e)
@@ -103,6 +114,8 @@ namespace FireDeptFeesTool.Forms
                 case "2": // billsTabPage
                     break;
                 case "3": // remindersTabPage
+                    break;
+                case "4": //statisticsTabPage
                     break;
             }
 

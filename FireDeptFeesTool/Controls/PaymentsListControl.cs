@@ -540,7 +540,7 @@ namespace FireDeptFeesTool.Controls
                 using (var db = new FeeStatusesDBContext())
                 {
                     var cell = ((DataGridView)sender)[e.ColumnIndex, e.RowIndex] as DataGridViewComboBoxCell; 
-                    cell.ToolTipText = PaymentStatus.GetPaymentStatusDesc(cell.Value as int?);
+                    cell.ToolTipText = PaymentStatus.GetPaymentStatusDesc(cell.Type as int?);
                 }
             }
             */
@@ -610,11 +610,7 @@ namespace FireDeptFeesTool.Controls
                 return;
             }
 
-            new ReportViewerForm(GetReportDefinition(), GetDataSource()).Show();
-        }
-
-        private void PrintStatisticsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+            new ReportViewerForm(GetReportDefinition(), GetDataSource(), new List<ReportParameter>()).Show();
         }
     }
 }
