@@ -37,11 +37,12 @@
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.documentListDataGridView = new System.Windows.Forms.DataGridView();
+            this.prepareBillsDataButton = new System.Windows.Forms.Button();
+            this.printButton = new System.Windows.Forms.Button();
+            this.prepareBillsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.prepareDataForCurrentYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.prepareDataForSelectedYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Selected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.TipDokumenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BremeIBAN = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BremeModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BremeSklic = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BremeIme = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DobroIme = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Znesek = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,18 +51,7 @@
             this.DobroModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DobroSklic = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DatumPlacila = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Namen = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KodaNamena = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nujno = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Izjava = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.ObvezenVnosVsehPolj = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.PreveriKontrolneStevilke = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.SamodejnoPripraviOCR = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.prepareBillsDataButton = new System.Windows.Forms.Button();
-            this.printButton = new System.Windows.Forms.Button();
-            this.prepareBillsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.prepareDataForCurrentYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.prepareDataForSelectedYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.documentListDataGridView)).BeginInit();
             this.prepareBillsContextMenuStrip.SuspendLayout();
@@ -108,10 +98,6 @@
             this.documentListDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.documentListDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Selected,
-            this.TipDokumenta,
-            this.BremeIBAN,
-            this.BremeModel,
-            this.BremeSklic,
             this.BremeIme,
             this.DobroIme,
             this.Znesek,
@@ -120,13 +106,7 @@
             this.DobroModel,
             this.DobroSklic,
             this.DatumPlacila,
-            this.Namen,
-            this.KodaNamena,
-            this.Nujno,
-            this.Izjava,
-            this.ObvezenVnosVsehPolj,
-            this.PreveriKontrolneStevilke,
-            this.SamodejnoPripraviOCR});
+            this.KodaNamena});
             this.tableLayoutPanel1.SetColumnSpan(this.documentListDataGridView, 3);
             this.documentListDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.documentListDataGridView.Location = new System.Drawing.Point(3, 3);
@@ -145,7 +125,51 @@
             this.documentListDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.documentListDataGridView.Size = new System.Drawing.Size(594, 362);
             this.documentListDataGridView.TabIndex = 0;
-            this.documentListDataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.documentListDataGridView_RowPostPaint);
+            this.documentListDataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DocumentListDataGridView_RowPostPaint);
+            // 
+            // prepareBillsDataButton
+            // 
+            this.prepareBillsDataButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.prepareBillsDataButton.Location = new System.Drawing.Point(523, 374);
+            this.prepareBillsDataButton.Name = "prepareBillsDataButton";
+            this.prepareBillsDataButton.Size = new System.Drawing.Size(74, 23);
+            this.prepareBillsDataButton.TabIndex = 2;
+            this.prepareBillsDataButton.Text = "Pripravi";
+            this.prepareBillsDataButton.UseVisualStyleBackColor = true;
+            this.prepareBillsDataButton.Click += new System.EventHandler(this.PrepareBillsDataButton_Click);
+            // 
+            // printButton
+            // 
+            this.printButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.printButton.Location = new System.Drawing.Point(3, 374);
+            this.printButton.Name = "printButton";
+            this.printButton.Size = new System.Drawing.Size(74, 23);
+            this.printButton.TabIndex = 3;
+            this.printButton.Text = "Tiskaj...";
+            this.printButton.UseVisualStyleBackColor = true;
+            this.printButton.Click += new System.EventHandler(this.PrintButton_Click);
+            // 
+            // prepareBillsContextMenuStrip
+            // 
+            this.prepareBillsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.prepareDataForCurrentYearToolStripMenuItem,
+            this.prepareDataForSelectedYearToolStripMenuItem});
+            this.prepareBillsContextMenuStrip.Name = "prepareBillsContextMenuStrip";
+            this.prepareBillsContextMenuStrip.Size = new System.Drawing.Size(171, 48);
+            // 
+            // prepareDataForCurrentYearToolStripMenuItem
+            // 
+            this.prepareDataForCurrentYearToolStripMenuItem.Name = "prepareDataForCurrentYearToolStripMenuItem";
+            this.prepareDataForCurrentYearToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.prepareDataForCurrentYearToolStripMenuItem.Text = "Za tekoče leto";
+            this.prepareDataForCurrentYearToolStripMenuItem.Click += new System.EventHandler(this.PrepareDataForCurrentYearToolStripMenuItem_Click);
+            // 
+            // prepareDataForSelectedYearToolStripMenuItem
+            // 
+            this.prepareDataForSelectedYearToolStripMenuItem.Name = "prepareDataForSelectedYearToolStripMenuItem";
+            this.prepareDataForSelectedYearToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.prepareDataForSelectedYearToolStripMenuItem.Text = "Za poljubno leto...";
+            this.prepareDataForSelectedYearToolStripMenuItem.Click += new System.EventHandler(this.PrepareDataForSelectedYearToolStripMenuItem_Click);
             // 
             // Selected
             // 
@@ -153,38 +177,6 @@
             this.Selected.HeaderText = "";
             this.Selected.Name = "Selected";
             this.Selected.Width = 5;
-            // 
-            // TipDokumenta
-            // 
-            this.TipDokumenta.DataPropertyName = "TipDokumenta";
-            this.TipDokumenta.HeaderText = "Tip dokumenta";
-            this.TipDokumenta.Name = "TipDokumenta";
-            this.TipDokumenta.Visible = false;
-            this.TipDokumenta.Width = 103;
-            // 
-            // BremeIBAN
-            // 
-            this.BremeIBAN.DataPropertyName = "BremeIBAN";
-            this.BremeIBAN.HeaderText = "Breme IBAN";
-            this.BremeIBAN.Name = "BremeIBAN";
-            this.BremeIBAN.Visible = false;
-            this.BremeIBAN.Width = 90;
-            // 
-            // BremeModel
-            // 
-            this.BremeModel.DataPropertyName = "BremeModel";
-            this.BremeModel.HeaderText = "Breme model";
-            this.BremeModel.Name = "BremeModel";
-            this.BremeModel.Visible = false;
-            this.BremeModel.Width = 93;
-            // 
-            // BremeSklic
-            // 
-            this.BremeSklic.DataPropertyName = "BremeSklic";
-            this.BremeSklic.HeaderText = "Breme sklic";
-            this.BremeSklic.Name = "BremeSklic";
-            this.BremeSklic.Visible = false;
-            this.BremeSklic.Width = 86;
             // 
             // BremeIme
             // 
@@ -251,15 +243,6 @@
             this.DatumPlacila.Visible = false;
             this.DatumPlacila.Width = 77;
             // 
-            // Namen
-            // 
-            this.Namen.DataPropertyName = "Namen";
-            this.Namen.HeaderText = "Namen";
-            this.Namen.Name = "Namen";
-            this.Namen.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Namen.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Namen.Width = 47;
-            // 
             // KodaNamena
             // 
             this.KodaNamena.DataPropertyName = "KodaNamena";
@@ -268,90 +251,6 @@
             this.KodaNamena.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.KodaNamena.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.KodaNamena.Width = 79;
-            // 
-            // Nujno
-            // 
-            this.Nujno.DataPropertyName = "Nujno";
-            this.Nujno.HeaderText = "Nujno";
-            this.Nujno.Name = "Nujno";
-            this.Nujno.Visible = false;
-            this.Nujno.Width = 41;
-            // 
-            // Izjava
-            // 
-            this.Izjava.DataPropertyName = "Izjava";
-            this.Izjava.HeaderText = "Izjava";
-            this.Izjava.Name = "Izjava";
-            this.Izjava.Visible = false;
-            this.Izjava.Width = 41;
-            // 
-            // ObvezenVnosVsehPolj
-            // 
-            this.ObvezenVnosVsehPolj.DataPropertyName = "ObvezenVnosVsehPolj";
-            this.ObvezenVnosVsehPolj.HeaderText = "Obvezen vnos vseh polj";
-            this.ObvezenVnosVsehPolj.Name = "ObvezenVnosVsehPolj";
-            this.ObvezenVnosVsehPolj.Visible = false;
-            this.ObvezenVnosVsehPolj.Width = 127;
-            // 
-            // PreveriKontrolneStevilke
-            // 
-            this.PreveriKontrolneStevilke.DataPropertyName = "PreveriKontrolneStevilke";
-            this.PreveriKontrolneStevilke.HeaderText = "Preveri kontrolne številke";
-            this.PreveriKontrolneStevilke.Name = "PreveriKontrolneStevilke";
-            this.PreveriKontrolneStevilke.Visible = false;
-            this.PreveriKontrolneStevilke.Width = 132;
-            // 
-            // SamodejnoPripraviOCR
-            // 
-            this.SamodejnoPripraviOCR.DataPropertyName = "SamodejnoPripraviOCR";
-            this.SamodejnoPripraviOCR.HeaderText = "Samodejno pripravi OCR";
-            this.SamodejnoPripraviOCR.Name = "SamodejnoPripraviOCR";
-            this.SamodejnoPripraviOCR.Visible = false;
-            this.SamodejnoPripraviOCR.Width = 129;
-            // 
-            // prepareBillsDataButton
-            // 
-            this.prepareBillsDataButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.prepareBillsDataButton.Location = new System.Drawing.Point(523, 374);
-            this.prepareBillsDataButton.Name = "prepareBillsDataButton";
-            this.prepareBillsDataButton.Size = new System.Drawing.Size(74, 23);
-            this.prepareBillsDataButton.TabIndex = 2;
-            this.prepareBillsDataButton.Text = "Pripravi";
-            this.prepareBillsDataButton.UseVisualStyleBackColor = true;
-            this.prepareBillsDataButton.Click += new System.EventHandler(this.PrepareBillsDataButton_Click);
-            // 
-            // printButton
-            // 
-            this.printButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.printButton.Location = new System.Drawing.Point(3, 374);
-            this.printButton.Name = "printButton";
-            this.printButton.Size = new System.Drawing.Size(74, 23);
-            this.printButton.TabIndex = 3;
-            this.printButton.Text = "Tiskaj...";
-            this.printButton.UseVisualStyleBackColor = true;
-            this.printButton.Click += new System.EventHandler(this.PrintButton_Click);
-            // 
-            // prepareBillsContextMenuStrip
-            // 
-            this.prepareBillsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.prepareDataForCurrentYearToolStripMenuItem,
-            this.prepareDataForSelectedYearToolStripMenuItem});
-            this.prepareBillsContextMenuStrip.Name = "prepareBillsContextMenuStrip";
-            this.prepareBillsContextMenuStrip.Size = new System.Drawing.Size(171, 48);
-            // 
-            // prepareDataForCurrentYearToolStripMenuItem
-            // 
-            this.prepareDataForCurrentYearToolStripMenuItem.Name = "prepareDataForCurrentYearToolStripMenuItem";
-            this.prepareDataForCurrentYearToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.prepareDataForCurrentYearToolStripMenuItem.Text = "Za tekoče leto";
-            this.prepareDataForCurrentYearToolStripMenuItem.Click += new System.EventHandler(this.PrepareDataForCurrentYearToolStripMenuItem_Click);
-            // 
-            // prepareDataForSelectedYearToolStripMenuItem
-            // 
-            this.prepareDataForSelectedYearToolStripMenuItem.Name = "prepareDataForSelectedYearToolStripMenuItem";
-            this.prepareDataForSelectedYearToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.prepareDataForSelectedYearToolStripMenuItem.Text = "Za poljubno leto...";
-            this.prepareDataForSelectedYearToolStripMenuItem.Click += new System.EventHandler(this.PrepareDataForSelectedYearToolStripMenuItem_Click);
             // 
             // BillsListControl
             // 
@@ -378,11 +277,10 @@
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
         private System.Drawing.Printing.PrintDocument UPNPrintDocument;
         private System.Windows.Forms.PrintDialog printDialog1;
+        private System.Windows.Forms.ContextMenuStrip prepareBillsContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem prepareDataForCurrentYearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem prepareDataForSelectedYearToolStripMenuItem;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Selected;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TipDokumenta;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BremeIBAN;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BremeModel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BremeSklic;
         private System.Windows.Forms.DataGridViewTextBoxColumn BremeIme;
         private System.Windows.Forms.DataGridViewTextBoxColumn DobroIme;
         private System.Windows.Forms.DataGridViewTextBoxColumn Znesek;
@@ -391,15 +289,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DobroModel;
         private System.Windows.Forms.DataGridViewTextBoxColumn DobroSklic;
         private System.Windows.Forms.DataGridViewTextBoxColumn DatumPlacila;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Namen;
         private System.Windows.Forms.DataGridViewTextBoxColumn KodaNamena;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Nujno;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Izjava;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn ObvezenVnosVsehPolj;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn PreveriKontrolneStevilke;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn SamodejnoPripraviOCR;
-        private System.Windows.Forms.ContextMenuStrip prepareBillsContextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem prepareDataForCurrentYearToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem prepareDataForSelectedYearToolStripMenuItem;
     }
 }

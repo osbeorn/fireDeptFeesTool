@@ -32,23 +32,26 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.finishImportButton = new System.Windows.Forms.Button();
             this.Selected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.BankDocData = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Member = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Years = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Warning = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.finishImportButton = new System.Windows.Forms.Button();
+            this.cancelImportButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 111F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.Controls.Add(this.dataGridView1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.finishImportButton, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.cancelImportButton, 2, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -72,7 +75,7 @@
             this.Member,
             this.Years,
             this.Warning});
-            this.tableLayoutPanel1.SetColumnSpan(this.dataGridView1, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.dataGridView1, 3);
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.Azure;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -91,17 +94,6 @@
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DataGridView1_RowPostPaint);
             this.dataGridView1.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.DataGridView1_RowPrePaint);
             this.dataGridView1.VisibleChanged += new System.EventHandler(this.DataGridView1_VisibleChanged);
-            // 
-            // finishImportButton
-            // 
-            this.finishImportButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.finishImportButton.Location = new System.Drawing.Point(532, 355);
-            this.finishImportButton.Name = "finishImportButton";
-            this.finishImportButton.Size = new System.Drawing.Size(105, 23);
-            this.finishImportButton.TabIndex = 1;
-            this.finishImportButton.Text = "Dokončaj uvoz";
-            this.finishImportButton.UseVisualStyleBackColor = true;
-            this.finishImportButton.Click += new System.EventHandler(this.FinishImportButton_Click);
             // 
             // Selected
             // 
@@ -142,6 +134,28 @@
             this.Warning.Visible = false;
             this.Warning.Width = 57;
             // 
+            // finishImportButton
+            // 
+            this.finishImportButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.finishImportButton.Location = new System.Drawing.Point(483, 355);
+            this.finishImportButton.Name = "finishImportButton";
+            this.finishImportButton.Size = new System.Drawing.Size(74, 23);
+            this.finishImportButton.TabIndex = 1;
+            this.finishImportButton.Text = "Dokončaj";
+            this.finishImportButton.UseVisualStyleBackColor = true;
+            this.finishImportButton.Click += new System.EventHandler(this.FinishImportButton_Click);
+            // 
+            // cancelImportButton
+            // 
+            this.cancelImportButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cancelImportButton.Location = new System.Drawing.Point(563, 355);
+            this.cancelImportButton.Name = "cancelImportButton";
+            this.cancelImportButton.Size = new System.Drawing.Size(74, 23);
+            this.cancelImportButton.TabIndex = 2;
+            this.cancelImportButton.Text = "Prekini";
+            this.cancelImportButton.UseVisualStyleBackColor = true;
+            this.cancelImportButton.Click += new System.EventHandler(this.CancelImportButton_Click);
+            // 
             // SelectBankExportDocumentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -166,6 +180,7 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn Member;
         private System.Windows.Forms.DataGridViewTextBoxColumn Years;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Warning;
+        private System.Windows.Forms.Button cancelImportButton;
 
 
     }

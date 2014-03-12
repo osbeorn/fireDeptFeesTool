@@ -8,14 +8,13 @@ namespace FireDeptFeesTool.Helpers
 {
     public enum ConfigFields
     {
-        NAZIV_DRUSTVA,
-        IBAN_PREJEMNIKA,
-        BIC_BANKE,
-        ZNESEK,
-        LASER_XOFFSET,
-        LASER_YOFFSET,
-        ENDLESS_XOFFSET,
-        ENDLESS_YOFFSET,
+        NAZIV_DRUSTVA, IBAN_PREJEMNIKA, BIC_BANKE, ZNESEK,
+        DOLZNI_CLANI,
+        DOLZNI_CLANICE,
+        OBDOBJE_CLANI_OD, OBDOBJE_CLANI_DO, ZNESEK_CLANI,
+        OBDOBJE_CLANICE_OD, OBDOBJE_CLANICE_DO, ZNESEK_CLANICE,
+        LASER_XOFFSET, LASER_YOFFSET,
+        ENDLESS_XOFFSET, ENDLESS_YOFFSET,
         DEBTS_TEMPLATE
     }
 
@@ -23,17 +22,16 @@ namespace FireDeptFeesTool.Helpers
     {
         private static Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
+        #region mapper
         private static readonly Dictionary<ConfigFields, string> configFieldsMapper = new Dictionary
             <ConfigFields, string>
                                                                                           {
                                                                                               {
-                                                                                                  ConfigFields.
-                                                                                                  NAZIV_DRUSTVA,
+                                                                                                  ConfigFields.NAZIV_DRUSTVA,
                                                                                                   "NazivDrustva"
                                                                                               },
                                                                                               {
-                                                                                                  ConfigFields.
-                                                                                                  IBAN_PREJEMNIKA,
+                                                                                                  ConfigFields.IBAN_PREJEMNIKA,
                                                                                                   "IBANPrejemnika"
                                                                                               },
                                                                                               {
@@ -45,31 +43,59 @@ namespace FireDeptFeesTool.Helpers
                                                                                                   "Znesek"
                                                                                               },
                                                                                               {
-                                                                                                  ConfigFields.
-                                                                                                  LASER_XOFFSET,
+                                                                                                  ConfigFields.DOLZNI_CLANI,
+                                                                                                  "Dolzni_Clani"
+                                                                                              },
+                                                                                              {
+                                                                                                  ConfigFields.DOLZNI_CLANICE,
+                                                                                                  "Dolzni_Clanice"
+                                                                                              },
+                                                                                              {
+                                                                                                  ConfigFields.OBDOBJE_CLANI_OD,
+                                                                                                  "Obdobje_Clani_Od"
+                                                                                              },
+                                                                                              {
+                                                                                                  ConfigFields.OBDOBJE_CLANI_DO,
+                                                                                                  "Obdobje_Clani_Do"
+                                                                                              },
+                                                                                              {
+                                                                                                  ConfigFields.ZNESEK_CLANI,
+                                                                                                  "Znesek_Clani"
+                                                                                              },
+                                                                                              {
+                                                                                                  ConfigFields.OBDOBJE_CLANICE_OD,
+                                                                                                  "Obdobje_Clanice_Od"
+                                                                                              },
+                                                                                              {
+                                                                                                  ConfigFields.OBDOBJE_CLANICE_DO,
+                                                                                                  "Obdobje_Clanice_Do"
+                                                                                              },
+                                                                                              {
+                                                                                                  ConfigFields.ZNESEK_CLANICE,
+                                                                                                  "Znesek_Clanice"
+                                                                                              },
+                                                                                              {
+                                                                                                  ConfigFields.LASER_XOFFSET,
                                                                                                   "Laser_XOffset"
                                                                                               },
                                                                                               {
-                                                                                                  ConfigFields.
-                                                                                                  LASER_YOFFSET,
+                                                                                                  ConfigFields.LASER_YOFFSET,
                                                                                                   "Laser_YOffset"
                                                                                               },
                                                                                               {
-                                                                                                  ConfigFields.
-                                                                                                  ENDLESS_XOFFSET,
+                                                                                                  ConfigFields.ENDLESS_XOFFSET,
                                                                                                   "Endless_XOffset"
                                                                                               },
                                                                                               {
-                                                                                                  ConfigFields.
-                                                                                                  ENDLESS_YOFFSET,
+                                                                                                  ConfigFields.ENDLESS_YOFFSET,
                                                                                                   "Endless_YOffset"
                                                                                               },
                                                                                               {
-                                                                                                  ConfigFields.
-                                                                                                  DEBTS_TEMPLATE,
+                                                                                                  ConfigFields.DEBTS_TEMPLATE,
                                                                                                   "DebtsTemplate"
                                                                                               }
                                                                                           };
+        #endregion mapper
 
         public static T GetConfigValue<T>(ConfigFields field) where T : IConvertible
         {
@@ -83,6 +109,20 @@ namespace FireDeptFeesTool.Helpers
                 case ConfigFields.ZNESEK:
                     return (T) Convert.ChangeType(GetDecimalValue(configFieldsMapper[field]), typeof (T));
 
+                case ConfigFields.DOLZNI_CLANI:
+                case ConfigFields.DOLZNI_CLANICE:
+                    return (T) Convert.ChangeType(GetBoolValue(configFieldsMapper[field]), typeof (T));
+
+                case ConfigFields.OBDOBJE_CLANI_OD:
+                case ConfigFields.OBDOBJE_CLANI_DO:
+                case ConfigFields.OBDOBJE_CLANICE_OD:
+                case ConfigFields.OBDOBJE_CLANICE_DO:
+                    return (T)Convert.ChangeType(GetIntValue(configFieldsMapper[field]), typeof(T));
+
+                case ConfigFields.ZNESEK_CLANI:
+                case ConfigFields.ZNESEK_CLANICE:
+                    return (T)Convert.ChangeType(GetDecimalValue(configFieldsMapper[field]), typeof(T));
+
                 case ConfigFields.LASER_XOFFSET:
                 case ConfigFields.LASER_YOFFSET:
                 case ConfigFields.ENDLESS_XOFFSET:
@@ -94,6 +134,18 @@ namespace FireDeptFeesTool.Helpers
             }
 
             return default(T);
+        }
+
+        private static bool GetBoolValue(string property)
+        {
+            bool retVal = bool.Parse(ConfigurationManager.AppSettings[property]);
+            return retVal;
+        }
+
+        private static int GetIntValue(string property)
+        {
+            int retVal = int.Parse(ConfigurationManager.AppSettings[property]);
+            return retVal;
         }
 
         private static float GetFloatValue(string property)

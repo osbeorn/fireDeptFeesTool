@@ -53,6 +53,24 @@ namespace FireDeptFeesTool.Lib
                                     },
         };
 
+        public static readonly Reports ReportType3 = new Reports
+        {
+            Type = ReportTypes.SELECTED_YEAR_STATISTICS,
+            Name = "Statistika za leto",
+            Description = "Statistika za izbrano leto.",
+            ReportPath = "FireDeptFeesTool.Reports.StatisticsForYear.rdlc",
+            ParameterControls = new List<ReportParameterControl>
+                                    {
+                                        new ReportParameterControl
+                                            {
+                                                Name = "SelectedYear",
+                                                Label = "Leto",
+                                                Control = ControlsHelper.CreateCustomFormatDateTimePicker("yyyy", DateTime.Now.AddYears(-1)),
+                                                ParameterType = typeof(DateTime)
+                                            },
+                                    },
+        };
+
         #endregion
 
         public static List<Reports> GetAll()

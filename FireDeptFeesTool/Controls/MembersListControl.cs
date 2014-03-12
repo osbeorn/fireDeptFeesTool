@@ -72,6 +72,8 @@ namespace FireDeptFeesTool.Controls
 
         private void BindMembersDataGridView(bool onlyMustPayers, bool includeDeleted)
         {
+            UpdateMustPayStatus();
+
             using (var db = new FeeStatusesDBContext())
             {
                 membersBindingSource.DataSource = new SortableBindingList<MemberViewModel>
@@ -101,9 +103,42 @@ namespace FireDeptFeesTool.Controls
             ClearSelection(membersDataGridView);
         }
 
+        private void UpdateMustPayStatus()
+        {
+            var menMustPay = ConfigHelper.GetConfigValue<bool>(ConfigFields.DOLZNI_CLANI);
+            var womenMustPay = ConfigHelper.GetConfigValue<bool>(ConfigFields.DOLZNI_CLANI);
+
+            var menFrom = ConfigHelper.GetConfigValue<int>(ConfigFields.OBDOBJE_CLANI_OD);
+            var menTo = ConfigHelper.GetConfigValue<int>(ConfigFields.OBDOBJE_CLANI_DO);
+            var womenFrom = ConfigHelper.GetConfigValue<int>(ConfigFields.OBDOBJE_CLANICE_OD);
+            var womenTo = ConfigHelper.GetConfigValue<int>(ConfigFields.OBDOBJE_CLANICE_DO);
+
+            using (var db = new FeeStatusesDBContext())
+            {
+                var members = db.Member.ToList();
+
+                foreach (var member in members)
+                {
+                    member.MustPay = false;
+
+                    var age = DateTime.Now.Year - member.DateOfBirth.Year;
+                    if (member.Gender && menMustPay && age >= menFrom && age < menTo) // moški
+                    {
+                        member.MustPay = true;
+                    }
+                    else if (!member.Gender && womenMustPay && age >= womenFrom && age < womenTo) // ženske
+                    {
+                        member.MustPay = true;
+                    }
+                }
+
+                db.SaveChanges();
+            }
+        }
+
         private void ImportMembersButton_Click(object sender, EventArgs e)
         {
-            DialogResult result = openFileDialog.ShowDialog();
+            var result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
                 string fullFilePath = openFileDialog.FileName;
@@ -130,8 +165,8 @@ namespace FireDeptFeesTool.Controls
                 if (
                     (dataExists = db.Member.Any()) &&
                     MessageBox.Show(
-                        string.Format(Messages.STORED_DATA_EXISTS_MSG, "članih"),
-                        Messages.STORED_DATA_EXISTS_TITLE,
+                        string.Format(WindowMessages.STORED_DATA_EXISTS_MSG, "članih"),
+                        WindowMessages.STORED_DATA_EXISTS_TITLE,
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question
                         ) == DialogResult.No
@@ -158,7 +193,7 @@ namespace FireDeptFeesTool.Controls
                         DateTime dateOfBirth = DateTime.ParseExact(lineData[4], "d.M.yyyy", CultureInfo.InvariantCulture);
                         string address = lineData[6] + ", " + lineData[8] + " " + lineData[9];
                         bool gender = lineData[3].Equals("Moški"); // true == moski, false == zenska
-                        bool mustPay = (DateTime.Now.Year - dateOfBirth.Year >= 18 &&
+                        bool mustPay = (DateTime.Now.Year - dateOfBirth.Year >= 19 &&
                                         DateTime.Now.Year - dateOfBirth.Year < 60 && gender);
 
                         // TODO updating
@@ -347,8 +382,8 @@ namespace FireDeptFeesTool.Controls
             {
                 using (var db = new FeeStatusesDBContext())
                 {
-                    if (notifyUser && DialogResult.No == MessageBox.Show(Messages.SAVE_OR_DISCARD_CHANGES_MSG,
-                                                                         Messages.SAVE_OR_DISCARD_CHANGES_TITLE,
+                    if (notifyUser && DialogResult.No == MessageBox.Show(WindowMessages.SAVE_OR_DISCARD_CHANGES_MSG,
+                                                                         WindowMessages.SAVE_OR_DISCARD_CHANGES_TITLE,
                                                                          MessageBoxButtons.YesNo,
                                                                          MessageBoxIcon.Warning))
                     {

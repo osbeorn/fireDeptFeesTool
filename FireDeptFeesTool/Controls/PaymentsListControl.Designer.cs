@@ -39,6 +39,10 @@
             this.importDataContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.importPaymentsHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importBankDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printButtonContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.printPaymentsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.additionalDisplayOptionsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.onlyMustPayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.paymentsDataGridView = new System.Windows.Forms.DataGridView();
@@ -49,13 +53,13 @@
             this.addOptionButton = new System.Windows.Forms.Button();
             this.importPaymentDataButton = new System.Windows.Forms.Button();
             this.printButton = new System.Windows.Forms.Button();
-            this.printButtonContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.printPaymentsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.additionalDisplayOptionsButton = new System.Windows.Forms.Button();
             this.addOptionButtonContextMenuStrip.SuspendLayout();
             this.importDataContextMenuStrip.SuspendLayout();
+            this.printButtonContextMenuStrip.SuspendLayout();
+            this.additionalDisplayOptionsContextMenuStrip.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.paymentsDataGridView)).BeginInit();
-            this.printButtonContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -98,7 +102,7 @@
             this.importPaymentsHistoryToolStripMenuItem,
             this.importBankDataToolStripMenuItem});
             this.importDataContextMenuStrip.Name = "contextMenuStrip1";
-            this.importDataContextMenuStrip.Size = new System.Drawing.Size(170, 48);
+            this.importDataContextMenuStrip.Size = new System.Drawing.Size(170, 70);
             // 
             // importPaymentsHistoryToolStripMenuItem
             // 
@@ -111,22 +115,55 @@
             // 
             this.importBankDataToolStripMenuItem.Name = "importBankDataToolStripMenuItem";
             this.importBankDataToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.importBankDataToolStripMenuItem.Text = "Izpiski...";
+            this.importBankDataToolStripMenuItem.Text = "Iz izpiskov...";
             this.importBankDataToolStripMenuItem.Click += new System.EventHandler(this.ImportBankDataToolStripMenuItem_Click);
+            // 
+            // printButtonContextMenuStrip
+            // 
+            this.printButtonContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printPaymentsListToolStripMenuItem});
+            this.printButtonContextMenuStrip.Name = "printButtonContextMenuStrip";
+            this.printButtonContextMenuStrip.Size = new System.Drawing.Size(116, 26);
+            // 
+            // printPaymentsListToolStripMenuItem
+            // 
+            this.printPaymentsListToolStripMenuItem.Name = "printPaymentsListToolStripMenuItem";
+            this.printPaymentsListToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.printPaymentsListToolStripMenuItem.Text = "Seznam";
+            this.printPaymentsListToolStripMenuItem.Click += new System.EventHandler(this.PrintPaymentsListToolStripMenuItem_Click);
+            // 
+            // additionalDisplayOptionsContextMenuStrip
+            // 
+            this.additionalDisplayOptionsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.onlyMustPayersToolStripMenuItem});
+            this.additionalDisplayOptionsContextMenuStrip.Name = "additionalDisplayOptionsContextMenuStrip";
+            this.additionalDisplayOptionsContextMenuStrip.Size = new System.Drawing.Size(158, 26);
+            // 
+            // onlyMustPayersToolStripMenuItem
+            // 
+            this.onlyMustPayersToolStripMenuItem.Checked = true;
+            this.onlyMustPayersToolStripMenuItem.CheckOnClick = true;
+            this.onlyMustPayersToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.onlyMustPayersToolStripMenuItem.Name = "onlyMustPayersToolStripMenuItem";
+            this.onlyMustPayersToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.onlyMustPayersToolStripMenuItem.Text = "Samo obvezniki";
+            this.onlyMustPayersToolStripMenuItem.Click += new System.EventHandler(this.OnlyMustPayersToolStripMenuItem_Click);
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 5;
+            this.tableLayoutPanel1.ColumnCount = 6;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 111F));
-            this.tableLayoutPanel1.Controls.Add(this.saveChangesButton, 4, 1);
+            this.tableLayoutPanel1.Controls.Add(this.saveChangesButton, 5, 1);
             this.tableLayoutPanel1.Controls.Add(this.paymentsDataGridView, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.addOptionButton, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.importPaymentDataButton, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.printButton, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.printButton, 3, 1);
+            this.tableLayoutPanel1.Controls.Add(this.additionalDisplayOptionsButton, 2, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -160,7 +197,7 @@
             this.MemberSurname,
             this.MemberName,
             this.DateOfBirth});
-            this.tableLayoutPanel1.SetColumnSpan(this.paymentsDataGridView, 5);
+            this.tableLayoutPanel1.SetColumnSpan(this.paymentsDataGridView, 6);
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.Azure;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
@@ -237,7 +274,7 @@
             // printButton
             // 
             this.printButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.printButton.Location = new System.Drawing.Point(163, 447);
+            this.printButton.Location = new System.Drawing.Point(243, 447);
             this.printButton.Name = "printButton";
             this.printButton.Size = new System.Drawing.Size(74, 23);
             this.printButton.TabIndex = 5;
@@ -245,19 +282,16 @@
             this.printButton.UseVisualStyleBackColor = true;
             this.printButton.Click += new System.EventHandler(this.PrintButton_Click);
             // 
-            // printButtonContextMenuStrip
+            // additionalDisplayOptionsButton
             // 
-            this.printButtonContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.printPaymentsListToolStripMenuItem});
-            this.printButtonContextMenuStrip.Name = "printButtonContextMenuStrip";
-            this.printButtonContextMenuStrip.Size = new System.Drawing.Size(153, 48);
-            // 
-            // printPaymentsListToolStripMenuItem
-            // 
-            this.printPaymentsListToolStripMenuItem.Name = "printPaymentsListToolStripMenuItem";
-            this.printPaymentsListToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.printPaymentsListToolStripMenuItem.Text = "Seznam";
-            this.printPaymentsListToolStripMenuItem.Click += new System.EventHandler(this.PrintPaymentsListToolStripMenuItem_Click);
+            this.additionalDisplayOptionsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.additionalDisplayOptionsButton.Location = new System.Drawing.Point(163, 447);
+            this.additionalDisplayOptionsButton.Name = "additionalDisplayOptionsButton";
+            this.additionalDisplayOptionsButton.Size = new System.Drawing.Size(74, 23);
+            this.additionalDisplayOptionsButton.TabIndex = 6;
+            this.additionalDisplayOptionsButton.Text = "Prikaz";
+            this.additionalDisplayOptionsButton.UseVisualStyleBackColor = true;
+            this.additionalDisplayOptionsButton.Click += new System.EventHandler(this.AdditionalDisplayOptionsButton_Click);
             // 
             // PaymentsListControl
             // 
@@ -270,9 +304,10 @@
             this.VisibleChanged += new System.EventHandler(this.PaymentsListControl_VisibleChanged);
             this.addOptionButtonContextMenuStrip.ResumeLayout(false);
             this.importDataContextMenuStrip.ResumeLayout(false);
+            this.printButtonContextMenuStrip.ResumeLayout(false);
+            this.additionalDisplayOptionsContextMenuStrip.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.paymentsDataGridView)).EndInit();
-            this.printButtonContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -299,5 +334,8 @@
         private System.Windows.Forms.Button printButton;
         private System.Windows.Forms.ContextMenuStrip printButtonContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem printPaymentsListToolStripMenuItem;
+        private System.Windows.Forms.Button additionalDisplayOptionsButton;
+        private System.Windows.Forms.ContextMenuStrip additionalDisplayOptionsContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem onlyMustPayersToolStripMenuItem;
     }
 }

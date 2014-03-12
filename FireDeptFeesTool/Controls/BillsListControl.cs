@@ -17,6 +17,16 @@ namespace FireDeptFeesTool.Controls
 {
     public partial class BillsListControl : IListControl
     {
+        #region format strings
+
+        public const string BREME_IME = "{0}, {1}, {2}";
+        public const string BREME_SKLIC = "{0}-{1}";
+        public const string DOBRO_MODEL = "SI00";
+        public const string NAMEN = "PLAČILO ČLANARINE ZA LETO {0}";
+        public const string KODA_NAMENA = "OTHR";
+
+        #endregion format strings
+
         private int currentRow;
         public DateTime dueDate;
         public bool printAll;
@@ -27,8 +37,7 @@ namespace FireDeptFeesTool.Controls
 
         public int rowsPrinted;
 
-        public BillsListControl(ShellForm container)
-            : base(container)
+        public BillsListControl(ShellForm container) : base(container)
         {
             InitializeComponent();
 
@@ -41,35 +50,22 @@ namespace FireDeptFeesTool.Controls
             var docs = new List<UPNDocument>();
             using (var db = new FeeStatusesDBContext())
             {
-                foreach (
-                    Member member in
-                        db.Member.Where(m => m.Gender && m.MustPay).OrderBy(m => m.Surname).ThenBy(m => m.Name))
-                    // moški obvezniki za plačevanje članarine
+                foreach (var member in db.Member.Where(m => m.MustPay && m.Active).OrderBy(m => m.Surname).ThenBy(m => m.Name)) // moški obvezniki za plačevanje članarine
                 {
                     docs.Add(
-                        new UPNDocument(
-                            new[]
+                        new UPNDocument
                                 {
-                                    "Negotovinsko nakazilo",
-                                    "",
-                                    "",
-                                    "",
-                                    member.Surname + " " + member.Name + ", " + member.Address, // pošiljatelj
-                                    ConfigHelper.GetConfigValue<string>(ConfigFields.IBAN_PREJEMNIKA),
-                                    //"SI56020220013530684", // IBAN prejemnika
-                                    "SI00", // model sklica
-                                    DateTime.Now.Year + "-" + member.VulkanID, // sklic == 'ID člana'-'tekoče leto'
-                                    ConfigHelper.GetConfigValue<string>(ConfigFields.NAZIV_DRUSTVA),
-                                    //"PGD ZAGRADEC PRI GROSUPLJEM, ZAGRADEC PRI GROSUPLJEM 33, 1290 GROSUPLJE", // prejemnik
-                                    ConfigHelper.GetConfigValue<string>(ConfigFields.BIC_BANKE),
-                                    //"LJBASI2X", // bic banke
-                                    ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK).ToString(
-                                        CultureInfo.InvariantCulture), //"10", // znesek
-                                    DateTime.Now.ToString("dd.MM.yyyy"), //"31.05.2013", // rok plačila
-                                    "PLAČILO ČLANARINE ZA LETO " + DateTime.Now.Year, // namen
-                                    "OTHR" // koda namena
+                                    BremeIme = String.Format(BREME_IME, member.Surname, member.Name, member.Address), // član/plačnik
+                                    DobroIBAN = ConfigHelper.GetConfigValue<string>(ConfigFields.IBAN_PREJEMNIKA), //"SI56020220013530684", // IBAN prejemnika
+                                    DobroModel = DOBRO_MODEL, // model sklica
+                                    DobroSklic = String.Format(BREME_SKLIC, DateTime.Now.Year, member.VulkanID), // sklic == 'ID člana'-'tekoče leto'
+                                    DobroIme = ConfigHelper.GetConfigValue<string>(ConfigFields.NAZIV_DRUSTVA), //"PGD ZAGRADEC PRI GROSUPLJEM, ZAGRADEC PRI GROSUPLJEM 33, 1290 GROSUPLJE", // prejemnik
+                                    DobroBIC = ConfigHelper.GetConfigValue<string>(ConfigFields.BIC_BANKE), //"LJBASI2X", // bic banke
+                                    Znesek = ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK), //"10", // znesek
+                                    DatumPlacila = DateTime.Now.ToString("dd.MM.yyyy"), //"31.05.2013", // rok plačila
+                                    Namen = String.Format(NAMEN, DateTime.Now.Year), // namen
+                                    KodaNamena = KODA_NAMENA // koda namena
                                 }
-                            )
                         );
                 }
             }
@@ -87,8 +83,8 @@ namespace FireDeptFeesTool.Controls
                 IQueryable<string> idList =
                     db.Member.
                         Where(m =>
-                              m.Gender &&
                               m.MustPay &&
+                              m.Active &&
                               m.FeeLogs.
                                   Where(fl =>
                                         fl.Year == year
@@ -114,7 +110,7 @@ namespace FireDeptFeesTool.Controls
             documentListDataGridView.Refresh();
         }
 
-        private void documentListDataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        private void DocumentListDataGridView_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
             using (var b = new SolidBrush(documentListDataGridView.RowHeadersDefaultCellStyle.ForeColor))
             {
@@ -133,7 +129,7 @@ namespace FireDeptFeesTool.Controls
         {
             if (documentListDataGridView.Rows.Count < 1)
             {
-                MessageBox.Show(Messages.NO_DATA_AVAILABLE_FOR_PRINT, Messages.WARNING_TITLE);
+                MessageBox.Show(WindowMessages.NO_DATA_AVAILABLE_FOR_PRINT, WindowMessages.WARNING_TITLE);
                 return;
             }
 
@@ -503,57 +499,57 @@ namespace FireDeptFeesTool.Controls
         #region OBSOLETE_SAVE_TO_IZPISUPN_DB
 
         /*
-    private void saveGatheredDataButton_Click(object sender, EventArgs e)
-    {
-        pgdDataSet = new PGD_ZAGRADEC_CLANARINEDataSet();
-        PGD_ZAGRADEC_CLANARINEDataSet.PaketRow pgdDataRow;
-
-        try
+        private void saveGatheredDataButton_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in this.documentListDataGridView.Rows)
+            pgdDataSet = new PGD_ZAGRADEC_CLANARINEDataSet();
+            PGD_ZAGRADEC_CLANARINEDataSet.PaketRow pgdDataRow;
+
+            try
             {
-                pgdDataRow = pgdDataSet.Paket.NewPaketRow();
-
-                UPNDocument docRow = row.DataBoundItem as UPNDocument;
-                if (docRow.Selected)
+                foreach (DataGridViewRow row in this.documentListDataGridView.Rows)
                 {
-                    pgdDataRow.TipDokumenta = docRow.TipDokumenta;
-                    pgdDataRow.BremeIBAN = docRow.BremeIBAN;
-                    pgdDataRow.BremeModel = docRow.BremeModel;
-                    pgdDataRow.BremeSklic = docRow.BremeSklic;
-                    pgdDataRow.BremeIme = docRow.BremeIme;
-                    pgdDataRow.DobroIBAN = docRow.DobroIBAN;
-                    pgdDataRow.DobroModel = docRow.DobroModel;
-                    pgdDataRow.DobroSklic = docRow.DobroSklic;
-                    pgdDataRow.DobroIme = docRow.DobroIme;
-                    pgdDataRow.DobroBIC = docRow.DobroBIC;
-                    pgdDataRow.Znesek = docRow.Znesek;
-                    pgdDataRow.DatumPlacila = docRow.DatumPlacila;
-                    pgdDataRow.Namen = docRow.Namen;
-                    pgdDataRow.KodaNamena = docRow.KodaNamena;
-                    pgdDataRow.Nujno = docRow.Nujno;
-                    pgdDataRow.Izjava = docRow.Izjava;
-                    pgdDataRow.ObvezenVnosVsehPolj = docRow.ObvezenVnosVsehPolj;
-                    pgdDataRow.PreveriKontrolneStevilke = docRow.PreveriKontrolneStevilke;
-                    pgdDataRow.SamodejnoPripraviOCR = docRow.SamodejnoPripraviOCR;
+                    pgdDataRow = pgdDataSet.Paket.NewPaketRow();
 
-                    pgdDataSet.Paket.AddPaketRow(pgdDataRow);
+                    UPNDocument docRow = row.DataBoundItem as UPNDocument;
+                    if (docRow.Selected)
+                    {
+                        pgdDataRow.TipDokumenta = docRow.TipDokumenta;
+                        pgdDataRow.BremeIBAN = docRow.BremeIBAN;
+                        pgdDataRow.BremeModel = docRow.BremeModel;
+                        pgdDataRow.BremeSklic = docRow.BremeSklic;
+                        pgdDataRow.BremeIme = docRow.BremeIme;
+                        pgdDataRow.DobroIBAN = docRow.DobroIBAN;
+                        pgdDataRow.DobroModel = docRow.DobroModel;
+                        pgdDataRow.DobroSklic = docRow.DobroSklic;
+                        pgdDataRow.DobroIme = docRow.DobroIme;
+                        pgdDataRow.DobroBIC = docRow.DobroBIC;
+                        pgdDataRow.Znesek = docRow.Znesek;
+                        pgdDataRow.DatumPlacila = docRow.DatumPlacila;
+                        pgdDataRow.Namen = docRow.Namen;
+                        pgdDataRow.KodaNamena = docRow.KodaNamena;
+                        pgdDataRow.Nujno = docRow.Nujno;
+                        pgdDataRow.Izjava = docRow.Izjava;
+                        pgdDataRow.ObvezenVnosVsehPolj = docRow.ObvezenVnosVsehPolj;
+                        pgdDataRow.PreveriKontrolneStevilke = docRow.PreveriKontrolneStevilke;
+                        pgdDataRow.SamodejnoPripraviOCR = docRow.SamodejnoPripraviOCR;
+
+                        pgdDataSet.Paket.AddPaketRow(pgdDataRow);
+                    }
                 }
+
+                paketTableAdapter1.Update(pgdDataSet.Paket);
+
+                MessageBox.Show(this, "Uvoz podatkov uspešno končan!", "Uvoz uspešen", MessageBoxButtons.OK, MessageBoxIcon.None);
+
+                this.Hide();
+                this.Dispose();
             }
-
-            paketTableAdapter1.Update(pgdDataSet.Paket);
-
-            MessageBox.Show(this, "Uvoz podatkov uspešno končan!", "Uvoz uspešen", MessageBoxButtons.OK, MessageBoxIcon.None);
-
-            this.Hide();
-            this.Dispose();
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, "Kritična napaka pri zapisovanju podatkov:\n" + ex.ToString(), "Kritična napaka", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show(this, "Kritična napaka pri zapisovanju podatkov:\n" + ex.ToString(), "Kritična napaka", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-    }
-    */
+        */
 
         #endregion OBSOLETE_SAVE_TO_IZPISUPN_DB
     }

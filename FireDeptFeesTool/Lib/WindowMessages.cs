@@ -1,6 +1,6 @@
 ﻿namespace FireDeptFeesTool.Lib
 {
-    public class Messages
+    public class WindowMessages
     {
         #region messages
 

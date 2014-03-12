@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using FireDeptFeesTool.Controls;
@@ -11,7 +12,7 @@ namespace FireDeptFeesTool.Forms
 {
     public partial class SelectBankExportDocumentsForm : Form
     {
-        private readonly PaymentsListControl _owner;
+        private readonly PaymentsListControl owner;
 
         public SelectBankExportDocumentsForm()
         {
@@ -20,7 +21,7 @@ namespace FireDeptFeesTool.Forms
 
         public SelectBankExportDocumentsForm(List<BankExportDocumentSelectionViewModel> docs, PaymentsListControl owner)
         {
-            _owner = owner;
+            this.owner = owner;
 
             InitializeComponent();
             InitializeDataGridView(docs);
@@ -34,7 +35,12 @@ namespace FireDeptFeesTool.Forms
                 using (var db = new FeeStatusesDBContext())
                 {
                     memberCol.DataSource =
-                        db.Member.Where(m => m.MustPay && m.Active).OrderBy(m => m.Surname).ThenBy(m => m.Name).ToList();
+                        db.Member
+                            .Where(m => m.MustPay && m.Active)
+                            .OrderBy(m => m.Surname)
+                            .ThenBy(m => m.Name)
+                            .ToList();
+
                     memberCol.ValueMember = "VulkanID";
                     memberCol.DisplayMember = "SurnameAndNameWithVulkanID";
                     memberCol.AutoComplete = true;
@@ -62,7 +68,7 @@ namespace FireDeptFeesTool.Forms
                                 }
 
                                  //var member = _db.Member.Find(id);
-                                 //member.FeeLogs.Single(fl => fl.Year == year).PaymentStatusID = PaymentStatus.PLACAL;
+                                 //member.FeeLogs.Single(fl => fl.Year == year).PaymentStatusID = PaymentStatusID.PLACAL;
 
                                 retList.Add(
                                     new BankExportDocumentSelectionViewModel
@@ -123,7 +129,7 @@ namespace FireDeptFeesTool.Forms
 
                     db.SaveChanges();
                 }
-                _owner.BindData(true);
+                owner.BindData(true);
             }
             catch (Exception)
             {
@@ -144,8 +150,7 @@ namespace FireDeptFeesTool.Forms
         {
             using (var b = new SolidBrush(dataGridView1.RowHeadersDefaultCellStyle.ForeColor))
             {
-                e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b,
-                                      e.RowBounds.Location.X + 25, e.RowBounds.Location.Y + 4);
+                e.Graphics.DrawString((e.RowIndex + 1).ToString(CultureInfo.InvariantCulture), e.InheritedRowStyle.Font, b, e.RowBounds.Location.X + 25, e.RowBounds.Location.Y + 4);
             }
         }
 
@@ -158,6 +163,11 @@ namespace FireDeptFeesTool.Forms
         private void DataGridView1_VisibleChanged(object sender, EventArgs e)
         {
             ClearSelection();
+        }
+
+        private void CancelImportButton_Click(object sender, EventArgs e)
+        {
+            Exit();
         }
     }
 }

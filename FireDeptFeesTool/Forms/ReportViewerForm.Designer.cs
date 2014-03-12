@@ -46,7 +46,7 @@
             this.ClientSize = new System.Drawing.Size(992, 720);
             this.Controls.Add(this.reportViewer);
             this.Name = "ReportViewerForm";
-            this.Text = "PaymentDebtsReportViewerForm";
+            this.Text = "Poročila in statistike";
             this.Load += new System.EventHandler(this.ReportViewerForm_Load);
             this.ResumeLayout(false);
 

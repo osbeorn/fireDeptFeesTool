@@ -148,7 +148,7 @@ namespace FireDeptFeesTool.Controls
         {
             if (paymentDebtsDataGridView.Rows.Count < 1)
             {
-                MessageBox.Show(Messages.NO_DATA_AVAILABLE_FOR_PRINT, Messages.WARNING_TITLE);
+                MessageBox.Show(WindowMessages.NO_DATA_AVAILABLE_FOR_PRINT, WindowMessages.WARNING_TITLE);
                 return;
             }
 

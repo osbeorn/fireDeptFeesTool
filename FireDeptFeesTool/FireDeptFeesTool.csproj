@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="DataSets\RegularNonPayersDataSet.cs" />
     <Compile Include="DataSets\SelectedYearNonPayersDataSet.cs" />
+    <Compile Include="DataSets\SelectedYearStatisticsDataSet.cs" />
     <Compile Include="Enums\PrintType.cs" />
     <Compile Include="Lib\Reports.cs" />
     <Compile Include="Enums\ReportTypes.cs" />
@@ -157,7 +158,7 @@
     <Compile Include="Helpers\DrawHelper.cs" />
     <Compile Include="Helpers\ReportDataSourceHelper.cs" />
     <Compile Include="Lib\BankExportDocument.cs" />
-    <Compile Include="Lib\Messages.cs" />
+    <Compile Include="Lib\WindowMessages.cs" />
     <Compile Include="Lib\ReportColumn.cs" />
     <Compile Include="Lib\ReportParameterControl.cs" />
     <Compile Include="ModelPartial\Member.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="ReportGenerator\RdlGenerator.cs" />
     <Compile Include="ReportGenerator\ReportDefinition.cs" />
     <Compile Include="ReportGenerator\TableRdlGenerator.cs" />
+    <Compile Include="ReportModels\SelectedYearStatisticsReportModel.cs" />
     <Compile Include="ReportModels\RegularNonPayersReportModel.cs" />
     <Compile Include="ReportModels\SelectedYearNonPayersReportModel.cs" />
     <Compile Include="Schemas\camt.053.001.02.Designer.cs" />
@@ -258,6 +260,7 @@
     <EmbeddedResource Include="Reports\SelectedYearNonPayers.rdlc" />
     <EmbeddedResource Include="Reports\DebtorsListReport.rdlc" />
     <EmbeddedResource Include="Reports\PaymentsStatistics.rdlc" />
+    <EmbeddedResource Include="Reports\StatisticsForYear.rdlc" />
     <EntityDeploy Include="Model\FeeStatusesDBModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>FeeStatusesDBModel.Designer.cs</LastGenOutput>
@@ -278,6 +281,7 @@
     <None Include="packages.config" />
     <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.RegularNonPayersDataSet.datasource" />
     <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.SelectedYearNonPayersDataSet.datasource" />
+    <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.SelectedYearStatisticsDataSet.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

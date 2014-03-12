@@ -24,6 +24,13 @@ namespace FireDeptFeesTool.Controls
         private readonly Dictionary<int, IList<int>> _changedCells;
         private bool _dataChanged;
 
+        #region filter options
+
+        // true by default
+        private bool onlyMustPayers = true;
+
+        #endregion
+
         public PaymentsListControl(ShellForm container)
             : base(container)
         {
@@ -31,7 +38,7 @@ namespace FireDeptFeesTool.Controls
 
             InitializeComponent();
             DrawHelper.EnableControlDoubleBuffering("DataGridView", paymentsDataGridView);
-            BindPaymentsDataGridView();
+            BindPaymentsDataGridView(onlyMustPayers);
         }
 
         public bool DataChanged
@@ -39,19 +46,24 @@ namespace FireDeptFeesTool.Controls
             get { return _dataChanged; }
         }
 
-        public void BindPaymentsDataGridView()
+        public void BindPaymentsDataGridView(bool onlyMustPayers)
         {
             paymentsDataGridView.CellValueChanged -= PaymentsDataGridView_CellValueChanged;
 
             using (var db = new FeeStatusesDBContext())
             {
-                IOrderedQueryable<Member> members =
-                    db.Member.Where(m => m.MustPay && m.Active).OrderBy(m => m.Surname).ThenBy(m => m.Name);
-                List<FeeLogs> feeLogs = members.SelectMany(m => m.FeeLogs).ToList();
+                var members =
+                    db.Member.
+                    Where(m => !onlyMustPayers || m.MustPay).
+                    Where(m => m.Active).
+                    OrderBy(m => m.Surname).
+                    ThenBy(m => m.Name);
 
-                List<PaymentStatus> paymentStatuses = db.PaymentStatus.ToList();
+                var feeLogs = members.SelectMany(m => m.FeeLogs).ToList();
+
+                var paymentStatuses = db.PaymentStatus.ToList();
                 IEnumerable<int> years = null;
-                if (feeLogs != null && feeLogs.Count > 0)
+                if (feeLogs.Count > 0)
                 {
                     int maxYear = feeLogs.Max(l => l.Year);
                     int minYear = feeLogs.Min(l => l.Year);
@@ -283,7 +295,7 @@ namespace FireDeptFeesTool.Controls
                 Debug.WriteLine(ex.StackTrace);
             }
 
-            BindPaymentsDataGridView();
+            BindPaymentsDataGridView(onlyMustPayers);
         }
 
         private void PaymentsDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -321,7 +333,7 @@ namespace FireDeptFeesTool.Controls
         {
             if (!overrideDefaultFlow && !RefreshOnNextLoad) return;
 
-            BindPaymentsDataGridView();
+            BindPaymentsDataGridView(onlyMustPayers);
             ScrollHorizontallyToEnd();
 
             RefreshOnNextLoad = false;
@@ -333,8 +345,8 @@ namespace FireDeptFeesTool.Controls
 
             if (_dataChanged && paymentsDataGridView.Columns.Count > 4)
             {
-                if (notifyUser && DialogResult.No == MessageBox.Show(Messages.SAVE_OR_DISCARD_CHANGES_MSG,
-                                                                     Messages.SAVE_OR_DISCARD_CHANGES_TITLE,
+                if (notifyUser && DialogResult.No == MessageBox.Show(WindowMessages.SAVE_OR_DISCARD_CHANGES_MSG,
+                                                                     WindowMessages.SAVE_OR_DISCARD_CHANGES_TITLE,
                                                                      MessageBoxButtons.YesNo,
                                                                      MessageBoxIcon.Warning))
                 {
@@ -409,8 +421,8 @@ namespace FireDeptFeesTool.Controls
                 if (db.Member.Any(m => m.MustPay && m.FeeLogs.Any(fl => fl.Year == currentYear)))
                 {
                     MessageBox.Show(
-                        string.Format(Messages.RECORDS_FOR_YEAR_EXIST_MSG, currentYear),
-                        Messages.RECORDS_FOR_YEAR_EXIST_TITLE, MessageBoxButtons.OK
+                        string.Format(WindowMessages.RECORDS_FOR_YEAR_EXIST_MSG, currentYear),
+                        WindowMessages.RECORDS_FOR_YEAR_EXIST_TITLE, MessageBoxButtons.OK
                         );
                     return;
                 }
@@ -427,7 +439,7 @@ namespace FireDeptFeesTool.Controls
                 }
             }
 
-            BindPaymentsDataGridView();
+            BindPaymentsDataGridView(onlyMustPayers);
             ScrollHorizontallyToEnd();
         }
 
@@ -444,8 +456,8 @@ namespace FireDeptFeesTool.Controls
                     if (db.Member.Any(m => m.MustPay && m.FeeLogs.Any(fl => fl.Year == selectedYear)))
                     {
                         MessageBox.Show(
-                            string.Format(Messages.RECORDS_FOR_YEAR_EXIST_MSG, selectedYear),
-                            Messages.RECORDS_FOR_YEAR_EXIST_TITLE, MessageBoxButtons.OK
+                            string.Format(WindowMessages.RECORDS_FOR_YEAR_EXIST_MSG, selectedYear),
+                            WindowMessages.RECORDS_FOR_YEAR_EXIST_TITLE, MessageBoxButtons.OK
                             );
                         return;
                     }
@@ -462,7 +474,7 @@ namespace FireDeptFeesTool.Controls
                     }
                 }
 
-                BindPaymentsDataGridView();
+                BindPaymentsDataGridView(onlyMustPayers);
                 ScrollHorizontallyToEnd();
             }
         }
@@ -486,8 +498,8 @@ namespace FireDeptFeesTool.Controls
 
                 result =
                     MessageBox.Show(
-                        string.Format(Messages.IMPORT_DATA_CONFIRMATION_REQUIRED_MSG, onlyFileName),
-                        Messages.IMPORT_DATA_TITLE,
+                        string.Format(WindowMessages.IMPORT_DATA_CONFIRMATION_REQUIRED_MSG, onlyFileName),
+                        WindowMessages.IMPORT_DATA_TITLE,
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question
                         );
@@ -510,8 +522,8 @@ namespace FireDeptFeesTool.Controls
 
                 result =
                     MessageBox.Show(
-                        string.Format(Messages.IMPORT_DATA_CONFIRMATION_REQUIRED_MSG, onlyFileName),
-                        Messages.IMPORT_DATA_TITLE,
+                        string.Format(WindowMessages.IMPORT_DATA_CONFIRMATION_REQUIRED_MSG, onlyFileName),
+                        WindowMessages.IMPORT_DATA_TITLE,
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question
                         );
@@ -540,7 +552,7 @@ namespace FireDeptFeesTool.Controls
                 using (var db = new FeeStatusesDBContext())
                 {
                     var cell = ((DataGridView)sender)[e.ColumnIndex, e.RowIndex] as DataGridViewComboBoxCell; 
-                    cell.ToolTipText = PaymentStatus.GetPaymentStatusDesc(cell.Type as int?);
+                    cell.ToolTipText = PaymentStatusID.GetPaymentStatusDesc(cell.Type as int?);
                 }
             }
             */
@@ -606,11 +618,31 @@ namespace FireDeptFeesTool.Controls
         {
             if (paymentsDataGridView.Rows.Count < 1)
             {
-                MessageBox.Show(Messages.NO_DATA_AVAILABLE_FOR_PRINT, Messages.WARNING_TITLE);
+                MessageBox.Show(WindowMessages.NO_DATA_AVAILABLE_FOR_PRINT, WindowMessages.WARNING_TITLE);
                 return;
             }
 
-            new ReportViewerForm(GetReportDefinition(), GetDataSource(), new List<ReportParameter>()).Show();
+            //new ReportViewerForm(GetReportDefinition(), GetDataSource(), new List<ReportParameter>()).Show();
+
+            var form = ReportViewerForm.GetInstance();
+
+            form.SetCustomReport(
+                GetReportDefinition(),
+                GetDataSource(),
+                new List<ReportParameter>()
+            );
+        }
+
+        private void AdditionalDisplayOptionsButton_Click(object sender, EventArgs e)
+        {
+            additionalDisplayOptionsContextMenuStrip.Show(additionalDisplayOptionsButton,
+                                                          new Point(0, additionalDisplayOptionsButton.Height));
+        }
+
+        private void OnlyMustPayersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            onlyMustPayers = onlyMustPayersToolStripMenuItem.Checked;
+            BindPaymentsDataGridView(onlyMustPayers);
         }
     }
 }

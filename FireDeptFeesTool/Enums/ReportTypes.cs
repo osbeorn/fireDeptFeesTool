@@ -10,5 +10,6 @@ namespace FireDeptFeesTool.Enums
     {
         SELECTED_YEAR_NONPAYERS,    // neplačniki za izbrano leto
         REGULAR_NONPAYERS,          // redni neplačniki
+        SELECTED_YEAR_STATISTICS,
     }
 }
