@@ -1,1 +1,1 @@
-"# This is my README" 
+A tool for managing payments of fees for our local fire "brigade".
