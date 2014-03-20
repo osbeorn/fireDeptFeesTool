@@ -280,6 +280,9 @@ namespace FireDeptFeesTool.Controls
 
         private void MembersDataGridView_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.ColumnIndex == 0)
+                return;
+
             DataGridViewColumn col = membersDataGridView.Columns[e.ColumnIndex];
             string sortDir;
 

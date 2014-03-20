@@ -19,7 +19,7 @@ namespace FireDeptFeesTool.Controls
     {
         #region format strings
 
-        public const string BREME_IME = "{0}, {1}, {2}";
+        public const string BREME_IME = "{0} {1}, {2}";
         public const string BREME_SKLIC = "{0}-{1}";
         public const string DOBRO_MODEL = "SI00";
         public const string NAMEN = "PLAČILO ČLANARINE ZA LETO {0}";
@@ -50,20 +50,29 @@ namespace FireDeptFeesTool.Controls
             var docs = new List<UPNDocument>();
             using (var db = new FeeStatusesDBContext())
             {
-                foreach (var member in db.Member.Where(m => m.MustPay && m.Active).OrderBy(m => m.Surname).ThenBy(m => m.Name)) // moški obvezniki za plačevanje članarine
+                var memberQuery = 
+                    db.Member.
+                    Where(m => m.MustPay && m.Active).
+                    OrderBy(m => m.Surname).
+                    ThenBy(m => m.Name);
+
+                foreach (var member in memberQuery) // obvezniki za plačevanje članarine
                 {
                     docs.Add(
                         new UPNDocument
                                 {
                                     BremeIme = String.Format(BREME_IME, member.Surname, member.Name, member.Address), // član/plačnik
-                                    DobroIBAN = ConfigHelper.GetConfigValue<string>(ConfigFields.IBAN_PREJEMNIKA), //"SI56020220013530684", // IBAN prejemnika
+                                    DobroIBAN = ConfigHelper.GetConfigValue<string>(ConfigFields.IBAN_PREJEMNIKA), // IBAN prejemnika
                                     DobroModel = DOBRO_MODEL, // model sklica
                                     DobroSklic = String.Format(BREME_SKLIC, DateTime.Now.Year, member.VulkanID), // sklic == 'ID člana'-'tekoče leto'
-                                    DobroIme = ConfigHelper.GetConfigValue<string>(ConfigFields.NAZIV_DRUSTVA), //"PGD ZAGRADEC PRI GROSUPLJEM, ZAGRADEC PRI GROSUPLJEM 33, 1290 GROSUPLJE", // prejemnik
-                                    DobroBIC = ConfigHelper.GetConfigValue<string>(ConfigFields.BIC_BANKE), //"LJBASI2X", // bic banke
-                                    Znesek = ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK), //"10", // znesek
-                                    DatumPlacila = DateTime.Now.ToString("dd.MM.yyyy"), //"31.05.2013", // rok plačila
-                                    Namen = String.Format(NAMEN, DateTime.Now.Year), // namen
+                                    DobroIme = ConfigHelper.GetConfigValue<string>(ConfigFields.NAZIV_DRUSTVA), // prejemnik
+                                    DobroBIC = ConfigHelper.GetConfigValue<string>(ConfigFields.BIC_BANKE), // bic banke
+                                    Znesek = 
+                                        member.Gender ?
+                                        ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANI):
+                                        ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANICE),
+                                    //DatumPlacila = DateTime.Now.ToString("dd.MM.yyyy"), // rok plačila
+                                    Namen = String.Format(NAMEN, year), // namen
                                     KodaNamena = KODA_NAMENA // koda namena
                                 }
                         );
@@ -114,8 +123,7 @@ namespace FireDeptFeesTool.Controls
         {
             using (var b = new SolidBrush(documentListDataGridView.RowHeadersDefaultCellStyle.ForeColor))
             {
-                e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b,
-                                      e.RowBounds.Location.X + 25, e.RowBounds.Location.Y + 4);
+                e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b, e.RowBounds.Location.X + 25, e.RowBounds.Location.Y + 4);
             }
         }
 
@@ -133,9 +141,7 @@ namespace FireDeptFeesTool.Controls
                 return;
             }
 
-            List<UPNDocument> selectedRows =
-                documentListDataGridView.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem).Cast<UPNDocument>().
-                    ToList();
+            List<UPNDocument> selectedRows = documentListDataGridView.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem).Cast<UPNDocument>().ToList();
 
             bool printAll =
                 !selectedRows.Any(x => x.Selected) ||
@@ -259,88 +265,61 @@ namespace FireDeptFeesTool.Controls
                 #region obmocja-talon
 
                 /* ime placnika*/
-                var imePlacnikaT = new UPNRectangle(4.00f, 93.25f, 57.00f, 84.25f, UPNFormHeight, yMargin, xOffset,
-                                                    yOffset);
+                var imePlacnikaT = new UPNRectangle(4.00f, 93.25f, 57.00f, 84.25f, UPNFormHeight, yMargin, xOffset, yOffset);
                 /* namen / rok placila */
-                var namenRokPlacilaT = new UPNRectangle(4.00f, 80.75f, 57.00f, 71.75f, UPNFormHeight, yMargin, xOffset,
-                                                        yOffset);
+                var namenRokPlacilaT = new UPNRectangle(4.00f, 80.75f, 57.00f, 71.75f, UPNFormHeight, yMargin, xOffset, yOffset);
                 /* znesek */
                 var znesekT = new UPNRectangle(17.00f, 68.25f, 57.00f, 63.25f, UPNFormHeight, yMargin, xOffset, yOffset);
                 /* IBANPrejemnika in BIC banke prejemnika */
-                var IBANPrejemnikaT = new UPNRectangle(4.00f, 59.75f, 57.00f, 46.25f, UPNFormHeight, yMargin, xOffset,
-                                                       yOffset);
+                var IBANPrejemnikaT = new UPNRectangle(4.00f, 59.75f, 57.00f, 46.25f, UPNFormHeight, yMargin, xOffset, yOffset);
                 /* referenca prejemnika */
-                var referencaPrejemnikaT = new UPNRectangle(4.00f, 42.75f, 57.00f, 37.75f, UPNFormHeight, yMargin,
-                                                            xOffset, yOffset);
+                var referencaPrejemnikaT = new UPNRectangle(4.00f, 42.75f, 57.00f, 37.75f, UPNFormHeight, yMargin, xOffset, yOffset);
                 /* ime prejemnika */
-                var imePrejemnikaT = new UPNRectangle(4.00f, 34.25f, 57.00f, 25.25f, UPNFormHeight, yMargin, xOffset,
-                                                      yOffset);
+                var imePrejemnikaT = new UPNRectangle(4.00f, 34.25f, 57.00f, 25.25f, UPNFormHeight, yMargin, xOffset, yOffset);
 
                 #endregion obmocja-talon
 
                 #region obmocja-nalog
 
                 /* IBAN placnika */
-                var IBANPlacnikaN = new UPNRectangle(3.75f, 97.75f, 75.00f, 92.75f, UPNFormHeight, UPNTalonMargin,
-                                                     yMargin, xOffset, yOffset);
+                var IBANPlacnikaN = new UPNRectangle(3.75f, 97.75f, 75.00f, 92.75f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* referenca placnika - SIXX */
-                var referencaPlacnika1N = new UPNRectangle(3.75f, 89.25f, 18.75f, 84.25f, UPNFormHeight, UPNTalonMargin,
-                                                           yMargin, xOffset, yOffset);
+                var referencaPlacnika1N = new UPNRectangle(3.75f, 89.25f, 18.75f, 84.25f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* referenca placnika - preostalo */
-                var referencaPlacnika2N = new UPNRectangle(20.75f, 89.25f, 103.25f, 84.25f, UPNFormHeight,
-                                                           UPNTalonMargin, yMargin, xOffset, yOffset);
+                var referencaPlacnika2N = new UPNRectangle(20.75f, 89.25f, 103.25f, 84.25f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* ime placnika */
-                var imePlacnikaN = new UPNRectangle(3.75f, 80.75f, 103.25f, 71.75f, UPNFormHeight, UPNTalonMargin,
-                                                    yMargin, xOffset, yOffset);
+                var imePlacnikaN = new UPNRectangle(3.75f, 80.75f, 103.25f, 71.75f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* koda namena */
-                var kodaNamenaN = new UPNRectangle(3.75f, 68.25f, 18.75f, 63.25f, UPNFormHeight, UPNTalonMargin, yMargin,
-                                                   xOffset, yOffset);
+                var kodaNamenaN = new UPNRectangle(3.75f, 68.25f, 18.75f, 63.25f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* namen / rok placila */
-                var namenRokPlacilaN = new UPNRectangle(22.50f, 68.25f, 135.00f, 63.25f, UPNFormHeight, UPNTalonMargin,
-                                                        yMargin, xOffset, yOffset);
+                var namenRokPlacilaN = new UPNRectangle(22.50f, 68.25f, 135.00f, 63.25f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* znesek */
-                var znesekN = new UPNRectangle(15.00f, 59.75f, 56.22f, 54.75f, UPNFormHeight, UPNTalonMargin, yMargin,
-                                               xOffset, yOffset);
+                var znesekN = new UPNRectangle(15.00f, 59.75f, 56.22f, 54.75f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* datum placila */
-                var datumPlacilaN = new UPNRectangle(60.00f, 59.75f, 90.02f, 54.75f, UPNFormHeight, UPNTalonMargin,
-                                                     yMargin, xOffset, yOffset);
+                var datumPlacilaN = new UPNRectangle(60.00f, 59.75f, 90.02f, 54.75f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* bic banke prejemnika */
-                var BICBankeN = new UPNRectangle(93.75f, 59.75f, 135.00f, 54.75f, UPNFormHeight, UPNTalonMargin, yMargin,
-                                                 xOffset, yOffset);
+                var BICBankeN = new UPNRectangle(93.75f, 59.75f, 135.00f, 54.75f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* IBAN prejemnika */
-                var IBANPrejemnikaN = new UPNRectangle(3.75f, 51.25f, 131.25f, 46.25f, UPNFormHeight, UPNTalonMargin,
-                                                       yMargin, xOffset, yOffset);
+                var IBANPrejemnikaN = new UPNRectangle(3.75f, 51.25f, 131.25f, 46.25f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* referenca - SIXX */
-                var referencaPrejemnika1N = new UPNRectangle(3.75f, 42.75f, 18.75f, 37.75f, UPNFormHeight,
-                                                             UPNTalonMargin, yMargin, xOffset, yOffset);
+                var referencaPrejemnika1N = new UPNRectangle(3.75f, 42.75f, 18.75f, 37.75f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* referenca - preostalo */
-                var referencaPrejemnika2N = new UPNRectangle(20.75f, 42.75f, 103.25f, 37.75f, UPNFormHeight,
-                                                             UPNTalonMargin, yMargin, xOffset, yOffset);
+                var referencaPrejemnika2N = new UPNRectangle(20.75f, 42.75f, 103.25f, 37.75f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
                 /* ime prejmenika */
-                var imePrejemnikaN = new UPNRectangle(3.75f, 34.25f, 135.00f, 25.25f, UPNFormHeight, UPNTalonMargin,
-                                                      yMargin, xOffset, yOffset);
+                var imePrejemnikaN = new UPNRectangle(3.75f, 34.25f, 135.00f, 25.25f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
 
                 #endregion obmocja-nalog
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), imePlacnikaT.X, imePlacnikaT.Y, imePlacnikaT.Width,
-                                         imePlacnikaT.Height);
-                e.Graphics.DrawString(docRow.BremeIme, talonFont, brush,
-                                      new RectangleF(imePlacnikaT.X, imePlacnikaT.Y + 0.4f, imePlacnikaT.Width,
-                                                     imePlacnikaT.Height), nearAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), imePlacnikaT.X, imePlacnikaT.Y, imePlacnikaT.Width, imePlacnikaT.Height);
+                e.Graphics.DrawString(docRow.BremeIme, talonFont, brush, new RectangleF(imePlacnikaT.X, imePlacnikaT.Y + 0.4f, imePlacnikaT.Width, imePlacnikaT.Height), nearAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), namenRokPlacilaT.X, namenRokPlacilaT.Y,
-                                         namenRokPlacilaT.Width, namenRokPlacilaT.Height);
-                e.Graphics.DrawString(docRow.Namen, talonFont, brush,
-                                      new RectangleF(namenRokPlacilaT.X, namenRokPlacilaT.Y + 0.4f,
-                                                     namenRokPlacilaT.Width, namenRokPlacilaT.Height), nearAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), namenRokPlacilaT.X, namenRokPlacilaT.Y, namenRokPlacilaT.Width, namenRokPlacilaT.Height);
+                e.Graphics.DrawString(docRow.Namen, talonFont, brush, new RectangleF(namenRokPlacilaT.X, namenRokPlacilaT.Y + 0.4f, namenRokPlacilaT.Width, namenRokPlacilaT.Height), nearAlign);
 
                 e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), znesekT.X, znesekT.Y, znesekT.Width, znesekT.Height);
-                e.Graphics.DrawString(String.Join("", "***", docRow.Znesek.ToString("F")), talonFont, brush,
-                                      new RectangleF(znesekT.X, znesekT.Y + 0.4f, znesekT.Width, znesekT.Height),
-                                      nearAlign);
+                e.Graphics.DrawString(String.Join("", "***", docRow.Znesek.ToString("F")), talonFont, brush, new RectangleF(znesekT.X, znesekT.Y + 0.4f, znesekT.Width, znesekT.Height), nearAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), IBANPrejemnikaT.X, IBANPrejemnikaT.Y,
-                                         IBANPrejemnikaT.Width, IBANPrejemnikaT.Height);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), IBANPrejemnikaT.X, IBANPrejemnikaT.Y, IBANPrejemnikaT.Width, IBANPrejemnikaT.Height);
                 e.Graphics.DrawString(
                     String.Join(", ",
                                 String.Format("{0} {1} {2} {3} {4}", docRow.DobroIBAN.Substring(0, 4),
@@ -350,62 +329,35 @@ namespace FireDeptFeesTool.Controls
                     new RectangleF(IBANPrejemnikaT.X, IBANPrejemnikaT.Y, IBANPrejemnikaT.Width, IBANPrejemnikaT.Height),
                     nearAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), referencaPrejemnikaT.X, referencaPrejemnikaT.Y,
-                                         referencaPrejemnikaT.Width, referencaPrejemnikaT.Height);
-                e.Graphics.DrawString(String.Join(" ", docRow.DobroModel, docRow.DobroSklic), talonFont, brush,
-                                      new RectangleF(referencaPrejemnikaT.X, referencaPrejemnikaT.Y,
-                                                     referencaPrejemnikaT.Width, referencaPrejemnikaT.Height), nearAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), referencaPrejemnikaT.X, referencaPrejemnikaT.Y, referencaPrejemnikaT.Width, referencaPrejemnikaT.Height);
+                e.Graphics.DrawString(String.Join(" ", docRow.DobroModel, docRow.DobroSklic), talonFont, brush, new RectangleF(referencaPrejemnikaT.X, referencaPrejemnikaT.Y, referencaPrejemnikaT.Width, referencaPrejemnikaT.Height), nearAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), imePrejemnikaT.X, imePrejemnikaT.Y,
-                                         imePrejemnikaT.Width, imePrejemnikaT.Height);
-                e.Graphics.DrawString(docRow.DobroIme, talonFont, brush,
-                                      new RectangleF(imePrejemnikaT.X, imePrejemnikaT.Y, imePrejemnikaT.Width,
-                                                     imePrejemnikaT.Height), nearAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), imePrejemnikaT.X, imePrejemnikaT.Y, imePrejemnikaT.Width, imePrejemnikaT.Height);
+                e.Graphics.DrawString(docRow.DobroIme, talonFont, brush, new RectangleF(imePrejemnikaT.X, imePrejemnikaT.Y, imePrejemnikaT.Width, imePrejemnikaT.Height), nearAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), IBANPlacnikaN.X, IBANPlacnikaN.Y,
-                                         IBANPlacnikaN.Width, IBANPlacnikaN.Height);
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), referencaPlacnika1N.X, referencaPlacnika1N.Y,
-                                         referencaPlacnika1N.Width, referencaPlacnika1N.Height);
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), referencaPlacnika2N.X, referencaPlacnika2N.Y,
-                                         referencaPlacnika2N.Width, referencaPlacnika2N.Height);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), IBANPlacnikaN.X, IBANPlacnikaN.Y, IBANPlacnikaN.Width, IBANPlacnikaN.Height);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), referencaPlacnika1N.X, referencaPlacnika1N.Y, referencaPlacnika1N.Width, referencaPlacnika1N.Height);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), referencaPlacnika2N.X, referencaPlacnika2N.Y, referencaPlacnika2N.Width, referencaPlacnika2N.Height);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), imePlacnikaN.X, imePlacnikaN.Y, imePlacnikaN.Width,
-                                         imePlacnikaN.Height);
-                e.Graphics.DrawString(docRow.BremeIme, nalogFont, brush,
-                                      new RectangleF(imePlacnikaN.X, imePlacnikaN.Y, imePlacnikaN.Width,
-                                                     imePlacnikaN.Height), nearCenterAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), imePlacnikaN.X, imePlacnikaN.Y, imePlacnikaN.Width, imePlacnikaN.Height);
+                e.Graphics.DrawString(docRow.BremeIme, nalogFont, brush, new RectangleF(imePlacnikaN.X, imePlacnikaN.Y, imePlacnikaN.Width, imePlacnikaN.Height), nearCenterAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), kodaNamenaN.X, kodaNamenaN.Y, kodaNamenaN.Width,
-                                         kodaNamenaN.Height);
-                e.Graphics.DrawString(docRow.KodaNamena, nalogFont, brush,
-                                      new RectangleF(kodaNamenaN.X, kodaNamenaN.Y, kodaNamenaN.Width, kodaNamenaN.Height),
-                                      nearCenterAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), kodaNamenaN.X, kodaNamenaN.Y, kodaNamenaN.Width, kodaNamenaN.Height);
+                e.Graphics.DrawString(docRow.KodaNamena, nalogFont, brush, new RectangleF(kodaNamenaN.X, kodaNamenaN.Y, kodaNamenaN.Width, kodaNamenaN.Height), nearCenterAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), namenRokPlacilaN.X, namenRokPlacilaN.Y,
-                                         namenRokPlacilaN.Width, namenRokPlacilaN.Height);
-                e.Graphics.DrawString(docRow.Namen, nalogFont, brush,
-                                      new RectangleF(namenRokPlacilaN.X, namenRokPlacilaN.Y, namenRokPlacilaN.Width,
-                                                     namenRokPlacilaN.Height), nearCenterAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), namenRokPlacilaN.X, namenRokPlacilaN.Y, namenRokPlacilaN.Width, namenRokPlacilaN.Height);
+                e.Graphics.DrawString(docRow.Namen, nalogFont, brush, new RectangleF(namenRokPlacilaN.X, namenRokPlacilaN.Y, namenRokPlacilaN.Width, namenRokPlacilaN.Height), nearCenterAlign);
 
                 e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), znesekN.X, znesekN.Y, znesekN.Width, znesekN.Height);
-                e.Graphics.DrawString(String.Join("", "***", docRow.Znesek.ToString("F")), nalogFont, brush,
-                                      new RectangleF(znesekN.X, znesekN.Y, znesekN.Width, znesekN.Height),
-                                      farCenterAlign);
+                e.Graphics.DrawString(String.Join("", "***", docRow.Znesek.ToString("F")), nalogFont, brush, new RectangleF(znesekN.X, znesekN.Y, znesekN.Width, znesekN.Height), farCenterAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), datumPlacilaN.X, datumPlacilaN.Y,
-                                         datumPlacilaN.Width, datumPlacilaN.Height);
-                e.Graphics.DrawString(docRow.DatumPlacila, nalogFont, brush,
-                                      new RectangleF(datumPlacilaN.X, datumPlacilaN.Y, datumPlacilaN.Width,
-                                                     datumPlacilaN.Height), nearCenterAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), datumPlacilaN.X, datumPlacilaN.Y, datumPlacilaN.Width, datumPlacilaN.Height);
+                e.Graphics.DrawString(docRow.DatumPlacila, nalogFont, brush, new RectangleF(datumPlacilaN.X, datumPlacilaN.Y, datumPlacilaN.Width, datumPlacilaN.Height), nearCenterAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), BICBankeN.X, BICBankeN.Y, BICBankeN.Width,
-                                         BICBankeN.Height);
-                e.Graphics.DrawString(docRow.DobroBIC, nalogFont, brush,
-                                      new RectangleF(BICBankeN.X, BICBankeN.Y, BICBankeN.Width, BICBankeN.Height),
-                                      nearCenterAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), BICBankeN.X, BICBankeN.Y, BICBankeN.Width, BICBankeN.Height);
+                e.Graphics.DrawString(docRow.DobroBIC, nalogFont, brush, new RectangleF(BICBankeN.X, BICBankeN.Y, BICBankeN.Width, BICBankeN.Height), nearCenterAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), IBANPrejemnikaN.X, IBANPrejemnikaN.Y,
-                                         IBANPrejemnikaN.Width, IBANPrejemnikaN.Height);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), IBANPrejemnikaN.X, IBANPrejemnikaN.Y, IBANPrejemnikaN.Width, IBANPrejemnikaN.Height);
                 e.Graphics.DrawString(
                     String.Join(", ",
                                 String.Format("{0} {1} {2} {3} {4}", docRow.DobroIBAN.Substring(0, 4),
@@ -415,25 +367,14 @@ namespace FireDeptFeesTool.Controls
                     new RectangleF(IBANPrejemnikaN.X, IBANPrejemnikaN.Y, IBANPrejemnikaN.Width, IBANPrejemnikaN.Height),
                     nearCenterAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), referencaPrejemnika1N.X, referencaPrejemnika1N.Y,
-                                         referencaPrejemnika1N.Width, referencaPrejemnika1N.Height);
-                e.Graphics.DrawString(docRow.DobroModel, nalogFont, brush,
-                                      new RectangleF(referencaPrejemnika1N.X, referencaPrejemnika1N.Y,
-                                                     referencaPrejemnika1N.Width, referencaPrejemnika1N.Height),
-                                      nearCenterAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), referencaPrejemnika1N.X, referencaPrejemnika1N.Y, referencaPrejemnika1N.Width, referencaPrejemnika1N.Height);
+                e.Graphics.DrawString(docRow.DobroModel, nalogFont, brush, new RectangleF(referencaPrejemnika1N.X, referencaPrejemnika1N.Y, referencaPrejemnika1N.Width, referencaPrejemnika1N.Height), nearCenterAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), referencaPrejemnika2N.X, referencaPrejemnika2N.Y,
-                                         referencaPrejemnika2N.Width, referencaPrejemnika2N.Height);
-                e.Graphics.DrawString(docRow.DobroSklic, nalogFont, brush,
-                                      new RectangleF(referencaPrejemnika2N.X, referencaPrejemnika2N.Y,
-                                                     referencaPrejemnika2N.Width, referencaPrejemnika2N.Height),
-                                      nearCenterAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), referencaPrejemnika2N.X, referencaPrejemnika2N.Y, referencaPrejemnika2N.Width, referencaPrejemnika2N.Height);
+                e.Graphics.DrawString(docRow.DobroSklic, nalogFont, brush, new RectangleF(referencaPrejemnika2N.X, referencaPrejemnika2N.Y, referencaPrejemnika2N.Width, referencaPrejemnika2N.Height), nearCenterAlign);
 
-                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), imePrejemnikaN.X, imePrejemnikaN.Y,
-                                         imePrejemnikaN.Width, imePrejemnikaN.Height);
-                e.Graphics.DrawString(docRow.DobroIme, nalogFont, brush,
-                                      new RectangleF(imePrejemnikaN.X, imePrejemnikaN.Y, imePrejemnikaN.Width,
-                                                     imePrejemnikaN.Height), nearCenterAlign);
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), imePrejemnikaN.X, imePrejemnikaN.Y, imePrejemnikaN.Width, imePrejemnikaN.Height);
+                e.Graphics.DrawString(docRow.DobroIme, nalogFont, brush, new RectangleF(imePrejemnikaN.X, imePrejemnikaN.Y, imePrejemnikaN.Width, imePrejemnikaN.Height), nearCenterAlign);
 
                 rowsPrinted++;
                 i++;

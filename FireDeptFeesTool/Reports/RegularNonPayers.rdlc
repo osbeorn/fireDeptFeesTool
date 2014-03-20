@@ -381,7 +381,7 @@
             <Value>=Fields!Name.Value</Value>
           </SortExpression>
         </SortExpressions>
-        <Top>1.03928cm</Top>
+        <Top>1.11866cm</Top>
         <Left>0.26141cm</Left>
         <Height>1.2cm</Height>
         <Width>12.5cm</Width>
@@ -407,7 +407,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox8</rd:DefaultName>
-        <Top>2.41567cm</Top>
+        <Top>2.49505cm</Top>
         <Left>0.26141cm</Left>
         <Height>0.6cm</Height>
         <Width>10cm</Width>
@@ -430,7 +430,10 @@
             <TextRuns>
               <TextRun>
                 <Value>="Neplačniki od leta: " &amp; CDate(Parameters!FromYear.Value).ToString("yyyy")</Value>
-                <Style />
+                <Style>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
@@ -439,7 +442,7 @@
         <rd:DefaultName>Textbox1</rd:DefaultName>
         <Top>0.26289cm</Top>
         <Left>0.26141cm</Left>
-        <Height>0.6cm</Height>
+        <Height>0.67938cm</Height>
         <Width>15.88792cm</Width>
         <ZIndex>2</ZIndex>
         <Style>
@@ -453,7 +456,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>1.3125in</Height>
+    <Height>1.375in</Height>
     <Style />
   </Body>
   <Width>6.5in</Width>

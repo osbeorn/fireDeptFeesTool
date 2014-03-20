@@ -9,18 +9,21 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Parameters!SelectedYear.Value</Value>
-                <Style />
+                <Value>="Statistika za leto: " &amp; CDate(Parameters!SelectedYear.Value).Year</Value>
+                <Style>
+                  <FontSize>12pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
             <Style />
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>SelectedYear</rd:DefaultName>
-        <Top>0.46397cm</Top>
-        <Left>0.52599cm</Left>
-        <Height>0.6cm</Height>
-        <Width>2.5cm</Width>
+        <Top>0.26289cm</Top>
+        <Left>0.26141cm</Left>
+        <Height>0.67938cm</Height>
+        <Width>15.88792cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -92,7 +95,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox3</rd:DefaultName>
@@ -157,7 +162,9 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox4</rd:DefaultName>
@@ -222,7 +229,9 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox8</rd:DefaultName>
@@ -291,7 +300,9 @@
                               </Style>
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox10</rd:DefaultName>
@@ -366,8 +377,8 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Top>1.24036cm</Top>
-        <Left>0.52599cm</Left>
+        <Top>1.11865cm</Top>
+        <Left>0.26141cm</Left>
         <Height>2.4cm</Height>
         <Width>5cm</Width>
         <ZIndex>1</ZIndex>
@@ -378,7 +389,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2in</Height>
+    <Height>1.5in</Height>
     <Style />
   </Body>
   <Width>6.50359in</Width>

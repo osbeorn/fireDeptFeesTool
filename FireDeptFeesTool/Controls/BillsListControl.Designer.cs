@@ -50,7 +50,6 @@
             this.DobroBIC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DobroModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DobroSklic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DatumPlacila = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KodaNamena = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.documentListDataGridView)).BeginInit();
@@ -105,7 +104,6 @@
             this.DobroBIC,
             this.DobroModel,
             this.DobroSklic,
-            this.DatumPlacila,
             this.KodaNamena});
             this.tableLayoutPanel1.SetColumnSpan(this.documentListDataGridView, 3);
             this.documentListDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -233,16 +231,6 @@
             this.DobroSklic.Name = "DobroSklic";
             this.DobroSklic.Width = 85;
             // 
-            // DatumPlacila
-            // 
-            this.DatumPlacila.DataPropertyName = "DatumPlacila";
-            this.DatumPlacila.HeaderText = "Datum plačila";
-            this.DatumPlacila.Name = "DatumPlacila";
-            this.DatumPlacila.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.DatumPlacila.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.DatumPlacila.Visible = false;
-            this.DatumPlacila.Width = 77;
-            // 
             // KodaNamena
             // 
             this.KodaNamena.DataPropertyName = "KodaNamena";
@@ -288,7 +276,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DobroBIC;
         private System.Windows.Forms.DataGridViewTextBoxColumn DobroModel;
         private System.Windows.Forms.DataGridViewTextBoxColumn DobroSklic;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DatumPlacila;
         private System.Windows.Forms.DataGridViewTextBoxColumn KodaNamena;
     }
 }
