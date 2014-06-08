@@ -1482,7 +1482,7 @@ namespace Rdl
 
         /// <remarks/>
         [XmlAnyElement]
-        [XmlElement("Name", typeof (string))]
+        [XmlElement("OldName", typeof (string))]
         [XmlElement("Value", typeof (string))]
         [XmlChoiceIdentifier("ItemsElementName")]
         public object[] Items
@@ -1726,7 +1726,7 @@ namespace Rdl
 
         /// <remarks/>
         [XmlAnyElement]
-        [XmlElement("Name", typeof (string))]
+        [XmlElement("OldName", typeof (string))]
         [XmlElement("Value", typeof (string))]
         [XmlChoiceIdentifier("ItemsElementName")]
         public object[] Items

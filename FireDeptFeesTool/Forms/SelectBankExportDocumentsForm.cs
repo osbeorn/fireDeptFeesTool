@@ -41,7 +41,7 @@ namespace FireDeptFeesTool.Forms
                             .ThenBy(m => m.Name)
                             .ToList();
 
-                    memberCol.ValueMember = "VulkanID";
+                    memberCol.ValueMember = "OldVulkanID";
                     memberCol.DisplayMember = "SurnameAndNameWithVulkanID";
                     memberCol.AutoComplete = true;
                 }

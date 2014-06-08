@@ -136,6 +136,30 @@ namespace FireDeptFeesTool.Controls
             }
         }
 
+        private bool SetMustPayStatus(bool gender, DateTime dateOfBirth)
+        {
+            var menMustPay = ConfigHelper.GetConfigValue<bool>(ConfigFields.DOLZNI_CLANI);
+            var womenMustPay = ConfigHelper.GetConfigValue<bool>(ConfigFields.DOLZNI_CLANI);
+
+            var menFrom = ConfigHelper.GetConfigValue<int>(ConfigFields.OBDOBJE_CLANI_OD);
+            var menTo = ConfigHelper.GetConfigValue<int>(ConfigFields.OBDOBJE_CLANI_DO);
+            var womenFrom = ConfigHelper.GetConfigValue<int>(ConfigFields.OBDOBJE_CLANICE_OD);
+            var womenTo = ConfigHelper.GetConfigValue<int>(ConfigFields.OBDOBJE_CLANICE_DO);
+
+            var age = DateTime.Now.Year - dateOfBirth.Year;
+            if (gender && menMustPay && age >= menFrom && age < menTo) // moški
+            {
+                return true;
+            }
+            
+            if (!gender && womenMustPay && age >= womenFrom && age < womenTo) // ženske
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private void ImportMembersButton_Click(object sender, EventArgs e)
         {
             var result = openFileDialog.ShowDialog();
@@ -177,11 +201,13 @@ namespace FireDeptFeesTool.Controls
             }
 
             string line;
-            var file = new StreamReader(fullFilePath, Encoding.UTF8);
+            var memberData = new StreamReader(fullFilePath, Encoding.UTF8);
+            new ImportMembersDiffForm(memberData).ShowDialog();
 
+            memberData = new StreamReader(fullFilePath, Encoding.UTF8);
             using (var db = new FeeStatusesDBContext())
             {
-                while ((line = file.ReadLine()) != null)
+                while ((line = memberData.ReadLine()) != null)
                 {
                     string[] lineData = line.Split(';');
 
@@ -193,8 +219,7 @@ namespace FireDeptFeesTool.Controls
                         DateTime dateOfBirth = DateTime.ParseExact(lineData[4], "d.M.yyyy", CultureInfo.InvariantCulture);
                         string address = lineData[6] + ", " + lineData[8] + " " + lineData[9];
                         bool gender = lineData[3].Equals("Moški"); // true == moski, false == zenska
-                        bool mustPay = (DateTime.Now.Year - dateOfBirth.Year >= 19 &&
-                                        DateTime.Now.Year - dateOfBirth.Year < 60 && gender);
+                        bool mustPay = SetMustPayStatus(gender, dateOfBirth);
 
                         // TODO updating
                         Member existing;
@@ -241,7 +266,7 @@ namespace FireDeptFeesTool.Controls
 
                 if (dataExists)
                 {
-                    // mark those members, that were not in the import file, as inactive
+                    // mark those members that were not in the import file as inactive
                     db.Member.Where(m => !idList.Contains(m.VulkanID)).ToList().ForEach(m => m.Active = false);
                 }
 

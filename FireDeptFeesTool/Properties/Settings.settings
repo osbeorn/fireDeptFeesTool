@@ -1,7 +1,7 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
 
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
-              GeneratedClassNamespace="GasilciClanarineImporter.Properties" GeneratedClassName="Settings">
+              GeneratedClassOldNamespace="GasilciClanarineImporter.Properties" GeneratedClassOldName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="PGD_ZAGRADEC_CLANARINE_ConnectionString" Type="(Connection string)" Scope="Application">
@@ -9,7 +9,7 @@
         &lt;?xml version="1.0" encoding="utf-16"?&gt;
         &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
         &lt;ConnectionString&gt;Provider=Microsoft.Jet.OLEDB.4.0;Data Source="E:\Program Files (x86)\ZBS\IzpisUPN\Paketi\PGD ZAGRADEC-ČLANARINE.dat"&lt;/ConnectionString&gt;
-        &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
+        &lt;ProviderOldName&gt;System.Data.OleDb&lt;/ProviderOldName&gt;
         &lt;/SerializableConnectionString&gt;
       </DesignTimeType>
       <Type Profile="(Default)">
@@ -21,7 +21,7 @@
         &lt;?xml version="1.0" encoding="utf-16"?&gt;
         &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
         &lt;ConnectionString&gt;Provider=Microsoft.Jet.OLEDB.4.0;Data Source="E:\Program Files (x86)\ZBS\IzpisUPN\Paketi\PGD ZAGRADEC CLANARINE.dat"&lt;/ConnectionString&gt;
-        &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
+        &lt;ProviderOldName&gt;System.Data.OleDb&lt;/ProviderOldName&gt;
         &lt;/SerializableConnectionString&gt;
       </DesignTimeType>
       <Type Profile="(Default)">

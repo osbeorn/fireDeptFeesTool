@@ -101,7 +101,7 @@
             // MemberVulkanID
             // 
             this.MemberVulkanID.DataPropertyName = "MemberVulkanID";
-            this.MemberVulkanID.HeaderText = "VulkanID";
+            this.MemberVulkanID.HeaderText = "OldVulkanID";
             this.MemberVulkanID.Name = "MemberVulkanID";
             this.MemberVulkanID.ReadOnly = true;
             this.MemberVulkanID.Visible = false;

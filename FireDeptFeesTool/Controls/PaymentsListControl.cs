@@ -28,6 +28,7 @@ namespace FireDeptFeesTool.Controls
 
         // true by default
         private bool onlyMustPayers = true;
+        private bool includeDeleted = false;
 
         #endregion
 
@@ -38,7 +39,7 @@ namespace FireDeptFeesTool.Controls
 
             InitializeComponent();
             DrawHelper.EnableControlDoubleBuffering("DataGridView", paymentsDataGridView);
-            BindPaymentsDataGridView(onlyMustPayers);
+            BindPaymentsDataGridView(onlyMustPayers, includeDeleted);
         }
 
         public bool DataChanged
@@ -46,7 +47,7 @@ namespace FireDeptFeesTool.Controls
             get { return _dataChanged; }
         }
 
-        public void BindPaymentsDataGridView(bool onlyMustPayers)
+        public void BindPaymentsDataGridView(bool onlyMustPayers, bool includeDeleted)
         {
             paymentsDataGridView.CellValueChanged -= PaymentsDataGridView_CellValueChanged;
 
@@ -54,10 +55,10 @@ namespace FireDeptFeesTool.Controls
             {
                 var members =
                     db.Member.
-                    Where(m => !onlyMustPayers || m.MustPay).
-                    Where(m => m.Active).
-                    OrderBy(m => m.Surname).
-                    ThenBy(m => m.Name);
+                        Where(m => !onlyMustPayers || m.MustPay).
+                        Where(m => m.Active || includeDeleted).
+                        OrderBy(m => m.Surname).
+                        ThenBy(m => m.Name);
 
                 var feeLogs = members.SelectMany(m => m.FeeLogs).ToList();
 
@@ -97,14 +98,14 @@ namespace FireDeptFeesTool.Controls
                 {
                     values =
                         years != null
-                            ? new object[4 + years.Count()]
-                            : new object[4];
+                            ? new object[5 + years.Count()]
+                            : new object[5];
 
-                    values[0] = member.VulkanID;
-                    values[1] = member.Surname;
-                    values[2] = member.Name;
-                    values[3] = string.Format("{0} ({1} let)", member.DateOfBirth.ToString("dd.MM.yyyy"),
-                                              member.GetMemberAgeForCurrentYear());
+                    values[0] = member.Active;
+                    values[1] = member.VulkanID;
+                    values[2] = member.Surname;
+                    values[3] = member.Name;
+                    values[4] = string.Format("{0} ({1} let)", member.DateOfBirth.ToString("dd.MM.yyyy"), member.GetMemberAgeForCurrentYear());
 
                     if (years != null)
                     {
@@ -112,7 +113,7 @@ namespace FireDeptFeesTool.Controls
                         foreach (int year in years)
                         {
                             FeeLogs log = member.FeeLogs.FirstOrDefault(l => l.Year == year);
-                            values[4 + i] =
+                            values[5 + i] =
                                 log != null
                                     ? log.PaymentStatusID
                                     : PaymentStatus.NI_PODATKA;
@@ -133,10 +134,11 @@ namespace FireDeptFeesTool.Controls
         public DataTable CreateDataTable(IEnumerable<int> years)
         {
             var dt = new DataTable();
+            dt.Columns.Add("MemberActive", typeof (Boolean));
             dt.Columns.Add("MemberVulkanID", typeof (String));
             dt.Columns.Add("MemberSurname", typeof (String));
             dt.Columns.Add("MemberName", typeof (String));
-            dt.Columns.Add("DateOfBirth", typeof (String));
+            dt.Columns.Add("OldDateOfBirth", typeof (String));
 
             if (years != null)
             {
@@ -153,34 +155,43 @@ namespace FireDeptFeesTool.Controls
         {
             using (var b = new SolidBrush(paymentsDataGridView.RowHeadersDefaultCellStyle.ForeColor))
             {
-                e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b,
-                                      e.RowBounds.Location.X + 25, e.RowBounds.Location.Y + 4);
+                e.Graphics.DrawString((e.RowIndex + 1).ToString(), e.InheritedRowStyle.Font, b, e.RowBounds.Location.X + 25, e.RowBounds.Location.Y + 4);
+
+                var active = paymentsDataGridView[0, e.RowIndex].Value as bool?;
+                if (active.HasValue && !active.Value)
+                {
+                    DataGridViewCell cell;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        cell = ((DataGridView) sender)[i, e.RowIndex];
+                        cell.Style.BackColor = Color.LightSalmon;
+                    }
+                }
             }
         }
 
         private void PaymentsDataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             DataGridViewCell cell;
-            if (e.RowIndex > -1 && e.ColumnIndex > 3 &&
-                ((int) e.Value == PaymentStatus.NI_PODATKA || (int) e.Value == PaymentStatus.VETERAN ||
-                 (int) e.Value == PaymentStatus.MLADOLETNIK))
+            if (e.RowIndex > -1 && e.ColumnIndex > 4 &&
+                ((int) e.Value == PaymentStatus.NI_PODATKA || (int) e.Value == PaymentStatus.VETERAN || (int) e.Value == PaymentStatus.MLADOLETNIK))
             {
                 cell = ((DataGridView) sender)[e.ColumnIndex, e.RowIndex];
                 cell.Style.BackColor = Color.LightGray;
             }
-            if (e.RowIndex > -1 && e.ColumnIndex > 3 && (int) e.Value == PaymentStatus.PLACAL)
+            if (e.RowIndex > -1 && e.ColumnIndex > 4 && (int) e.Value == PaymentStatus.PLACAL)
             {
                 cell = ((DataGridView) sender)[e.ColumnIndex, e.RowIndex];
                 cell.Style.BackColor = Color.LightGreen;
             }
-            else if (e.RowIndex > -1 && e.ColumnIndex > 3 && (int) e.Value == PaymentStatus.NI_PLACAL)
+            else if (e.RowIndex > -1 && e.ColumnIndex > 4 && (int) e.Value == PaymentStatus.NI_PLACAL)
             {
                 cell = ((DataGridView) sender)[e.ColumnIndex, e.RowIndex];
                 cell.Style.BackColor = Color.LightSalmon;
             }
-            else if (e.ColumnIndex == 3 && paymentsDataGridView.Columns.Count > 4)
+            else if (e.ColumnIndex == 4 && paymentsDataGridView.Columns.Count > 5)
             {
-                Rectangle rect = e.CellBounds;
+                var rect = e.CellBounds;
 
                 using (var p = new Pen(Color.Black, 4))
                 {
@@ -295,7 +306,7 @@ namespace FireDeptFeesTool.Controls
                 Debug.WriteLine(ex.StackTrace);
             }
 
-            BindPaymentsDataGridView(onlyMustPayers);
+            BindPaymentsDataGridView(onlyMustPayers, includeDeleted);
         }
 
         private void PaymentsDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -333,7 +344,7 @@ namespace FireDeptFeesTool.Controls
         {
             if (!overrideDefaultFlow && !RefreshOnNextLoad) return;
 
-            BindPaymentsDataGridView(onlyMustPayers);
+            BindPaymentsDataGridView(onlyMustPayers, includeDeleted);
             ScrollHorizontallyToEnd();
 
             RefreshOnNextLoad = false;
@@ -359,7 +370,7 @@ namespace FireDeptFeesTool.Controls
                     foreach (int rowIndex in _changedCells.Keys)
                     {
                         var changedRow = paymentsDataGridView.Rows[rowIndex].DataBoundItem as DataRowView;
-                        string rowId = changedRow.Row.ItemArray[0].ToString();
+                        string rowId = changedRow.Row.ItemArray[1].ToString();
 
                         foreach (int colIndex in _changedCells[rowIndex])
                         {
@@ -439,7 +450,7 @@ namespace FireDeptFeesTool.Controls
                 }
             }
 
-            BindPaymentsDataGridView(onlyMustPayers);
+            BindPaymentsDataGridView(onlyMustPayers, includeDeleted);
             ScrollHorizontallyToEnd();
         }
 
@@ -474,7 +485,7 @@ namespace FireDeptFeesTool.Controls
                     }
                 }
 
-                BindPaymentsDataGridView(onlyMustPayers);
+                BindPaymentsDataGridView(onlyMustPayers, includeDeleted);
                 ScrollHorizontallyToEnd();
             }
         }
@@ -547,7 +558,7 @@ namespace FireDeptFeesTool.Controls
         private void PaymentsDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             /* OBSOLETE CODE
-            if (e.RowIndex > -1 && paymentsDataGridView.Columns[e.ColumnIndex].Name.Contains("Year"))
+            if (e.RowIndex > -1 && paymentsDataGridView.Columns[e.ColumnIndex].OldName.Contains("Year"))
             {
                 using (var db = new FeeStatusesDBContext())
                 {
@@ -592,7 +603,7 @@ namespace FireDeptFeesTool.Controls
                                   new ReportColumn {Name = "RowNumber", Value = "#", Width = "0.6cm"},
                                   new ReportColumn {Name = "MemberSurname", Value = "Priimek", Width = "2cm"},
                                   new ReportColumn {Name = "MemberName", Value = "Ime", Width = "2cm"},
-                                  new ReportColumn {Name = "DateOfBirth", Value = "Datum rojstva", Width = "2.5cm"},
+                                  new ReportColumn {Name = "OldDateOfBirth", Value = "Datum rojstva", Width = "2.5cm"},
                               };
 
             columns.AddRange(
@@ -642,7 +653,13 @@ namespace FireDeptFeesTool.Controls
         private void OnlyMustPayersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             onlyMustPayers = onlyMustPayersToolStripMenuItem.Checked;
-            BindPaymentsDataGridView(onlyMustPayers);
+            BindPaymentsDataGridView(onlyMustPayers, includeDeleted);
+        }
+
+        private void IncludeDeletedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            includeDeleted = includeDeletedToolStripMenuItem.Checked;
+            BindPaymentsDataGridView(onlyMustPayers, includeDeleted);
         }
     }
 }

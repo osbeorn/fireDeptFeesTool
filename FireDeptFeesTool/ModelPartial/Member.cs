@@ -7,7 +7,7 @@ namespace FireDeptFeesTool.Model
     partial class Member
     {
         /// <summary>
-        /// Returns a string of the following format: "VulkanID, Name Surname"
+        /// Returns a string of the following format: "OldVulkanID, OldName OldSurname"
         /// </summary>
         public string SurnameAndNameWithVulkanID
         {

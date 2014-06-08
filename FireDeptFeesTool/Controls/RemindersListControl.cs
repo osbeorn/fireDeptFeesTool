@@ -100,7 +100,7 @@ namespace FireDeptFeesTool.Controls
                 foreach (Member member in members)
                 {
                     values = new object[yearsLocal.Count() + 2];
-                    // +2 = member.VulkanID in member.Surname + " " + member.Name
+                    // +2 = member.OldVulkanID in member.OldSurname + " " + member.OldName
 
                     values[0] = member.VulkanID;
                     values[1] = member.Surname + " " + member.Name;
@@ -191,7 +191,7 @@ namespace FireDeptFeesTool.Controls
                                              FirstName = member.Name,
                                              LastName = member.Surname,
                                              DebtSum =
-                                                 ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK)*cols.Count
+                                                 10*cols.Count // TODO - fix this !!!
                                          };
 
                         var yearsList = new List<short>();

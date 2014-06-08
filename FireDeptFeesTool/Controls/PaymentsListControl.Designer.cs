@@ -43,9 +43,11 @@
             this.printPaymentsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.additionalDisplayOptionsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.onlyMustPayersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.includeDeletedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.paymentsDataGridView = new System.Windows.Forms.DataGridView();
+            this.Active = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.VulkanID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MemberSurname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MemberName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -102,7 +104,7 @@
             this.importPaymentsHistoryToolStripMenuItem,
             this.importBankDataToolStripMenuItem});
             this.importDataContextMenuStrip.Name = "contextMenuStrip1";
-            this.importDataContextMenuStrip.Size = new System.Drawing.Size(170, 70);
+            this.importDataContextMenuStrip.Size = new System.Drawing.Size(170, 48);
             // 
             // importPaymentsHistoryToolStripMenuItem
             // 
@@ -135,9 +137,10 @@
             // additionalDisplayOptionsContextMenuStrip
             // 
             this.additionalDisplayOptionsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.onlyMustPayersToolStripMenuItem});
+            this.onlyMustPayersToolStripMenuItem,
+            this.includeDeletedToolStripMenuItem});
             this.additionalDisplayOptionsContextMenuStrip.Name = "additionalDisplayOptionsContextMenuStrip";
-            this.additionalDisplayOptionsContextMenuStrip.Size = new System.Drawing.Size(158, 26);
+            this.additionalDisplayOptionsContextMenuStrip.Size = new System.Drawing.Size(158, 70);
             // 
             // onlyMustPayersToolStripMenuItem
             // 
@@ -148,6 +151,14 @@
             this.onlyMustPayersToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.onlyMustPayersToolStripMenuItem.Text = "Samo obvezniki";
             this.onlyMustPayersToolStripMenuItem.Click += new System.EventHandler(this.OnlyMustPayersToolStripMenuItem_Click);
+            // 
+            // includeDeletedToolStripMenuItem
+            // 
+            this.includeDeletedToolStripMenuItem.CheckOnClick = true;
+            this.includeDeletedToolStripMenuItem.Name = "includeDeletedToolStripMenuItem";
+            this.includeDeletedToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.includeDeletedToolStripMenuItem.Text = "Tudi brisani";
+            this.includeDeletedToolStripMenuItem.Click += new System.EventHandler(this.IncludeDeletedToolStripMenuItem_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -193,6 +204,7 @@
             this.paymentsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.paymentsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.paymentsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Active,
             this.VulkanID,
             this.MemberSurname,
             this.MemberName,
@@ -217,11 +229,20 @@
             this.paymentsDataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.PaymentsDataGridView_DataBindingComplete);
             this.paymentsDataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.PaymentsDataGridView_RowPostPaint);
             // 
-            // VulkanID
+            // Active
+            // 
+            this.Active.DataPropertyName = "MemberActive";
+            this.Active.Frozen = true;
+            this.Active.HeaderText = "Active";
+            this.Active.Name = "Active";
+            this.Active.ReadOnly = true;
+            this.Active.Visible = false;
+            // 
+            // OldVulkanID
             // 
             this.VulkanID.DataPropertyName = "MemberVulkanID";
             this.VulkanID.Frozen = true;
-            this.VulkanID.HeaderText = "VulkanID";
+            this.VulkanID.HeaderText = "OldVulkanID";
             this.VulkanID.Name = "VulkanID";
             this.VulkanID.Visible = false;
             // 
@@ -241,9 +262,9 @@
             this.MemberName.Name = "MemberName";
             this.MemberName.ReadOnly = true;
             // 
-            // DateOfBirth
+            // OldDateOfBirth
             // 
-            this.DateOfBirth.DataPropertyName = "DateOfBirth";
+            this.DateOfBirth.DataPropertyName = "OldDateOfBirth";
             this.DateOfBirth.Frozen = true;
             this.DateOfBirth.HeaderText = "Datum rojstva";
             this.DateOfBirth.Name = "DateOfBirth";
@@ -317,10 +338,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button saveChangesButton;
         private System.Windows.Forms.DataGridView paymentsDataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn VulkanID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MemberSurname;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MemberName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DateOfBirth;
         private System.Windows.Forms.Button addOptionButton;
         private System.Windows.Forms.Button importPaymentDataButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
@@ -337,5 +354,11 @@
         private System.Windows.Forms.Button additionalDisplayOptionsButton;
         private System.Windows.Forms.ContextMenuStrip additionalDisplayOptionsContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem onlyMustPayersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem includeDeletedToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Active;
+        private System.Windows.Forms.DataGridViewTextBoxColumn VulkanID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MemberSurname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MemberName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DateOfBirth;
     }
 }

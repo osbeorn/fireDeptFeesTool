@@ -108,6 +108,12 @@
     <Compile Include="DataSets\SelectedYearNonPayersDataSet.cs" />
     <Compile Include="DataSets\SelectedYearStatisticsDataSet.cs" />
     <Compile Include="Enums\PrintType.cs" />
+    <Compile Include="Forms\ImportMembersDiffForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ImportMembersDiffForm.Designer.cs">
+      <DependentUpon>ImportMembersDiffForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Lib\Reports.cs" />
     <Compile Include="Enums\ReportTypes.cs" />
     <Compile Include="Forms\AboutForm.cs">
@@ -208,6 +214,7 @@
     <Compile Include="Schemas\camt.053.001.02.Designer.cs" />
     <Compile Include="ViewModels\BankExportDocumentSelectionViewModel.cs" />
     <Compile Include="ReportModels\DebtorReportModel.cs" />
+    <Compile Include="ViewModels\MemberDiffViewModel.cs" />
     <Compile Include="ViewModels\MemberViewModel.cs" />
     <Compile Include="ViewModels\PaymentViewModel.cs" />
     <EmbeddedResource Include="Controls\BillsListControl.resx">
@@ -227,6 +234,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImportMembersDiffForm.resx">
+      <DependentUpon>ImportMembersDiffForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ManageSettingsForm.resx">
       <DependentUpon>ManageSettingsForm.cs</DependentUpon>
