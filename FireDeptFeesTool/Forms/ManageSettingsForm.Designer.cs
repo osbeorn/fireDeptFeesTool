@@ -75,6 +75,13 @@
             this.dolzniClaniceCheckBox = new System.Windows.Forms.CheckBox();
             this.dolzniClaniCheckBox = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.obdobjeOdOpominiDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.label18 = new System.Windows.Forms.Label();
+            this.obdobjeDoOpominiDateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.obdobjeOdBrezOmejitveOpominiCheckBox = new System.Windows.Forms.CheckBox();
+            this.obdobjeDoBrezOmejitveOpominiCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -87,6 +94,7 @@
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.obdobjeDoClaniNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.obdobjeOdClaniNumericUpDown)).BeginInit();
+            this.groupBox8.SuspendLayout();
             this.SuspendLayout();
             // 
             // nazivDrustvaTextBox
@@ -112,6 +120,7 @@
             // 
             // znesekTextBox
             // 
+            this.znesekTextBox.Enabled = false;
             this.znesekTextBox.Location = new System.Drawing.Point(84, 97);
             this.znesekTextBox.Name = "znesekTextBox";
             this.znesekTextBox.Size = new System.Drawing.Size(420, 20);
@@ -157,6 +166,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.Enabled = false;
             this.label4.Location = new System.Drawing.Point(6, 100);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(58, 13);
@@ -228,7 +238,7 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.laserYOffsetTextBox);
-            this.groupBox2.Location = new System.Drawing.Point(3, 356);
+            this.groupBox2.Location = new System.Drawing.Point(4, 435);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(510, 79);
             this.groupBox2.TabIndex = 15;
@@ -241,7 +251,7 @@
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.endlessYOffsetTextBox);
-            this.groupBox3.Location = new System.Drawing.Point(3, 441);
+            this.groupBox3.Location = new System.Drawing.Point(4, 520);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(510, 80);
             this.groupBox3.TabIndex = 16;
@@ -285,7 +295,7 @@
             this.groupBox4.Controls.Add(this.debtsTemplateTextBox);
             this.groupBox4.Controls.Add(this.button2);
             this.groupBox4.Controls.Add(this.label9);
-            this.groupBox4.Location = new System.Drawing.Point(3, 527);
+            this.groupBox4.Location = new System.Drawing.Point(4, 606);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(510, 54);
             this.groupBox4.TabIndex = 17;
@@ -308,7 +318,7 @@
             this.button2.TabIndex = 3;
             this.button2.Text = "...";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // label9
             // 
@@ -340,6 +350,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.groupBox8);
             this.groupBox5.Controls.Add(this.groupBox7);
             this.groupBox5.Controls.Add(this.groupBox6);
             this.groupBox5.Controls.Add(this.dolzniClaniceCheckBox);
@@ -347,7 +358,7 @@
             this.groupBox5.Controls.Add(this.label10);
             this.groupBox5.Location = new System.Drawing.Point(3, 141);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(510, 209);
+            this.groupBox5.Size = new System.Drawing.Size(510, 288);
             this.groupBox5.TabIndex = 14;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Podatki za članarine";
@@ -487,7 +498,7 @@
             this.dolzniClaniceCheckBox.TabIndex = 2;
             this.dolzniClaniceCheckBox.Text = "članice";
             this.dolzniClaniceCheckBox.UseVisualStyleBackColor = true;
-            this.dolzniClaniceCheckBox.CheckedChanged += new System.EventHandler(this.dolzniClaniceCheckBox_CheckedChanged);
+            this.dolzniClaniceCheckBox.CheckedChanged += new System.EventHandler(this.DolzniClaniceCheckBox_CheckedChanged);
             // 
             // dolzniClaniCheckBox
             // 
@@ -498,7 +509,7 @@
             this.dolzniClaniCheckBox.TabIndex = 1;
             this.dolzniClaniCheckBox.Text = "člani";
             this.dolzniClaniCheckBox.UseVisualStyleBackColor = true;
-            this.dolzniClaniCheckBox.CheckedChanged += new System.EventHandler(this.dolzniClaniCheckBox_CheckedChanged);
+            this.dolzniClaniCheckBox.CheckedChanged += new System.EventHandler(this.DolzniClaniCheckBox_CheckedChanged);
             // 
             // label10
             // 
@@ -508,6 +519,81 @@
             this.label10.Size = new System.Drawing.Size(82, 13);
             this.label10.TabIndex = 0;
             this.label10.Text = "Dolžni plačevati";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.obdobjeDoBrezOmejitveOpominiCheckBox);
+            this.groupBox8.Controls.Add(this.obdobjeOdBrezOmejitveOpominiCheckBox);
+            this.groupBox8.Controls.Add(this.obdobjeDoOpominiDateTimePicker);
+            this.groupBox8.Controls.Add(this.label18);
+            this.groupBox8.Controls.Add(this.obdobjeOdOpominiDateTimePicker);
+            this.groupBox8.Controls.Add(this.label17);
+            this.groupBox8.Location = new System.Drawing.Point(6, 208);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(498, 74);
+            this.groupBox8.TabIndex = 5;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Opomini";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 21);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(96, 13);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "Za obdobje od leta";
+            // 
+            // obdobjeOdOpominiDateTimePicker
+            // 
+            this.obdobjeOdOpominiDateTimePicker.CustomFormat = " ";
+            this.obdobjeOdOpominiDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.obdobjeOdOpominiDateTimePicker.Location = new System.Drawing.Point(108, 18);
+            this.obdobjeOdOpominiDateTimePicker.Name = "obdobjeOdOpominiDateTimePicker";
+            this.obdobjeOdOpominiDateTimePicker.ShowUpDown = true;
+            this.obdobjeOdOpominiDateTimePicker.Size = new System.Drawing.Size(50, 20);
+            this.obdobjeOdOpominiDateTimePicker.TabIndex = 1;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(63, 47);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(39, 13);
+            this.label18.TabIndex = 2;
+            this.label18.Text = "do leta";
+            // 
+            // obdobjeDoOpominiDateTimePicker
+            // 
+            this.obdobjeDoOpominiDateTimePicker.CustomFormat = " ";
+            this.obdobjeDoOpominiDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.obdobjeDoOpominiDateTimePicker.Location = new System.Drawing.Point(108, 44);
+            this.obdobjeDoOpominiDateTimePicker.Name = "obdobjeDoOpominiDateTimePicker";
+            this.obdobjeDoOpominiDateTimePicker.ShowUpDown = true;
+            this.obdobjeDoOpominiDateTimePicker.Size = new System.Drawing.Size(50, 20);
+            this.obdobjeDoOpominiDateTimePicker.TabIndex = 3;
+            // 
+            // obdobjeOdBrezOmejitveOpominiCheckBox
+            // 
+            this.obdobjeOdBrezOmejitveOpominiCheckBox.AutoSize = true;
+            this.obdobjeOdBrezOmejitveOpominiCheckBox.Location = new System.Drawing.Point(164, 20);
+            this.obdobjeOdBrezOmejitveOpominiCheckBox.Name = "obdobjeOdBrezOmejitveOpominiCheckBox";
+            this.obdobjeOdBrezOmejitveOpominiCheckBox.Size = new System.Drawing.Size(88, 17);
+            this.obdobjeOdBrezOmejitveOpominiCheckBox.TabIndex = 4;
+            this.obdobjeOdBrezOmejitveOpominiCheckBox.Text = "brez omejitve";
+            this.obdobjeOdBrezOmejitveOpominiCheckBox.UseVisualStyleBackColor = true;
+            this.obdobjeOdBrezOmejitveOpominiCheckBox.CheckedChanged += new System.EventHandler(this.ObdobjeOdBrezOmejitveOpominiCheckBox_CheckedChanged);
+            // 
+            // obdobjeDoBrezOmejitveOpominiCheckBox
+            // 
+            this.obdobjeDoBrezOmejitveOpominiCheckBox.AutoSize = true;
+            this.obdobjeDoBrezOmejitveOpominiCheckBox.Location = new System.Drawing.Point(164, 46);
+            this.obdobjeDoBrezOmejitveOpominiCheckBox.Name = "obdobjeDoBrezOmejitveOpominiCheckBox";
+            this.obdobjeDoBrezOmejitveOpominiCheckBox.Size = new System.Drawing.Size(88, 17);
+            this.obdobjeDoBrezOmejitveOpominiCheckBox.TabIndex = 5;
+            this.obdobjeDoBrezOmejitveOpominiCheckBox.Text = "brez omejitve";
+            this.obdobjeDoBrezOmejitveOpominiCheckBox.UseVisualStyleBackColor = true;
+            this.obdobjeDoBrezOmejitveOpominiCheckBox.CheckedChanged += new System.EventHandler(this.ObdobjeDoBrezOmejitveOpominiCheckBox_CheckedChanged);
             // 
             // ManageSettingsForm
             // 
@@ -543,6 +629,8 @@
             this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.obdobjeDoClaniNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.obdobjeOdClaniNumericUpDown)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -595,5 +683,12 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.NumericUpDown obdobjeOdClaniceNumericUpDown;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.DateTimePicker obdobjeDoOpominiDateTimePicker;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.DateTimePicker obdobjeOdOpominiDateTimePicker;
+        private System.Windows.Forms.CheckBox obdobjeDoBrezOmejitveOpominiCheckBox;
+        private System.Windows.Forms.CheckBox obdobjeOdBrezOmejitveOpominiCheckBox;
     }
 }

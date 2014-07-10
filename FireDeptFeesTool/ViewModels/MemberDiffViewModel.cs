@@ -35,9 +35,9 @@ namespace FireDeptFeesTool.ViewModels
             {
                 Action = "Brisanje";
             }
-            else
+            else if (member != null && newMember != null)
             {
-                Action = "Posodobitev";
+                Action = member.Equals(newMember) ? "Ni sprememb" : "Posodobitev";
             }
         }
 

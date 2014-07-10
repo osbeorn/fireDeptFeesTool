@@ -86,5 +86,33 @@ namespace FireDeptFeesTool.Model
                    fullName.Equals(tmpName + " " + tmpSurname) ||
                    fullName.Equals(tmpSurname + " " + tmpName);
         }
+
+        public override bool Equals(object obj)
+        {
+            var m = obj as Member;
+
+            if (m == null)
+            {
+                return false;
+            }
+
+            return Equals(m);
+        }
+
+        public bool Equals(Member m)
+        {
+            return
+                VulkanID == m.VulkanID &&
+                Name == m.Name &&
+                Surname == m.Surname &&
+                Address == m.Address &&
+                DateOfBirth == m.DateOfBirth &&
+                Gender == m.Gender;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

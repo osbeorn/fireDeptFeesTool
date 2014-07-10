@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Printing;
-using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using FireDeptFeesTool.Enums;
@@ -68,9 +67,20 @@ namespace FireDeptFeesTool.Controls
                                     DobroIme = ConfigHelper.GetConfigValue<string>(ConfigFields.NAZIV_DRUSTVA), // prejemnik
                                     DobroBIC = ConfigHelper.GetConfigValue<string>(ConfigFields.BIC_BANKE), // bic banke
                                     Znesek = 
-                                        member.Gender ?
-                                        ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANI):
-                                        ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANICE),
+                                        (
+                                            member.FeeLogs
+                                                .Count(fl =>
+                                                    (ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_OD) == 0 || fl.Year >= ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_OD)) &&
+                                                    (ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_DO) == 0 || fl.Year <= ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_DO)) &&
+                                                    fl.PaymentStatusID == PaymentStatus.NI_PLACAL
+                                                ) + 1
+                                        )
+                                        *
+                                        (
+                                            member.Gender
+                                            ? ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANI)
+                                            : ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANICE)
+                                        ),
                                     //DatumPlacila = DateTime.Now.ToString("dd.MM.yyyy"), // rok plačila
                                     Namen = String.Format(NAMEN, year), // namen
                                     KodaNamena = KODA_NAMENA // koda namena

@@ -201,12 +201,15 @@ namespace FireDeptFeesTool.Controls
             }
 
             string line;
-            var memberData = new StreamReader(fullFilePath, Encoding.UTF8);
-            new ImportMembersDiffForm(memberData).ShowDialog();
-
-            memberData = new StreamReader(fullFilePath, Encoding.UTF8);
             using (var db = new FeeStatusesDBContext())
             {
+                var memberData = new StreamReader(fullFilePath, Encoding.UTF8);
+
+                if (db.Member.Any())
+                    new ImportMembersDiffForm(memberData).ShowDialog();
+
+                memberData = new StreamReader(fullFilePath, Encoding.UTF8);
+
                 while ((line = memberData.ReadLine()) != null)
                 {
                     string[] lineData = line.Split(';');

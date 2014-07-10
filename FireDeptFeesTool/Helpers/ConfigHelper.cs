@@ -13,6 +13,7 @@ namespace FireDeptFeesTool.Helpers
         DOLZNI_CLANICE,
         OBDOBJE_CLANI_OD, OBDOBJE_CLANI_DO, ZNESEK_CLANI,
         OBDOBJE_CLANICE_OD, OBDOBJE_CLANICE_DO, ZNESEK_CLANICE,
+        OPOMINI_OD, OPOMINI_DO,
         LASER_XOFFSET, LASER_YOFFSET,
         ENDLESS_XOFFSET, ENDLESS_YOFFSET,
         DEBTS_TEMPLATE
@@ -23,8 +24,7 @@ namespace FireDeptFeesTool.Helpers
         private static Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
         #region mapper
-        private static readonly Dictionary<ConfigFields, string> configFieldsMapper = new Dictionary
-            <ConfigFields, string>
+        private static readonly Dictionary<ConfigFields, string> configFieldsMapper = new Dictionary<ConfigFields, string>
                                                                                           {
                                                                                               {
                                                                                                   ConfigFields.NAZIV_DRUSTVA,
@@ -75,6 +75,14 @@ namespace FireDeptFeesTool.Helpers
                                                                                                   "Znesek_Clanice"
                                                                                               },
                                                                                               {
+                                                                                                  ConfigFields.OPOMINI_OD,
+                                                                                                  "Opomini_Od"
+                                                                                              },
+                                                                                              {
+                                                                                                  ConfigFields.OPOMINI_DO,
+                                                                                                  "Opomini_Do"
+                                                                                              },
+                                                                                              {
                                                                                                   ConfigFields.LASER_XOFFSET,
                                                                                                   "Laser_XOffset"
                                                                                               },
@@ -117,6 +125,8 @@ namespace FireDeptFeesTool.Helpers
                 case ConfigFields.OBDOBJE_CLANI_DO:
                 case ConfigFields.OBDOBJE_CLANICE_OD:
                 case ConfigFields.OBDOBJE_CLANICE_DO:
+                case ConfigFields.OPOMINI_OD:
+                case ConfigFields.OPOMINI_DO:
                     return (T)Convert.ChangeType(GetIntValue(configFieldsMapper[field]), typeof(T));
 
                 case ConfigFields.ZNESEK_CLANI:
@@ -144,14 +154,14 @@ namespace FireDeptFeesTool.Helpers
 
         private static int GetIntValue(string property)
         {
-            int retVal = int.Parse(ConfigurationManager.AppSettings[property]);
+            int retVal;
+            int.TryParse(ConfigurationManager.AppSettings[property], out retVal);
             return retVal;
         }
 
         private static float GetFloatValue(string property)
         {
-            float retVal = float.Parse(ConfigurationManager.AppSettings[property].Replace(',', '.'),
-                                       CultureInfo.InvariantCulture);
+            float retVal = float.Parse(ConfigurationManager.AppSettings[property].Replace(',', '.'), CultureInfo.InvariantCulture);
             return retVal;
         }
 
