@@ -11,22 +11,68 @@ namespace FireDeptFeesTool.Model
         /// </summary>
         public string SurnameAndNameWithVulkanID
         {
-            get { return Surname + " " + Name + ", " + VulkanID; }
+            get
+            {
+                return 
+                    (Surname != null && Name != null && VulkanID != null)
+                    ? Surname + " " + Name + ", " + VulkanID
+                    : "";
+            }
         }
 
         public string NameAndSurname
         {
-            get { return Name + " " + Surname; }
+            get
+            {
+                return 
+                    (Name != null && Surname != null)
+                    ? Name + " " + Surname
+                    : "";
+            }
         }
 
         public string NameUpperWOSumniki
         {
-            get { return Name.ToUpperInvariant().Replace('Č', 'C').Replace('Š', 'S').Replace('Ž', 'Z'); }
+            get
+            {
+                return 
+                    Name != null
+                    ? Name.ToUpperInvariant().Replace('Č', 'C').Replace('Š', 'S').Replace('Ž', 'Z')
+                    : "";
+            }
         }
 
         public string SurnameUpperWOSumniki
         {
-            get { return Surname.ToUpperInvariant().Replace('Č', 'C').Replace('Š', 'S').Replace('Ž', 'Z'); }
+            get
+            {
+                return
+                    Surname != null
+                    ? Surname.ToUpperInvariant().Replace('Č', 'C').Replace('Š', 'S').Replace('Ž', 'Z')
+                    : "";
+            }
+        }
+
+        public string StreetAddress
+        {
+            get
+            {
+                return 
+                    Address != null
+                    ? Address.Split(',')[0].Trim()
+                    : "";
+            }
+        }
+
+        public string PostOffice
+        {
+            get
+            {
+                return 
+                    Address != null
+                    ? Address.Split(',')[1].Trim()
+                    : "";
+            }
         }
 
         public void AddDefaultFeeLogForCurrentYear()
@@ -43,7 +89,8 @@ namespace FireDeptFeesTool.Model
                         {
                             Member = this,
                             Year = (short) year,
-                            PaymentStatusID = PaymentStatus.NI_PODATKA
+                            //PaymentStatusID = PaymentStatus.NI_PODATKA
+                            PaymentStatusID = PaymentStatus.NI_PLACAL
                         }
                     );
             }
@@ -60,11 +107,6 @@ namespace FireDeptFeesTool.Model
             {
                 return FeeLogs.Any(fl => fl.Year == (short) year);
             }
-        }
-
-        public bool Bla()
-        {
-            return FeeLogs.Where(fl => fl.Year == 2013).Any(fl => fl.PaymentStatusID == PaymentStatus.PLACAL);
         }
 
         public int GetMemberAgeForCurrentYear()

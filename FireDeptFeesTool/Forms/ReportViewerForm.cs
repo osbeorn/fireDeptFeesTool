@@ -61,6 +61,7 @@ namespace FireDeptFeesTool.Forms
 
         private void ReportViewerForm_Load(object sender, EventArgs e)
         {
+            reportViewer.SetDisplayMode(DisplayMode.PrintLayout);
             reportViewer.RefreshReport();
         }
 

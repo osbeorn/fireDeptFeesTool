@@ -1,11 +1,11 @@
 ﻿namespace FireDeptFeesTool.Enums
 {
     /// <summary>
-    /// UPN document printing paper types.
+    /// Printing type - UPN forms or envelopes.
     /// </summary>
     public enum PrintType
     {
-        Laser, // laserski A4 papir
-        Endless // neskoncni papir
+        Form, // UPN nalogi
+        Envelope // kuverte
     }
 }

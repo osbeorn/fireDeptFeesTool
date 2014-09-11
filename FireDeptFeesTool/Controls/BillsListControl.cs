@@ -11,6 +11,8 @@ using FireDeptFeesTool.Forms.UPNDocsList;
 using FireDeptFeesTool.Helpers;
 using FireDeptFeesTool.Lib;
 using FireDeptFeesTool.Model;
+using FireDeptFeesTool.ViewModels;
+using Microsoft.Reporting.WinForms;
 
 namespace FireDeptFeesTool.Controls
 {
@@ -26,12 +28,20 @@ namespace FireDeptFeesTool.Controls
 
         #endregion format strings
 
+        #region constants
+
+        public const string REPORT_PATH = "FireDeptFeesTool.Reports.MemberStickers2x7.rdlc";
+
+        #endregion
+
         private int currentRow;
         public DateTime dueDate;
         public bool printAll;
+        public int stickersToSkip;
+        public string stickerFormat;
 
         // default
-        public PrintType printType = PrintType.Laser;
+        public PaperType paperType = PaperType.Laser;
         private int rowCount;
 
         public int rowsPrinted;
@@ -44,7 +54,7 @@ namespace FireDeptFeesTool.Controls
             //InitializeDataGridView();
         }
 
-        public void InitializeDataGridView(int year)
+        public void InitializeDataGridView(int year, bool includeDebts)
         {
             var docs = new List<UPNDocument>();
             using (var db = new FeeStatusesDBContext())
@@ -59,48 +69,91 @@ namespace FireDeptFeesTool.Controls
                 {
                     docs.Add(
                         new UPNDocument
-                                {
-                                    BremeIme = String.Format(BREME_IME, member.Surname, member.Name, member.Address), // član/plačnik
-                                    DobroIBAN = ConfigHelper.GetConfigValue<string>(ConfigFields.IBAN_PREJEMNIKA), // IBAN prejemnika
-                                    DobroModel = DOBRO_MODEL, // model sklica
-                                    DobroSklic = String.Format(BREME_SKLIC, DateTime.Now.Year, member.VulkanID), // sklic == 'ID člana'-'tekoče leto'
-                                    DobroIme = ConfigHelper.GetConfigValue<string>(ConfigFields.NAZIV_DRUSTVA), // prejemnik
-                                    DobroBIC = ConfigHelper.GetConfigValue<string>(ConfigFields.BIC_BANKE), // bic banke
-                                    Znesek = 
-                                        (
+                            {
+                                BremeIme = String.Format(BREME_IME, member.Surname, member.Name, member.Address), // član/plačnik
+                                DobroIBAN = ConfigHelper.GetConfigValue<string>(ConfigFields.IBAN_PREJEMNIKA), // IBAN prejemnika
+                                DobroModel = DOBRO_MODEL, // model sklica
+                                DobroSklic = String.Format(BREME_SKLIC, DateTime.Now.Year, member.VulkanID), // sklic == 'ID člana'-'tekoče leto'
+                                DobroIme = ConfigHelper.GetConfigValue<string>(ConfigFields.NAZIV_DRUSTVA), // prejemnik
+                                DobroBIC = ConfigHelper.GetConfigValue<string>(ConfigFields.BIC_BANKE), // bic banke
+                                Znesek = 
+                                    (
+                                        includeDebts
+                                        ? (
                                             member.FeeLogs
-                                                .Count(fl =>
-                                                    (ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_OD) == 0 || fl.Year >= ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_OD)) &&
-                                                    (ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_DO) == 0 || fl.Year <= ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_DO)) &&
-                                                    fl.PaymentStatusID == PaymentStatus.NI_PLACAL
-                                                ) + 1
+                                                .Count(
+                                                    fl =>
+                                                        (ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_OD) == 0 || fl.Year >= ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_OD)) &&
+                                                        (ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_DO) == 0 || fl.Year <= ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_DO)) &&
+                                                        fl.PaymentStatusID == PaymentStatus.NI_PLACAL
+                                                )
                                         )
-                                        *
-                                        (
-                                            member.Gender
-                                            ? ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANI)
-                                            : ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANICE)
-                                        ),
-                                    //DatumPlacila = DateTime.Now.ToString("dd.MM.yyyy"), // rok plačila
-                                    Namen = String.Format(NAMEN, year), // namen
-                                    KodaNamena = KODA_NAMENA // koda namena
-                                }
+                                        : (
+                                            member.FeeLogs
+                                                .Count(
+                                                    fl =>
+                                                        fl.Year == year &&
+                                                        fl.PaymentStatusID == PaymentStatus.NI_PLACAL
+                                                )
+                                        )
+                                    )
+                                    *
+                                    (
+                                        member.Gender
+                                        ? ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANI)
+                                        : ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANICE)
+                                    ),
+                                //DatumPlacila = DateTime.Now.ToString("dd.MM.yyyy"), // rok plačila
+                                Namen = String.Format(NAMEN, year), // namen
+                                KodaNamena = KODA_NAMENA, // koda namena
+                                Member = member // celotni Member objekt
+                            }
                         );
                 }
             }
 
             documentListDataGridView.DataSource = new SortableBindingList<UPNDocument>(docs);
 
+            CreateHeaderCheckBox();
+            UnCheckAllRows(false);
             ClearSelection(documentListDataGridView);
-            SelectRecords(true, year);
+            SelectRecords(year, true);
         }
 
-        private void SelectRecords(bool onlyDebtors, int year)
+        public void InitializeDataGridView(List<int> years)
+        {
+            // TODO
+        }
+
+        private void SelectRecords(int year, bool includeDebts)
         {
             using (var db = new FeeStatusesDBContext())
             {
-                IQueryable<string> idList =
-                    db.Member.
+                IQueryable<string> idList;
+
+                if (includeDebts)
+                {
+                    var opominiOdYear = ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_OD);
+                    var opominiDoYear = ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_DO);
+
+                    idList = db.Member.
+                        Where(m =>
+                              m.MustPay &&
+                              m.Active &&
+                              m.FeeLogs.
+                                  Where(fl =>
+                                      (opominiOdYear == 0 || fl.Year >= opominiOdYear) &&
+                                      (opominiDoYear == 0 || fl.Year <= opominiDoYear)
+                                  ).
+                                  Any(fl =>
+                                      fl.PaymentStatusID == PaymentStatus.NI_PLACAL
+                                  )
+                        ).
+                        Select(m => m.VulkanID);
+                }
+                else
+                {
+                    idList = db.Member.
                         Where(m =>
                               m.MustPay &&
                               m.Active &&
@@ -109,12 +162,13 @@ namespace FireDeptFeesTool.Controls
                                         fl.Year == year
                                   ).
                                   Any(fl =>
-                                      fl.PaymentStatusID != PaymentStatus.PLACAL
+                                      fl.PaymentStatusID == PaymentStatus.NI_PLACAL
                                   )
                         ).
                         Select(m => m.VulkanID);
+                }
 
-                for (int i = 0; i < documentListDataGridView.Rows.Count; i++)
+                for (var i = 0; i < documentListDataGridView.Rows.Count; i++)
                 {
                     var row = documentListDataGridView.Rows[i].DataBoundItem as UPNDocument;
                     if (row == null) continue;
@@ -145,32 +199,7 @@ namespace FireDeptFeesTool.Controls
 
         private void PrintButton_Click(object sender, EventArgs e)
         {
-            if (documentListDataGridView.Rows.Count < 1)
-            {
-                MessageBox.Show(WindowMessages.NO_DATA_AVAILABLE_FOR_PRINT, WindowMessages.WARNING_TITLE);
-                return;
-            }
-
-            List<UPNDocument> selectedRows = documentListDataGridView.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem).Cast<UPNDocument>().ToList();
-
-            bool printAll =
-                !selectedRows.Any(x => x.Selected) ||
-                selectedRows.Count(x => x.Selected) == documentListDataGridView.Rows.Count;
-
-            if (new PrintSelectionForm(this, printAll).ShowDialog() != DialogResult.OK)
-                return;
-
-            SetPrintSettings();
-
-            if (printDialog1.ShowDialog() == DialogResult.OK)
-            {
-                rowCount =
-                    printAll
-                        ? documentListDataGridView.Rows.Count
-                        : selectedRows.Count(x => x.Selected);
-
-                UPNPrintDocument.Print();
-            }
+            printContextMenuStrip.Show(printButton, new Point(0, printButton.Height));
         }
 
         private void SetPrintSettings()
@@ -202,7 +231,7 @@ namespace FireDeptFeesTool.Controls
 
             /* uporabniske nastavitve */
             float xOffset, yOffset;
-            if (printType == PrintType.Laser)
+            if (paperType == PaperType.Laser)
             {
                 //float xOffset = -4.1f; float yOffset = -3; // tiskalnik XEROX 3300MPF
                 xOffset = ConfigHelper.GetConfigValue<float>(ConfigFields.LASER_XOFFSET);
@@ -243,7 +272,7 @@ namespace FireDeptFeesTool.Controls
                                       {Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center};
 
             UPNDocument docRow;
-            for (int i = 0; i < (printType == PrintType.Laser ? 2 : 3);)
+            for (int i = 0; i < (paperType == PaperType.Laser ? 2 : 3);)
                 // laser paper contains 2 documents, endless contains 3
             {
                 if (rowsPrinted == rowCount /* || currentRow >= rowCount*/)
@@ -260,7 +289,7 @@ namespace FireDeptFeesTool.Controls
                 docRow.DatumPlacila = dueDate.ToString("dd.MM.yyyy");
 
                 float yMargin;
-                if (printType == PrintType.Laser)
+                if (paperType == PaperType.Laser)
                 {
                     yMargin =
                         i%2 == 0
@@ -432,19 +461,156 @@ namespace FireDeptFeesTool.Controls
             prepareBillsContextMenuStrip.Show(prepareBillsDataButton, new Point(0, prepareBillsDataButton.Height));
         }
 
-        private void PrepareDataForCurrentYearToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            InitializeDataGridView(DateTime.Now.Year);
-        }
-
         private void PrepareDataForSelectedYearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var selectYear = new SelectYearForm();
 
             if (selectYear.ShowDialog() == DialogResult.OK)
             {
-                InitializeDataGridView(selectYear.Year);
+                InitializeDataGridView(selectYear.Year, false);
             }
+        }
+
+        private void PrepareDataForSelectedYearRangeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var allYears = new List<int>();
+            using (var db = new FeeStatusesDBContext())
+            {
+                var feeLogsQuery =
+                    db.Member.
+                        Where(
+                            m =>
+                            m.Active &&
+                            m.MustPay &&
+                            m.FeeLogs.
+                                Any(
+                                    fl =>
+                                    fl.PaymentStatusID == PaymentStatus.NI_PLACAL
+                                )
+                        ).
+                        SelectMany(m => m.FeeLogs);
+
+                allYears = feeLogsQuery.OrderBy(fl => fl.Year).Select(fl => fl.Year).Distinct().ToList();
+
+            }
+
+            var selectYears = new SelectYearRange(allYears);
+
+            if (selectYears.ShowDialog() == DialogResult.OK)
+            {
+                InitializeDataGridView(selectYears.Years);
+            }
+        }
+
+        private void PrintUPNDocumentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (documentListDataGridView.Rows.Count < 1)
+            {
+                MessageBox.Show(WindowMessages.NO_DATA_AVAILABLE_FOR_PRINT, WindowMessages.WARNING_TITLE);
+                return;
+            }
+
+            var selectedRows = documentListDataGridView.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem).Cast<UPNDocument>().ToList();
+
+            var printAll =
+                !selectedRows.Any(x => x.Selected) ||
+                selectedRows.Count(x => x.Selected) == documentListDataGridView.Rows.Count;
+
+            if (new PrintFormsSelectionForm(this, printAll).ShowDialog() != DialogResult.OK)
+                return;
+
+            SetPrintSettings();
+
+            if (printDialog1.ShowDialog() == DialogResult.OK)
+            {
+                rowCount =
+                    printAll
+                        ? documentListDataGridView.Rows.Count
+                        : selectedRows.Count(x => x.Selected);
+
+                UPNPrintDocument.Print();
+            }
+        }
+
+        private void PrintStickersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (documentListDataGridView.Rows.Count < 1)
+            {
+                MessageBox.Show(WindowMessages.NO_DATA_AVAILABLE_FOR_PRINT, WindowMessages.WARNING_TITLE);
+                return;
+            }
+
+            if (new PrintStickersSelectionForm(this).ShowDialog() != DialogResult.OK)
+                return;
+
+            var allRows = documentListDataGridView.Rows.Cast<DataGridViewRow>().Select(r => r.DataBoundItem).Cast<UPNDocument>().ToList();
+            var stickersDataSet = allRows.Where(upn => upn.Selected).Select(upn => upn.Member).ToList();
+
+            for (var i = 0; i < stickersToSkip; i++)
+            {
+                stickersDataSet.Insert(0, new Member());
+            }
+
+            var form = ReportViewerForm.GetInstance();
+
+            form.SetReport(
+                stickerFormat,
+                new ReportDataSource("DataSet1", stickersDataSet),
+                new List<ReportParameter>()
+            );
+        }
+
+        private void BillsWithDebtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InitializeDataGridView(DateTime.Now.Year, true);
+        }
+
+        private void OnlyBillsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InitializeDataGridView(DateTime.Now.Year, false);
+        }
+
+        private void CreateHeaderCheckBox()
+        {
+            var controls = documentListDataGridView.Controls.Find("CheckBoxHeader", true);
+
+            if (controls.Any())
+                return;
+
+            var chkBox = new CheckBox();
+
+            var rect = this.documentListDataGridView.GetCellDisplayRectangle(0, -1, true);
+            rect.Y = 3;
+            rect.X = rect.Location.X + rect.Width / 4 - 2;
+
+            chkBox.Name = "CheckBoxHeader";
+            chkBox.Size = new Size(16, 16);
+            chkBox.Location = rect.Location;
+            chkBox.CheckedChanged += CheckBoxHeader_CheckedChanged;
+
+            this.documentListDataGridView.Controls.Add(chkBox);
+            this.documentListDataGridView.Refresh();
+        }
+
+        private void CheckBoxHeader_CheckedChanged(object sender, EventArgs e)
+        {
+            var headerBox = ((CheckBox)documentListDataGridView.Controls.Find("CheckBoxHeader", true)[0]);
+            UnCheckAllRows(headerBox.Checked);
+        }
+
+        private void UnCheckAllRows(bool @checked)
+        {
+            foreach (DataGridViewRow row in this.documentListDataGridView.Rows)
+            {
+                var dataRow = row.DataBoundItem as UPNDocument;
+                if (dataRow == null)
+                    continue;
+
+                dataRow.Selected = @checked;
+            }
+
+            this.documentListDataGridView.EndEdit();
+            this.documentListDataGridView.Refresh();
         }
 
         #region OBSOLETE_SAVE_TO_IZPISUPN_DB

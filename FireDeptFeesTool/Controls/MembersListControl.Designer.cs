@@ -35,6 +35,14 @@
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.importMembersButton = new System.Windows.Forms.Button();
             this.membersDataGridView = new System.Windows.Forms.DataGridView();
+            this.Selected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.VulkanID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MemberSurname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MemberName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Gender = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MustPay = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.additionalDisplayOptionsButton = new System.Windows.Forms.Button();
             this.additionalActionsButton = new System.Windows.Forms.Button();
             this.additionalActionsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -45,14 +53,6 @@
             this.includeDeletedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.membersBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.Selected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.VulkanID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MemberSurname = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MemberName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Gender = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MustPay = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.membersDataGridView)).BeginInit();
             this.additionalActionsContextMenuStrip.SuspendLayout();
@@ -135,6 +135,73 @@
             this.membersDataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.MembersDataGridView_DataBindingComplete);
             this.membersDataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.MembersDataGridView_RowPostPaint);
             // 
+            // Selected
+            // 
+            this.Selected.DataPropertyName = "Selected";
+            this.Selected.HeaderText = "";
+            this.Selected.Name = "Selected";
+            this.Selected.Width = 5;
+            // 
+            // VulkanID
+            // 
+            this.VulkanID.DataPropertyName = "VulkanID";
+            this.VulkanID.HeaderText = "Vulkan ID";
+            this.VulkanID.Name = "VulkanID";
+            this.VulkanID.ReadOnly = true;
+            this.VulkanID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.VulkanID.Width = 79;
+            // 
+            // MemberSurname
+            // 
+            this.MemberSurname.DataPropertyName = "Surname";
+            this.MemberSurname.HeaderText = "Priimek";
+            this.MemberSurname.Name = "MemberSurname";
+            this.MemberSurname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.MemberSurname.Width = 66;
+            // 
+            // MemberName
+            // 
+            this.MemberName.DataPropertyName = "Name";
+            this.MemberName.HeaderText = "Ime";
+            this.MemberName.Name = "MemberName";
+            this.MemberName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.MemberName.Width = 49;
+            // 
+            // Address
+            // 
+            this.Address.DataPropertyName = "Address";
+            this.Address.HeaderText = "Naslov";
+            this.Address.Name = "Address";
+            this.Address.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.Address.Width = 65;
+            // 
+            // DateOfBirth
+            // 
+            this.DateOfBirth.DataPropertyName = "DateOfBirth";
+            this.DateOfBirth.HeaderText = "Datum rojstva";
+            this.DateOfBirth.Name = "DateOfBirth";
+            this.DateOfBirth.ReadOnly = true;
+            this.DateOfBirth.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.DateOfBirth.Width = 97;
+            // 
+            // Gender
+            // 
+            this.Gender.DataPropertyName = "Gender";
+            this.Gender.HeaderText = "Spol";
+            this.Gender.Name = "Gender";
+            this.Gender.ReadOnly = true;
+            this.Gender.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.Gender.Width = 53;
+            // 
+            // MustPay
+            // 
+            this.MustPay.DataPropertyName = "MustPay";
+            this.MustPay.HeaderText = "Obveznik";
+            this.MustPay.Name = "MustPay";
+            this.MustPay.ReadOnly = true;
+            this.MustPay.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            this.MustPay.Width = 77;
+            // 
             // additionalDisplayOptionsButton
             // 
             this.additionalDisplayOptionsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -207,73 +274,6 @@
             // 
             this.openFileDialog.FileName = "openFileDialog1";
             // 
-            // Selected
-            // 
-            this.Selected.DataPropertyName = "Selected";
-            this.Selected.HeaderText = "";
-            this.Selected.Name = "Selected";
-            this.Selected.Width = 5;
-            // 
-            // VulkanID
-            // 
-            this.VulkanID.DataPropertyName = "VulkanID";
-            this.VulkanID.HeaderText = "Vulkan ID";
-            this.VulkanID.Name = "VulkanID";
-            this.VulkanID.ReadOnly = true;
-            this.VulkanID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.VulkanID.Width = 79;
-            // 
-            // MemberSurname
-            // 
-            this.MemberSurname.DataPropertyName = "Surname";
-            this.MemberSurname.HeaderText = "Priimek";
-            this.MemberSurname.Name = "MemberSurname";
-            this.MemberSurname.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.MemberSurname.Width = 66;
-            // 
-            // MemberName
-            // 
-            this.MemberName.DataPropertyName = "Name";
-            this.MemberName.HeaderText = "Ime";
-            this.MemberName.Name = "MemberName";
-            this.MemberName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.MemberName.Width = 49;
-            // 
-            // Address
-            // 
-            this.Address.DataPropertyName = "Address";
-            this.Address.HeaderText = "Naslov";
-            this.Address.Name = "Address";
-            this.Address.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.Address.Width = 65;
-            // 
-            // DateOfBirth
-            // 
-            this.DateOfBirth.DataPropertyName = "DateOfBirth";
-            this.DateOfBirth.HeaderText = "Datum rojstva";
-            this.DateOfBirth.Name = "DateOfBirth";
-            this.DateOfBirth.ReadOnly = true;
-            this.DateOfBirth.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.DateOfBirth.Width = 97;
-            // 
-            // Gender
-            // 
-            this.Gender.DataPropertyName = "Gender";
-            this.Gender.HeaderText = "Spol";
-            this.Gender.Name = "Gender";
-            this.Gender.ReadOnly = true;
-            this.Gender.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.Gender.Width = 53;
-            // 
-            // MustPay
-            // 
-            this.MustPay.DataPropertyName = "MustPay";
-            this.MustPay.HeaderText = "Obveznik";
-            this.MustPay.Name = "MustPay";
-            this.MustPay.ReadOnly = true;
-            this.MustPay.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            this.MustPay.Width = 77;
-            // 
             // MembersListControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -282,6 +282,7 @@
             this.DoubleBuffered = true;
             this.Name = "MembersListControl";
             this.Size = new System.Drawing.Size(610, 405);
+            this.Load += new System.EventHandler(this.MembersListControl_Load);
             this.VisibleChanged += new System.EventHandler(this.MembersListControl_VisibleChanged);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.membersDataGridView)).EndInit();

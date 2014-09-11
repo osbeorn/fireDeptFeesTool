@@ -1,4 +1,5 @@
 ﻿using System;
+using FireDeptFeesTool.Model;
 
 namespace FireDeptFeesTool.Lib
 {
@@ -24,5 +25,8 @@ namespace FireDeptFeesTool.Lib
         //public bool ObvezenVnosVsehPolj { get; set; }
         //public bool PreveriKontrolneStevilke { get; set; }
         //public bool SamodejnoPripraviOCR { get; set; }
+
+        // Dodatni properyji za pomoč
+        public Member Member { get; set; }
     }
 }

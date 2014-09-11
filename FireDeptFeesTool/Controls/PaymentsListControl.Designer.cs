@@ -47,15 +47,15 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.paymentsDataGridView = new System.Windows.Forms.DataGridView();
+            this.addOptionButton = new System.Windows.Forms.Button();
+            this.importPaymentDataButton = new System.Windows.Forms.Button();
+            this.printButton = new System.Windows.Forms.Button();
+            this.additionalDisplayOptionsButton = new System.Windows.Forms.Button();
             this.Active = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.VulkanID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MemberSurname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MemberName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.addOptionButton = new System.Windows.Forms.Button();
-            this.importPaymentDataButton = new System.Windows.Forms.Button();
-            this.printButton = new System.Windows.Forms.Button();
-            this.additionalDisplayOptionsButton = new System.Windows.Forms.Button();
             this.addOptionButtonContextMenuStrip.SuspendLayout();
             this.importDataContextMenuStrip.SuspendLayout();
             this.printButtonContextMenuStrip.SuspendLayout();
@@ -140,7 +140,7 @@
             this.onlyMustPayersToolStripMenuItem,
             this.includeDeletedToolStripMenuItem});
             this.additionalDisplayOptionsContextMenuStrip.Name = "additionalDisplayOptionsContextMenuStrip";
-            this.additionalDisplayOptionsContextMenuStrip.Size = new System.Drawing.Size(158, 70);
+            this.additionalDisplayOptionsContextMenuStrip.Size = new System.Drawing.Size(158, 48);
             // 
             // onlyMustPayersToolStripMenuItem
             // 
@@ -229,47 +229,6 @@
             this.paymentsDataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.PaymentsDataGridView_DataBindingComplete);
             this.paymentsDataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.PaymentsDataGridView_RowPostPaint);
             // 
-            // Active
-            // 
-            this.Active.DataPropertyName = "MemberActive";
-            this.Active.Frozen = true;
-            this.Active.HeaderText = "Active";
-            this.Active.Name = "Active";
-            this.Active.ReadOnly = true;
-            this.Active.Visible = false;
-            // 
-            // OldVulkanID
-            // 
-            this.VulkanID.DataPropertyName = "MemberVulkanID";
-            this.VulkanID.Frozen = true;
-            this.VulkanID.HeaderText = "OldVulkanID";
-            this.VulkanID.Name = "VulkanID";
-            this.VulkanID.Visible = false;
-            // 
-            // MemberSurname
-            // 
-            this.MemberSurname.DataPropertyName = "MemberSurname";
-            this.MemberSurname.Frozen = true;
-            this.MemberSurname.HeaderText = "Priimek";
-            this.MemberSurname.Name = "MemberSurname";
-            this.MemberSurname.ReadOnly = true;
-            // 
-            // MemberName
-            // 
-            this.MemberName.DataPropertyName = "MemberName";
-            this.MemberName.Frozen = true;
-            this.MemberName.HeaderText = "Ime";
-            this.MemberName.Name = "MemberName";
-            this.MemberName.ReadOnly = true;
-            // 
-            // OldDateOfBirth
-            // 
-            this.DateOfBirth.DataPropertyName = "OldDateOfBirth";
-            this.DateOfBirth.Frozen = true;
-            this.DateOfBirth.HeaderText = "Datum rojstva";
-            this.DateOfBirth.Name = "DateOfBirth";
-            this.DateOfBirth.ReadOnly = true;
-            // 
             // addOptionButton
             // 
             this.addOptionButton.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -313,6 +272,54 @@
             this.additionalDisplayOptionsButton.Text = "Prikaz";
             this.additionalDisplayOptionsButton.UseVisualStyleBackColor = true;
             this.additionalDisplayOptionsButton.Click += new System.EventHandler(this.AdditionalDisplayOptionsButton_Click);
+            // 
+            // Active
+            // 
+            this.Active.DataPropertyName = "MemberActive";
+            this.Active.Frozen = true;
+            this.Active.HeaderText = "Active";
+            this.Active.Name = "Active";
+            this.Active.ReadOnly = true;
+            this.Active.Visible = false;
+            // 
+            // VulkanID
+            // 
+            this.VulkanID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.VulkanID.DataPropertyName = "MemberVulkanID";
+            this.VulkanID.Frozen = true;
+            this.VulkanID.HeaderText = "Vulkan ID";
+            this.VulkanID.Name = "VulkanID";
+            this.VulkanID.Width = 79;
+            // 
+            // MemberSurname
+            // 
+            this.MemberSurname.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.MemberSurname.DataPropertyName = "MemberSurname";
+            this.MemberSurname.Frozen = true;
+            this.MemberSurname.HeaderText = "Priimek";
+            this.MemberSurname.Name = "MemberSurname";
+            this.MemberSurname.ReadOnly = true;
+            this.MemberSurname.Width = 66;
+            // 
+            // MemberName
+            // 
+            this.MemberName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.MemberName.DataPropertyName = "MemberName";
+            this.MemberName.Frozen = true;
+            this.MemberName.HeaderText = "Ime";
+            this.MemberName.Name = "MemberName";
+            this.MemberName.ReadOnly = true;
+            this.MemberName.Width = 49;
+            // 
+            // DateOfBirth
+            // 
+            this.DateOfBirth.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.DateOfBirth.DataPropertyName = "OldDateOfBirth";
+            this.DateOfBirth.Frozen = true;
+            this.DateOfBirth.HeaderText = "Datum rojstva";
+            this.DateOfBirth.Name = "DateOfBirth";
+            this.DateOfBirth.ReadOnly = true;
+            this.DateOfBirth.Width = 97;
             // 
             // PaymentsListControl
             // 

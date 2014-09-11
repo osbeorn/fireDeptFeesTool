@@ -5,11 +5,11 @@ using FireDeptFeesTool.Enums;
 
 namespace FireDeptFeesTool.Forms.UPNDocsList
 {
-    public partial class PrintSelectionForm : Form
+    public partial class PrintFormsSelectionForm : Form
     {
         private BillsListControl parent;
         /*
-        public PrintSelectionForm(CurrentPaymentsForm parent, bool printAll)
+        public PrintStickersSelectionForm(CurrentPaymentsForm parent, bool printAll)
         {
             InitializeComponent();
             CustomInitialization(parent);
@@ -18,7 +18,7 @@ namespace FireDeptFeesTool.Forms.UPNDocsList
         }
         */
 
-        public PrintSelectionForm(BillsListControl parent, bool printAll)
+        public PrintFormsSelectionForm(BillsListControl parent, bool printAll)
         {
             InitializeComponent();
             CustomInitialization(parent);
@@ -70,11 +70,11 @@ namespace FireDeptFeesTool.Forms.UPNDocsList
         {
             if (((RadioButton) sender).Checked)
             {
-                parent.printType = PrintType.Laser;
+                parent.paperType = PaperType.Laser;
             }
             else
             {
-                parent.printType = PrintType.Endless;
+                parent.paperType = PaperType.Endless;
             }
         }
     }

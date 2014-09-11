@@ -8,7 +8,7 @@
 		poravnali za #{leto_leti_leta} <strong>#{seznam_let}</strong>.
 		<br />
 		Prosimo vas, da zaostalo članarino v skupni višini <strong>#{znesek}€</strong>
-		plačate ob prihodu na naslednji občni zbor ali na TRR 0202 2001 3530 684 (glej priloženo položnico).
+		plačate takoj na TRR 0202 2001 3530 684 (glej priloženo položnico).
 		<br />
 		Za vse, ki članarine niste plačali 3 leta ali več, velja to obvestilo kot zadnji opomin pred izključitvijo!
 		<br />

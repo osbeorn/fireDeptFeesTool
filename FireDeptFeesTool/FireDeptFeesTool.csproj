@@ -104,15 +104,29 @@
     <Compile Include="Controls\ReportsMainControl.Designer.cs">
       <DependentUpon>ReportsMainControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataSets\MemberStickersDataSet.cs" />
     <Compile Include="DataSets\RegularNonPayersDataSet.cs" />
     <Compile Include="DataSets\SelectedYearNonPayersDataSet.cs" />
     <Compile Include="DataSets\SelectedYearStatisticsDataSet.cs" />
     <Compile Include="Enums\PrintType.cs" />
+    <Compile Include="Enums\PaperType.cs" />
     <Compile Include="Forms\ImportMembersDiffForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\ImportMembersDiffForm.Designer.cs">
       <DependentUpon>ImportMembersDiffForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PrintStickersSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PrintStickersSelectionForm.Designer.cs">
+      <DependentUpon>PrintStickersSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SelectYearRange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SelectYearRange.Designer.cs">
+      <DependentUpon>SelectYearRange.cs</DependentUpon>
     </Compile>
     <Compile Include="Lib\Reports.cs" />
     <Compile Include="Enums\ReportTypes.cs" />
@@ -140,11 +154,11 @@
     <Compile Include="Forms\ReportViewerForm.Designer.cs">
       <DependentUpon>ReportViewerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\PrintSelectionForm.cs">
+    <Compile Include="Forms\PrintFormsSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\PrintSelectionForm.Designer.cs">
-      <DependentUpon>PrintSelectionForm.cs</DependentUpon>
+    <Compile Include="Forms\PrintFormsSelectionForm.Designer.cs">
+      <DependentUpon>PrintFormsSelectionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SelectYearForm.cs">
       <SubType>Form</SubType>
@@ -241,8 +255,14 @@
     <EmbeddedResource Include="Forms\ManageSettingsForm.resx">
       <DependentUpon>ManageSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PrintStickersSelectionForm.resx">
+      <DependentUpon>PrintStickersSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\SelectBankExportDocumentsForm.resx">
       <DependentUpon>SelectBankExportDocumentsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SelectYearRange.resx">
+      <DependentUpon>SelectYearRange.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ShellForm.resx">
       <DependentUpon>ShellForm.cs</DependentUpon>
@@ -250,8 +270,8 @@
     <EmbeddedResource Include="Forms\ReportViewerForm.resx">
       <DependentUpon>ReportViewerForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PrintSelectionForm.resx">
-      <DependentUpon>PrintSelectionForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\PrintFormsSelectionForm.resx">
+      <DependentUpon>PrintFormsSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SelectYearForm.resx">
       <DependentUpon>SelectYearForm.cs</DependentUpon>
@@ -266,6 +286,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Reports\MemberStickers2x6.rdlc" />
     <EmbeddedResource Include="Reports\RegularNonPayers.rdlc" />
     <EmbeddedResource Include="Reports\SelectedYearNonPayers.rdlc" />
     <EmbeddedResource Include="Reports\DebtorsListReport.rdlc" />
@@ -289,6 +310,8 @@
       <LastGenOutput>FeeStatusesDBModel.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.MemberStickersDataSet.datasource" />
+    <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.PaymentDebtsDataSet.datasource" />
     <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.RegularNonPayersDataSet.datasource" />
     <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.SelectedYearNonPayersDataSet.datasource" />
     <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.SelectedYearStatisticsDataSet.datasource" />
@@ -311,9 +334,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\FeeStatuses.sdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Data\FeeStatuses.sdf" />
     <Content Include="ReportTemplates\debtorsListReportTemplate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

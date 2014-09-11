@@ -1,6 +1,6 @@
 ﻿namespace FireDeptFeesTool.Forms.UPNDocsList
 {
-    partial class PrintSelectionForm
+    partial class PrintFormsSelectionForm
     {
         /// <summary>
         /// Required designer variable.
@@ -37,8 +37,8 @@
             this.acceptButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.laserPaperRadioButton = new System.Windows.Forms.RadioButton();
             this.endlessPaperRadioButton = new System.Windows.Forms.RadioButton();
+            this.laserPaperRadioButton = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -120,14 +120,15 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(258, 228);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(258, 233);
             this.tableLayoutPanel1.TabIndex = 4;
             // 
             // acceptButton
             // 
             this.acceptButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.acceptButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.acceptButton.Location = new System.Drawing.Point(51, 198);
+            this.acceptButton.Location = new System.Drawing.Point(51, 201);
             this.acceptButton.Name = "acceptButton";
             this.acceptButton.Size = new System.Drawing.Size(75, 23);
             this.acceptButton.TabIndex = 4;
@@ -139,7 +140,7 @@
             // 
             this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(132, 198);
+            this.cancelButton.Location = new System.Drawing.Point(132, 201);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 5;
@@ -159,6 +160,17 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Tip papirja";
             // 
+            // endlessPaperRadioButton
+            // 
+            this.endlessPaperRadioButton.AutoSize = true;
+            this.endlessPaperRadioButton.Location = new System.Drawing.Point(6, 41);
+            this.endlessPaperRadioButton.Name = "endlessPaperRadioButton";
+            this.endlessPaperRadioButton.Size = new System.Drawing.Size(122, 17);
+            this.endlessPaperRadioButton.TabIndex = 1;
+            this.endlessPaperRadioButton.TabStop = true;
+            this.endlessPaperRadioButton.Text = "Neskončni (3 nalogi)";
+            this.endlessPaperRadioButton.UseVisualStyleBackColor = true;
+            // 
             // laserPaperRadioButton
             // 
             this.laserPaperRadioButton.AutoSize = true;
@@ -171,24 +183,15 @@
             this.laserPaperRadioButton.UseVisualStyleBackColor = true;
             this.laserPaperRadioButton.CheckedChanged += new System.EventHandler(this.LaserPaperRadioButton_CheckedChanged);
             // 
-            // endlessPaperRadioButton
-            // 
-            this.endlessPaperRadioButton.AutoSize = true;
-            this.endlessPaperRadioButton.Location = new System.Drawing.Point(6, 41);
-            this.endlessPaperRadioButton.Name = "endlessPaperRadioButton";
-            this.endlessPaperRadioButton.Size = new System.Drawing.Size(122, 17);
-            this.endlessPaperRadioButton.TabIndex = 1;
-            this.endlessPaperRadioButton.TabStop = true;
-            this.endlessPaperRadioButton.Text = "Neskončni (3 nalogi)";
-            this.endlessPaperRadioButton.UseVisualStyleBackColor = true;
-            // 
-            // PrintSelectionForm
+            // PrintFormsSelectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(258, 228);
+            this.ClientSize = new System.Drawing.Size(258, 233);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "PrintSelectionForm";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.Name = "PrintFormsSelectionForm";
             this.Text = "Izbor tiskanja";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

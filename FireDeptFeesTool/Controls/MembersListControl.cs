@@ -461,5 +461,39 @@ namespace FireDeptFeesTool.Controls
         {
             ClearSelection(membersDataGridView);
         }
+
+        private void MembersListControl_Load(object sender, EventArgs e)
+        {
+            var chkBox = new CheckBox();
+
+            var rect = this.membersDataGridView.GetCellDisplayRectangle(0, -1, true);
+            rect.Y = 3;
+            rect.X = rect.Location.X + rect.Width/4 - 2;
+
+            chkBox.Name = "CheckBoxHeader";
+            chkBox.Size = new Size(16, 16);
+            chkBox.Location = rect.Location;
+            chkBox.CheckedChanged += CheckBoxHeader_CheckedChanged;
+
+            this.membersDataGridView.Controls.Add(chkBox);
+        }
+
+        private void CheckBoxHeader_CheckedChanged(object sender, EventArgs e)
+        {
+            var headerBox = ((CheckBox)membersDataGridView.Controls.Find("CheckBoxHeader", true)[0]);
+            var index = 0;
+
+            foreach (DataGridViewRow row in this.membersDataGridView.Rows)
+            {
+                var dataRow = row.DataBoundItem as MemberViewModel;
+                if (dataRow == null)
+                    continue;
+
+                dataRow.Selected = headerBox.Checked;
+            }
+
+            this.membersDataGridView.EndEdit();
+            this.membersDataGridView.Refresh();
+        }
     }
 }

@@ -37,11 +37,6 @@
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.documentListDataGridView = new System.Windows.Forms.DataGridView();
-            this.prepareBillsDataButton = new System.Windows.Forms.Button();
-            this.printButton = new System.Windows.Forms.Button();
-            this.prepareBillsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.prepareDataForCurrentYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.prepareDataForSelectedYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Selected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.BremeIme = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DobroIme = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,9 +46,21 @@
             this.DobroModel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DobroSklic = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.KodaNamena = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.prepareBillsDataButton = new System.Windows.Forms.Button();
+            this.printButton = new System.Windows.Forms.Button();
+            this.prepareBillsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.prepareDataForCurrentYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.onlyBillsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.billsWithDebtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.prepareDataForSelectedYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.prepareDataForSelectedYearRangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.printUPNDocumentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.printStickersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.documentListDataGridView)).BeginInit();
             this.prepareBillsContextMenuStrip.SuspendLayout();
+            this.printContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // pageSetupDialog1
@@ -125,56 +132,13 @@
             this.documentListDataGridView.TabIndex = 0;
             this.documentListDataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.DocumentListDataGridView_RowPostPaint);
             // 
-            // prepareBillsDataButton
-            // 
-            this.prepareBillsDataButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.prepareBillsDataButton.Location = new System.Drawing.Point(523, 374);
-            this.prepareBillsDataButton.Name = "prepareBillsDataButton";
-            this.prepareBillsDataButton.Size = new System.Drawing.Size(74, 23);
-            this.prepareBillsDataButton.TabIndex = 2;
-            this.prepareBillsDataButton.Text = "Pripravi";
-            this.prepareBillsDataButton.UseVisualStyleBackColor = true;
-            this.prepareBillsDataButton.Click += new System.EventHandler(this.PrepareBillsDataButton_Click);
-            // 
-            // printButton
-            // 
-            this.printButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.printButton.Location = new System.Drawing.Point(3, 374);
-            this.printButton.Name = "printButton";
-            this.printButton.Size = new System.Drawing.Size(74, 23);
-            this.printButton.TabIndex = 3;
-            this.printButton.Text = "Tiskaj...";
-            this.printButton.UseVisualStyleBackColor = true;
-            this.printButton.Click += new System.EventHandler(this.PrintButton_Click);
-            // 
-            // prepareBillsContextMenuStrip
-            // 
-            this.prepareBillsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.prepareDataForCurrentYearToolStripMenuItem,
-            this.prepareDataForSelectedYearToolStripMenuItem});
-            this.prepareBillsContextMenuStrip.Name = "prepareBillsContextMenuStrip";
-            this.prepareBillsContextMenuStrip.Size = new System.Drawing.Size(171, 48);
-            // 
-            // prepareDataForCurrentYearToolStripMenuItem
-            // 
-            this.prepareDataForCurrentYearToolStripMenuItem.Name = "prepareDataForCurrentYearToolStripMenuItem";
-            this.prepareDataForCurrentYearToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.prepareDataForCurrentYearToolStripMenuItem.Text = "Za tekoče leto";
-            this.prepareDataForCurrentYearToolStripMenuItem.Click += new System.EventHandler(this.PrepareDataForCurrentYearToolStripMenuItem_Click);
-            // 
-            // prepareDataForSelectedYearToolStripMenuItem
-            // 
-            this.prepareDataForSelectedYearToolStripMenuItem.Name = "prepareDataForSelectedYearToolStripMenuItem";
-            this.prepareDataForSelectedYearToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.prepareDataForSelectedYearToolStripMenuItem.Text = "Za poljubno leto...";
-            this.prepareDataForSelectedYearToolStripMenuItem.Click += new System.EventHandler(this.PrepareDataForSelectedYearToolStripMenuItem_Click);
-            // 
             // Selected
             // 
             this.Selected.DataPropertyName = "Selected";
             this.Selected.HeaderText = "";
+            this.Selected.MinimumWidth = 21;
             this.Selected.Name = "Selected";
-            this.Selected.Width = 5;
+            this.Selected.Width = 21;
             // 
             // BremeIme
             // 
@@ -240,6 +204,97 @@
             this.KodaNamena.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.KodaNamena.Width = 79;
             // 
+            // prepareBillsDataButton
+            // 
+            this.prepareBillsDataButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.prepareBillsDataButton.Location = new System.Drawing.Point(523, 374);
+            this.prepareBillsDataButton.Name = "prepareBillsDataButton";
+            this.prepareBillsDataButton.Size = new System.Drawing.Size(74, 23);
+            this.prepareBillsDataButton.TabIndex = 2;
+            this.prepareBillsDataButton.Text = "Pripravi";
+            this.prepareBillsDataButton.UseVisualStyleBackColor = true;
+            this.prepareBillsDataButton.Click += new System.EventHandler(this.PrepareBillsDataButton_Click);
+            // 
+            // printButton
+            // 
+            this.printButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.printButton.Location = new System.Drawing.Point(3, 374);
+            this.printButton.Name = "printButton";
+            this.printButton.Size = new System.Drawing.Size(74, 23);
+            this.printButton.TabIndex = 3;
+            this.printButton.Text = "Tiskaj";
+            this.printButton.UseVisualStyleBackColor = true;
+            this.printButton.Click += new System.EventHandler(this.PrintButton_Click);
+            // 
+            // prepareBillsContextMenuStrip
+            // 
+            this.prepareBillsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.prepareDataForCurrentYearToolStripMenuItem,
+            this.prepareDataForSelectedYearToolStripMenuItem,
+            this.prepareDataForSelectedYearRangeToolStripMenuItem});
+            this.prepareBillsContextMenuStrip.Name = "prepareBillsContextMenuStrip";
+            this.prepareBillsContextMenuStrip.Size = new System.Drawing.Size(171, 70);
+            // 
+            // prepareDataForCurrentYearToolStripMenuItem
+            // 
+            this.prepareDataForCurrentYearToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.onlyBillsToolStripMenuItem,
+            this.billsWithDebtToolStripMenuItem});
+            this.prepareDataForCurrentYearToolStripMenuItem.Name = "prepareDataForCurrentYearToolStripMenuItem";
+            this.prepareDataForCurrentYearToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.prepareDataForCurrentYearToolStripMenuItem.Text = "Za tekoče leto";
+            // 
+            // onlyBillsToolStripMenuItem
+            // 
+            this.onlyBillsToolStripMenuItem.Name = "onlyBillsToolStripMenuItem";
+            this.onlyBillsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.onlyBillsToolStripMenuItem.Text = "Tekoča članarina";
+            this.onlyBillsToolStripMenuItem.Click += new System.EventHandler(this.OnlyBillsToolStripMenuItem_Click);
+            // 
+            // billsWithDebtToolStripMenuItem
+            // 
+            this.billsWithDebtToolStripMenuItem.Name = "billsWithDebtToolStripMenuItem";
+            this.billsWithDebtToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.billsWithDebtToolStripMenuItem.Text = "Opomini";
+            this.billsWithDebtToolStripMenuItem.Click += new System.EventHandler(this.BillsWithDebtToolStripMenuItem_Click);
+            // 
+            // prepareDataForSelectedYearToolStripMenuItem
+            // 
+            this.prepareDataForSelectedYearToolStripMenuItem.Name = "prepareDataForSelectedYearToolStripMenuItem";
+            this.prepareDataForSelectedYearToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.prepareDataForSelectedYearToolStripMenuItem.Text = "Za poljubno leto...";
+            this.prepareDataForSelectedYearToolStripMenuItem.Click += new System.EventHandler(this.PrepareDataForSelectedYearToolStripMenuItem_Click);
+            // 
+            // prepareDataForSelectedYearRangeToolStripMenuItem
+            // 
+            this.prepareDataForSelectedYearRangeToolStripMenuItem.Name = "prepareDataForSelectedYearRangeToolStripMenuItem";
+            this.prepareDataForSelectedYearRangeToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.prepareDataForSelectedYearRangeToolStripMenuItem.Text = "Za obdobje ...";
+            this.prepareDataForSelectedYearRangeToolStripMenuItem.Visible = false;
+            this.prepareDataForSelectedYearRangeToolStripMenuItem.Click += new System.EventHandler(this.PrepareDataForSelectedYearRangeToolStripMenuItem_Click);
+            // 
+            // printContextMenuStrip
+            // 
+            this.printContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printUPNDocumentsToolStripMenuItem,
+            this.printStickersToolStripMenuItem});
+            this.printContextMenuStrip.Name = "printContextMenuStrip";
+            this.printContextMenuStrip.Size = new System.Drawing.Size(164, 48);
+            // 
+            // printUPNDocumentsToolStripMenuItem
+            // 
+            this.printUPNDocumentsToolStripMenuItem.Name = "printUPNDocumentsToolStripMenuItem";
+            this.printUPNDocumentsToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.printUPNDocumentsToolStripMenuItem.Text = "Plačilne naloge...";
+            this.printUPNDocumentsToolStripMenuItem.Click += new System.EventHandler(this.PrintUPNDocumentsToolStripMenuItem_Click);
+            // 
+            // printStickersToolStripMenuItem
+            // 
+            this.printStickersToolStripMenuItem.Name = "printStickersToolStripMenuItem";
+            this.printStickersToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.printStickersToolStripMenuItem.Text = "Nalepke...";
+            this.printStickersToolStripMenuItem.Click += new System.EventHandler(this.PrintStickersToolStripMenuItem_Click);
+            // 
             // BillsListControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -252,6 +307,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.documentListDataGridView)).EndInit();
             this.prepareBillsContextMenuStrip.ResumeLayout(false);
+            this.printContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -268,6 +324,12 @@
         private System.Windows.Forms.ContextMenuStrip prepareBillsContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem prepareDataForCurrentYearToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prepareDataForSelectedYearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem prepareDataForSelectedYearRangeToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip printContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem printUPNDocumentsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem printStickersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem onlyBillsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem billsWithDebtToolStripMenuItem;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Selected;
         private System.Windows.Forms.DataGridViewTextBoxColumn BremeIme;
         private System.Windows.Forms.DataGridViewTextBoxColumn DobroIme;

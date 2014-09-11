@@ -11,6 +11,7 @@ namespace FireDeptFeesTool.DataSets
             Debtors = list;
         }
 
+        public List<MemberStickersDataSet> Bla { get; set; }
         public List<DebtorReportModel> Debtors { get; set; }
     }
 }

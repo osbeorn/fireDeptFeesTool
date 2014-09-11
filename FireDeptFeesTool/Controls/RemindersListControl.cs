@@ -191,7 +191,11 @@ namespace FireDeptFeesTool.Controls
                                              FirstName = member.Name,
                                              LastName = member.Surname,
                                              DebtSum =
-                                                 10*cols.Count // TODO - fix this !!!
+                                                (
+                                                    member.Gender
+                                                    ? ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANI)
+                                                    : ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANICE)
+                                                ) * cols.Count
                                          };
 
                         var yearsList = new List<short>();
