@@ -17,6 +17,8 @@ namespace FireDeptFeesTool.Model
         public int Year { get; set; }
         public string VulkanID { get; set; }
         public int PaymentStatusID { get; set; }
+        public Nullable<decimal> FeePayed { get; set; }
+        public Nullable<decimal> FeeToPay { get; set; }
     
         public virtual Member Member { get; set; }
     }

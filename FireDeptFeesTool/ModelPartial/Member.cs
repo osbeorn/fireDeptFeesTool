@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using FireDeptFeesTool.Helpers;
 
 namespace FireDeptFeesTool.Model
 {
@@ -89,8 +90,11 @@ namespace FireDeptFeesTool.Model
                         {
                             Member = this,
                             Year = (short) year,
-                            //PaymentStatusID = PaymentStatus.NI_PODATKA
-                            PaymentStatusID = PaymentStatus.NI_PLACAL
+                            PaymentStatusID = PaymentStatus.NI_PLACAL,
+                            FeeToPay =
+                                this.Gender
+                                ? ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANI)
+                                : ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANICE),
                         }
                     );
             }

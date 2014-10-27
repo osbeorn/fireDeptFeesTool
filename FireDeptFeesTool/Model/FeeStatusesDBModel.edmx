@@ -5,16 +5,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="FeeStatusesDBModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0"
-              ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
-              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Alias="Self" Namespace="FeeStatusesDBModel.Store" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0">
         <EntityContainer Name="FeeStatusesDBModelStoreContainer">
           <EntitySet Name="FeeLogs" EntityType="FeeStatusesDBModel.Store.FeeLogs" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="FeeStatusesDBModel.Store.Member" store:Type="Tables" />
           <EntitySet Name="PaymentStatus" EntityType="FeeStatusesDBModel.Store.PaymentStatus" store:Type="Tables" />
           <AssociationSet Name="MemberFeeLogs" Association="FeeStatusesDBModel.Store.MemberFeeLogs">
-            <End Role="Member" EntitySet="Member" />
-            <End Role="FeeLogs" EntitySet="FeeLogs" />
+            <End EntitySet="Member" Role="Member" />
+            <End EntitySet="FeeLogs" Role="FeeLogs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="FeeLogs">
@@ -22,34 +20,36 @@
             <PropertyRef Name="Year" />
             <PropertyRef Name="VulkanID" />
           </Key>
-          <Property Name="Year" Type="int" Nullable="false" />
-          <Property Name="VulkanID" Type="nvarchar" Nullable="false" MaxLength="6" />
-          <Property Name="PaymentStatusID" Type="int" Nullable="false" />
+          <Property Name="Year" Nullable="false" Type="int" />
+          <Property Name="VulkanID" Nullable="false" MaxLength="6" Type="nvarchar" />
+          <Property Name="PaymentStatusID" Nullable="false" Type="int" />
+          <Property Name="FeePayed" Precision="5" Scale="2" Type="numeric" />
+          <Property Name="FeeToPay" Precision="5" Scale="2" Type="numeric" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="VulkanID" />
           </Key>
-          <Property Name="VulkanID" Type="nvarchar" Nullable="false" MaxLength="6" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
-          <Property Name="Surname" Type="nvarchar" Nullable="false" MaxLength="100" />
-          <Property Name="DateOfBirth" Type="datetime" Nullable="false" />
-          <Property Name="Address" Type="nvarchar" Nullable="false" MaxLength="255" />
-          <Property Name="Gender" Type="bit" Nullable="false" />
-          <Property Name="MustPay" Type="bit" Nullable="false" />
-          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="VulkanID" Nullable="false" MaxLength="6" Type="nvarchar" />
+          <Property Name="Name" Nullable="false" MaxLength="100" Type="nvarchar" />
+          <Property Name="Surname" Nullable="false" MaxLength="100" Type="nvarchar" />
+          <Property Name="DateOfBirth" Nullable="false" Type="datetime" />
+          <Property Name="Address" Nullable="false" MaxLength="255" Type="nvarchar" />
+          <Property Name="Gender" Nullable="false" Type="bit" />
+          <Property Name="MustPay" Nullable="false" Type="bit" />
+          <Property Name="Active" Nullable="false" Type="bit" />
         </EntityType>
         <EntityType Name="PaymentStatus">
           <Key>
             <PropertyRef Name="PaymentStatusID" />
           </Key>
-          <Property Name="PaymentStatusID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Text" Type="nvarchar" Nullable="false" MaxLength="20" />
-          <Property Name="Description" Type="nvarchar" MaxLength="255" />
+          <Property Name="PaymentStatusID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+          <Property Name="Text" Nullable="false" MaxLength="20" Type="nvarchar" />
+          <Property Name="Description" MaxLength="255" Type="nvarchar" />
         </EntityType>
         <Association Name="MemberFeeLogs">
-          <End Role="Member" Type="FeeStatusesDBModel.Store.Member" Multiplicity="1" />
-          <End Role="FeeLogs" Type="FeeStatusesDBModel.Store.FeeLogs" Multiplicity="*" />
+          <End Type="FeeStatusesDBModel.Store.Member" Multiplicity="1" Role="Member" />
+          <End Type="FeeStatusesDBModel.Store.FeeLogs" Multiplicity="*" Role="FeeLogs" />
           <ReferentialConstraint>
             <Principal Role="Member">
               <PropertyRef Name="VulkanID" />
@@ -59,8 +59,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FeeStatusesDBModel" Alias="Self" p1:UseStrongSpatialTypes="false"
@@ -85,6 +84,8 @@
           <Property Type="Int32" Name="PaymentStatusID" Nullable="false" />
           <NavigationProperty Name="Member" Relationship="FeeStatusesDBModel.MemberFeeLogs" FromRole="FeeLogs"
                               ToRole="Member" />
+          <Property Name="FeePayed" Nullable="true" Precision="5" Scale="2" Type="Decimal" />
+          <Property Name="FeeToPay" Nullable="true" Precision="5" Scale="2" Type="Decimal" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -131,6 +132,8 @@
           <EntitySetMapping Name="FeeLogs">
             <EntityTypeMapping TypeName="FeeStatusesDBModel.FeeLogs">
               <MappingFragment StoreEntitySet="FeeLogs">
+                <ScalarProperty Name="FeeToPay" ColumnName="FeeToPay" />
+                <ScalarProperty Name="FeePayed" ColumnName="FeePayed" />
                 <ScalarProperty Name="PaymentStatusID" ColumnName="PaymentStatusID" />
                 <ScalarProperty Name="VulkanID" ColumnName="VulkanID" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
