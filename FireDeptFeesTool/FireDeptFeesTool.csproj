@@ -334,7 +334,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\FeeStatuses.sdf" />
+    <Content Include="Data\FeeStatuses.sdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ReportTemplates\debtorsListReportTemplate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

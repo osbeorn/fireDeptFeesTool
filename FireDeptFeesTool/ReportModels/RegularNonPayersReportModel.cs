@@ -13,5 +13,6 @@ namespace FireDeptFeesTool.ReportModels
         public string Surname { get; set; }
         public int Count { get; set; }
         public int Year { get; set; }
+        public string Years { get; set; }
     }
 }

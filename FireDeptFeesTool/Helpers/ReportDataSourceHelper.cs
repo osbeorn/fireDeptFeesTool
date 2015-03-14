@@ -58,25 +58,29 @@ namespace FireDeptFeesTool.Helpers
             {
                 var dateTime = parameters["FromYear"] as DateTime?;
                 var year = dateTime.HasValue ? dateTime.Value.Year : 0;
-                
-                return
-                    db.FeeLogs
-                        .Where(l =>
-                               l.Year >= year &&
-                               l.PaymentStatusID == PaymentStatus.NI_PLACAL &&
-                               l.Member.MustPay
-                        )
-                        .GroupBy(l => l.Member)
-                        .Select(group =>
-                                new RegularNonPayersReportModel
-                                    {
-                                        VulkanID = group.Key.VulkanID,
-                                        Name = group.Key.Name,
-                                        Surname = group.Key.Surname,
-                                        Count = group.Count()
-                                    }
-                        )
-                        .ToList();
+
+                var logsList = db.FeeLogs
+                                   .Where(l =>
+                                          l.Year >= year &&
+                                          l.PaymentStatusID == PaymentStatus.NI_PLACAL &&
+                                          l.Member.MustPay &&
+                                          l.Member.Active
+                                    )
+                                    .ToList();
+
+                return logsList
+                           .GroupBy(l => l.Member)
+                           .Select(group =>
+                                   new RegularNonPayersReportModel
+                                   {
+                                       VulkanID = group.Key.VulkanID,
+                                       Name = group.Key.Name,
+                                       Surname = group.Key.Surname,
+                                       Count = group.Count(),
+                                       Years = group.Select(l => l.Year.ToString()).Aggregate((y1, y2) => String.Join(", ", y1, y2))
+                                   }
+                           )
+                           .ToList();
             }
         }
 
