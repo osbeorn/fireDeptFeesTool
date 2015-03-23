@@ -84,6 +84,8 @@ namespace FireDeptFeesTool.Forms
             membersDiffDataGridView.DataSource = new SortableBindingList<MemberDiffViewModel>(membersDiff);
         }
 
+        #region Event handlers
+
         private void MembersDiffDataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.ColumnIndex == 5 || e.ColumnIndex == 11)
@@ -98,5 +100,12 @@ namespace FireDeptFeesTool.Forms
                 }
             }
         }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
+        #endregion
     }
 }

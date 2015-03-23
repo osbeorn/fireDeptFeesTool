@@ -43,16 +43,21 @@
             this.NewDateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NewGender = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Action = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.confirmButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.membersDiffDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel1.Controls.Add(this.membersDiffDataGridView, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.confirmButton, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.cancelButton, 2, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -79,7 +84,7 @@
             this.NewDateOfBirth,
             this.NewGender,
             this.Action});
-            this.tableLayoutPanel1.SetColumnSpan(this.membersDiffDataGridView, 2);
+            this.tableLayoutPanel1.SetColumnSpan(this.membersDiffDataGridView, 3);
             this.membersDiffDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.membersDiffDataGridView.Location = new System.Drawing.Point(3, 3);
             this.membersDiffDataGridView.Name = "membersDiffDataGridView";
@@ -178,6 +183,29 @@
             this.Action.Name = "Action";
             this.Action.ReadOnly = true;
             // 
+            // confirmButton
+            // 
+            this.confirmButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.confirmButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.confirmButton.Location = new System.Drawing.Point(654, 452);
+            this.confirmButton.Name = "confirmButton";
+            this.confirmButton.Size = new System.Drawing.Size(74, 23);
+            this.confirmButton.TabIndex = 1;
+            this.confirmButton.Text = "Potrdi";
+            this.confirmButton.UseVisualStyleBackColor = true;
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.Location = new System.Drawing.Point(734, 452);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(74, 23);
+            this.cancelButton.TabIndex = 2;
+            this.cancelButton.Text = "Prekliči";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            // 
             // ImportMembersDiffForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -209,6 +237,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NewDateOfBirth;
         private System.Windows.Forms.DataGridViewTextBoxColumn NewGender;
         private System.Windows.Forms.DataGridViewTextBoxColumn Action;
+        private System.Windows.Forms.Button confirmButton;
+        private System.Windows.Forms.Button cancelButton;
 
     }
 }

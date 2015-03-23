@@ -206,7 +206,14 @@ namespace FireDeptFeesTool.Controls
                 var memberData = new StreamReader(fullFilePath, Encoding.UTF8);
 
                 if (db.Member.Any())
-                    new ImportMembersDiffForm(memberData).ShowDialog();
+                {
+                    var diffForm = new ImportMembersDiffForm(memberData);
+                    if (diffForm.ShowDialog() == DialogResult.Cancel)
+                    {
+                        diffForm.Dispose();
+                        return;
+                    }
+                }
 
                 memberData = new StreamReader(fullFilePath, Encoding.UTF8);
 
