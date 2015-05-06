@@ -488,7 +488,6 @@ namespace FireDeptFeesTool.Controls
         private void CheckBoxHeader_CheckedChanged(object sender, EventArgs e)
         {
             var headerBox = ((CheckBox)membersDataGridView.Controls.Find("CheckBoxHeader", true)[0]);
-            var index = 0;
 
             foreach (DataGridViewRow row in this.membersDataGridView.Rows)
             {
