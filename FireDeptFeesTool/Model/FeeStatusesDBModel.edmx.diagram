@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="cba56147bb514354a2d7f80fbbfab3a3" Name="Diagram1" ZoomLevel="108">
-        <EntityTypeShape EntityType="FeeStatusesDBModel.FeeLogs" Width="1.5" PointX="6" PointY="16.875" />
+        <EntityTypeShape EntityType="FeeStatusesDBModel.FeeLogs" Width="1.5" PointX="5.875" PointY="16.875" />
         <EntityTypeShape EntityType="FeeStatusesDBModel.Member" Width="1.5" PointX="2.5581732888511257" PointY="17.408059038877514" />
         <EntityTypeShape EntityType="FeeStatusesDBModel.PaymentStatus" Width="1.5" PointX="4.5" PointY="19.625" />
         <AssociationConnector Association="FeeStatusesDBModel.MemberFeeLogs" />

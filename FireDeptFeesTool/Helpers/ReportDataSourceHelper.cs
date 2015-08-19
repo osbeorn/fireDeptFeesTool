@@ -38,7 +38,9 @@ namespace FireDeptFeesTool.Helpers
                     db.FeeLogs
                         .Where(l => 
                                l.Year == year &&
-                               l.PaymentStatusID == PaymentStatus.NI_PLACAL
+                               l.PaymentStatusID == PaymentStatus.NI_PLACAL &&
+                               l.Member.MustPay &&
+                               l.Member.Active
                         )
                         .Select(x => 
                                 new SelectedYearNonPayersReportModel
