@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FireDeptFeesTool.Enums;
+using FireDeptFeesTool.Common.Enums;
 using FireDeptFeesTool.Forms;
-using FireDeptFeesTool.Helpers;
-using FireDeptFeesTool.Lib;
-using FireDeptFeesTool.ReportModels;
+using FireDeptFeesTool.Common.Helpers;
+using FireDeptFeesTool.Common.Lib;
+using FireDeptFeesTool.Model.Report;
 using Microsoft.Reporting.WinForms;
-using Report = FireDeptFeesTool.Lib.Reports;
+using Report = FireDeptFeesTool.Common.Lib.Reports;
 
 namespace FireDeptFeesTool.Controls
 {

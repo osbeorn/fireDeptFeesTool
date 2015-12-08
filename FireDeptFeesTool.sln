@@ -4,6 +4,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireDeptFeesTool", "FireDeptFeesTool\FireDeptFeesTool.csproj", "{5A14E8F0-0B18-44EA-BB73-A47578779C51}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2E11D248-8167-468F-9613-763070E59471} = {2E11D248-8167-468F-9613-763070E59471}
+		{D4F0E9B1-0087-43D9-B209-1EC367EF6850} = {D4F0E9B1-0087-43D9-B209-1EC367EF6850}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireDeptFeesTool.API", "FireDeptFeesAPI\FireDeptFeesTool.API.csproj", "{C51501BC-5BE7-481A-80B2-0352A4826BB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireDeptFeesTool.Model", "Model\FireDeptFeesTool.Model.csproj", "{2E11D248-8167-468F-9613-763070E59471}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireDeptFeesTool.Schemas", "Schemas\FireDeptFeesTool.Schemas.csproj", "{D4F0E9B1-0087-43D9-B209-1EC367EF6850}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireDeptFeesTool.Core", "Core\FireDeptFeesTool.Core.csproj", "{1340ABF2-0117-4E7C-99EF-869A6D66AF8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireDeptFeesTool.Common", "Common\FireDeptFeesTool.Common.csproj", "{739FF9FE-F692-40F5-BE7C-41925AAFFE1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +29,26 @@ Global
 		{5A14E8F0-0B18-44EA-BB73-A47578779C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A14E8F0-0B18-44EA-BB73-A47578779C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A14E8F0-0B18-44EA-BB73-A47578779C51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C51501BC-5BE7-481A-80B2-0352A4826BB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C51501BC-5BE7-481A-80B2-0352A4826BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C51501BC-5BE7-481A-80B2-0352A4826BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C51501BC-5BE7-481A-80B2-0352A4826BB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E11D248-8167-468F-9613-763070E59471}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E11D248-8167-468F-9613-763070E59471}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E11D248-8167-468F-9613-763070E59471}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E11D248-8167-468F-9613-763070E59471}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4F0E9B1-0087-43D9-B209-1EC367EF6850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4F0E9B1-0087-43D9-B209-1EC367EF6850}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4F0E9B1-0087-43D9-B209-1EC367EF6850}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4F0E9B1-0087-43D9-B209-1EC367EF6850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1340ABF2-0117-4E7C-99EF-869A6D66AF8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1340ABF2-0117-4E7C-99EF-869A6D66AF8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1340ABF2-0117-4E7C-99EF-869A6D66AF8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1340ABF2-0117-4E7C-99EF-869A6D66AF8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{739FF9FE-F692-40F5-BE7C-41925AAFFE1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{739FF9FE-F692-40F5-BE7C-41925AAFFE1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{739FF9FE-F692-40F5-BE7C-41925AAFFE1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{739FF9FE-F692-40F5-BE7C-41925AAFFE1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

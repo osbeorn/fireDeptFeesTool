@@ -6,10 +6,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using FireDeptFeesTool.Helpers;
-using FireDeptFeesTool.Lib;
-using FireDeptFeesTool.Model;
-using FireDeptFeesTool.ViewModels;
+using FireDeptFeesTool.Common.Helpers;
+using FireDeptFeesTool.Common.Lib;
+using FireDeptFeesTool.Model.Main;
+using FireDeptFeesTool.Model.View;
 
 namespace FireDeptFeesTool.Forms
 {

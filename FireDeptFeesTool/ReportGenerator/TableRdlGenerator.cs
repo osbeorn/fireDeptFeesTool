@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using FireDeptFeesTool.Lib;
+using FireDeptFeesTool.Common.Lib;
 using Rdl;
 
 namespace DynamicTable

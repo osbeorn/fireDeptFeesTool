@@ -5,8 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using FireDeptFeesTool.Controls;
-using FireDeptFeesTool.Model;
-using FireDeptFeesTool.ViewModels;
+using FireDeptFeesTool.Model.Main;
+using FireDeptFeesTool.Model.View;
+using FireDeptFeesTool.Common.Helpers;
 
 namespace FireDeptFeesTool.Forms
 {
@@ -68,7 +69,7 @@ namespace FireDeptFeesTool.Forms
                                 }
 
                                  //var member = _db.Member.Find(id);
-                                 //member.FeeLogs.Single(fl => fl.Year == year).PaymentStatusID = PaymentStatusID.PLACAL;
+                                 //member.FeeLogs.Single(fl => fl.Year == year).PaymentStatus = PaymentStatus.PLACAL;
 
                                 retList.Add(
                                     new BankExportDocumentSelectionViewModel
@@ -122,9 +123,16 @@ namespace FireDeptFeesTool.Forms
                         List<int> years = dataRow.Years.Split(',').Select(int.Parse).ToList();
                         Member member = db.Member.Find(dataRow.Member);
 
-                        years.ForEach(member.AddDefaultFeeLogForYear);
+                        years.ForEach(year =>
+                            member.AddDefaultFeeLogForYear(
+                                year,
+                                ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANI),
+                                ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANICE)
+                            )
+                        );
+
                         member.FeeLogs.Where(fl => years.Contains(fl.Year)).ToList().ForEach(
-                            fl => fl.PaymentStatusID = PaymentStatus.PLACAL);
+                            fl => fl.PaymentStatus = PaymentStatusEnum.PLACAL);
                     }
 
                     db.SaveChanges();

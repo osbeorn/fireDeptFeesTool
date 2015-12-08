@@ -50,9 +50,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -66,6 +63,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.8\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -117,8 +122,6 @@
     <Compile Include="DataSets\RegularNonPayersDataSet.cs" />
     <Compile Include="DataSets\SelectedYearNonPayersDataSet.cs" />
     <Compile Include="DataSets\SelectedYearStatisticsDataSet.cs" />
-    <Compile Include="Enums\PrintType.cs" />
-    <Compile Include="Enums\PaperType.cs" />
     <Compile Include="Forms\ImportMembersDiffForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,8 +140,6 @@
     <Compile Include="Forms\SelectYearRange.Designer.cs">
       <DependentUpon>SelectYearRange.cs</DependentUpon>
     </Compile>
-    <Compile Include="Lib\Reports.cs" />
-    <Compile Include="Enums\ReportTypes.cs" />
     <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -181,35 +182,6 @@
     <Compile Include="Forms\SelectBankExportDocumentsForm.Designer.cs">
       <DependentUpon>SelectBankExportDocumentsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\BankExportDocumentsReader.cs" />
-    <Compile Include="Helpers\ConfigHelper.cs" />
-    <Compile Include="Helpers\ControlsHelper.cs" />
-    <Compile Include="Helpers\DrawHelper.cs" />
-    <Compile Include="Helpers\ReportDataSourceHelper.cs" />
-    <Compile Include="Lib\BankExportDocument.cs" />
-    <Compile Include="Lib\WindowMessages.cs" />
-    <Compile Include="Lib\ReportColumn.cs" />
-    <Compile Include="Lib\ReportParameterControl.cs" />
-    <Compile Include="ModelPartial\Member.cs" />
-    <Compile Include="ModelPartial\PaymentStatus.cs" />
-    <Compile Include="Model\FeeLogs.cs">
-      <DependentUpon>FeeStatusesDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\FeeStatusesDBModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FeeStatusesDBModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\FeeStatusesDBModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FeeStatusesDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\FeeStatusesDBModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FeeStatusesDBModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ManageSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -217,29 +189,11 @@
       <DependentUpon>ManageSettingsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DataSets\PaymentDebtsDataSet.cs" />
-    <Compile Include="Model\Member.cs">
-      <DependentUpon>FeeStatusesDBModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\PaymentStatus.cs">
-      <DependentUpon>FeeStatusesDBModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Lib\UPNRectangle.cs" />
-    <Compile Include="Lib\SortableBindingList.cs" />
-    <Compile Include="Lib\UPNDocument.cs" />
     <Compile Include="ReportGenerator\RdlGenerator.cs" />
     <Compile Include="ReportGenerator\ReportDefinition.cs" />
     <Compile Include="ReportGenerator\TableRdlGenerator.cs" />
-    <Compile Include="ReportModels\SelectedYearStatisticsReportModel.cs" />
-    <Compile Include="ReportModels\RegularNonPayersReportModel.cs" />
-    <Compile Include="ReportModels\SelectedYearNonPayersReportModel.cs" />
-    <Compile Include="Schemas\camt.053.001.02.Designer.cs" />
-    <Compile Include="ViewModels\BankExportDocumentSelectionViewModel.cs" />
-    <Compile Include="ReportModels\DebtorReportModel.cs" />
-    <Compile Include="ViewModels\MemberDiffViewModel.cs" />
-    <Compile Include="ViewModels\MemberViewModel.cs" />
-    <Compile Include="ViewModels\PaymentViewModel.cs" />
     <EmbeddedResource Include="Controls\BillsListControl.resx">
       <DependentUpon>BillsListControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -295,29 +249,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Reports\MemberStickers3x8.rdlc" />
     <EmbeddedResource Include="Reports\MemberStickers2x6.rdlc" />
     <EmbeddedResource Include="Reports\RegularNonPayers.rdlc" />
     <EmbeddedResource Include="Reports\SelectedYearNonPayers.rdlc" />
     <EmbeddedResource Include="Reports\DebtorsListReport.rdlc" />
     <EmbeddedResource Include="Reports\PaymentsStatistics.rdlc" />
     <EmbeddedResource Include="Reports\StatisticsForYear.rdlc" />
-    <EntityDeploy Include="Model\FeeStatusesDBModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>FeeStatusesDBModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model\FeeStatusesDBModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FeeStatusesDBModel.edmx</DependentUpon>
-      <LastGenOutput>FeeStatusesDBModel.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Model\FeeStatusesDBModel.edmx.diagram">
-      <DependentUpon>FeeStatusesDBModel.edmx</DependentUpon>
-    </None>
-    <None Include="Model\FeeStatusesDBModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>FeeStatusesDBModel.edmx</DependentUpon>
-      <LastGenOutput>FeeStatusesDBModel.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.MemberStickersDataSet.datasource" />
     <None Include="Properties\DataSources\FireDeptFeesTool.DataSets.PaymentDebtsDataSet.datasource" />
@@ -333,9 +271,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Schemas\camt.053.001.02.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -355,7 +290,6 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Classes\" />
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
@@ -374,6 +308,20 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\FireDeptFeesTool.Common.csproj">
+      <Project>{739ff9fe-f692-40f5-be7c-41925aaffe1e}</Project>
+      <Name>FireDeptFeesTool.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\FireDeptFeesTool.Model.csproj">
+      <Project>{2e11d248-8167-468f-9613-763070e59471}</Project>
+      <Name>FireDeptFeesTool.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Schemas\FireDeptFeesTool.Schemas.csproj">
+      <Project>{d4f0e9b1-0087-43d9-b209-1ec367ef6850}</Project>
+      <Name>FireDeptFeesTool.Schemas</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

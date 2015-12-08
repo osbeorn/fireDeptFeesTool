@@ -8,10 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FireDeptFeesTool.Forms;
-using FireDeptFeesTool.Helpers;
-using FireDeptFeesTool.Lib;
-using FireDeptFeesTool.Model;
-using FireDeptFeesTool.ViewModels;
+using FireDeptFeesTool.Common.Helpers;
+using FireDeptFeesTool.Common.Lib;
+using FireDeptFeesTool.Model.Main;
+using FireDeptFeesTool.Model.View;
 
 namespace FireDeptFeesTool.Controls
 {

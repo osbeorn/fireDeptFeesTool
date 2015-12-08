@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using FireDeptFeesTool.ReportModels;
-using FireDeptFeesTool.ViewModels;
+using FireDeptFeesTool.Model.Report;
+using FireDeptFeesTool.Model.View;
 
 namespace FireDeptFeesTool.DataSets
 {

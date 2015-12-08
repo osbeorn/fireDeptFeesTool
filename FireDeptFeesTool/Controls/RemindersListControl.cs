@@ -6,10 +6,10 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using FireDeptFeesTool.Forms;
-using FireDeptFeesTool.Helpers;
-using FireDeptFeesTool.Lib;
-using FireDeptFeesTool.Model;
-using FireDeptFeesTool.ReportModels;
+using FireDeptFeesTool.Common.Helpers;
+using FireDeptFeesTool.Common.Lib;
+using FireDeptFeesTool.Model.Main;
+using FireDeptFeesTool.Model.Report;
 using Microsoft.Reporting.WinForms;
 
 namespace FireDeptFeesTool.Controls
@@ -43,23 +43,23 @@ namespace FireDeptFeesTool.Controls
                     allYears
                         ? db.Member.Where(
                             m =>
-                            m.MustPay && m.Active && m.FeeLogs.Any(fl => fl.PaymentStatusID == PaymentStatus.NI_PLACAL))
+                            m.MustPay && m.Active && m.FeeLogs.Any(fl => fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL))
                               .OrderBy(m => m.Surname).ThenBy(m => m.Name)
                         : db.Member.Where(
                             m =>
                             m.MustPay && m.Active &&
                             m.FeeLogs.Any(
-                                fl => fl.PaymentStatusID == PaymentStatus.NI_PLACAL && fl.Year >= min && fl.Year <= max))
+                                fl => fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL && fl.Year >= min && fl.Year <= max))
                               .OrderBy(m => m.Surname).ThenBy(m => m.Name);
 
                 var feeLogs =
                     allYears
-                        ? members.SelectMany(m => m.FeeLogs.Where(fl => fl.PaymentStatusID == PaymentStatus.NI_PLACAL)).
+                        ? members.SelectMany(m => m.FeeLogs.Where(fl => fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL)).
                               ToList() // tudi NI_PODATKA ??
                         : members.SelectMany(
                             m =>
                             m.FeeLogs.Where(
-                                fl => fl.PaymentStatusID == PaymentStatus.NI_PLACAL && fl.Year >= min && fl.Year <= max))
+                                fl => fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL && fl.Year >= min && fl.Year <= max))
                               .ToList(); // tudi NI_PODATKA ??
 
                 IEnumerable<int> yearsLocal = null;
@@ -106,7 +106,7 @@ namespace FireDeptFeesTool.Controls
                     values[1] = member.Surname + " " + member.Name;
 
                     IEnumerable<int> logs =
-                        member.FeeLogs.Where(fl => fl.PaymentStatusID == PaymentStatus.NI_PLACAL).Select(fl => fl.Year);
+                        member.FeeLogs.Where(fl => fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL).Select(fl => fl.Year);
                     for (int i = 2; i < values.Length; i++)
                     {
                         if (logs.Contains(yearsLocal.ElementAt(i - 2)))
@@ -312,10 +312,10 @@ namespace FireDeptFeesTool.Controls
             {
                 IOrderedQueryable<Member> members =
                     db.Member.Where(
-                        m => m.MustPay && m.Active && m.FeeLogs.Any(fl => fl.PaymentStatusID == PaymentStatus.NI_PLACAL))
+                        m => m.MustPay && m.Active && m.FeeLogs.Any(fl => fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL))
                         .OrderBy(m => m.Surname).ThenBy(m => m.Name);
                 List<FeeLogs> feeLogs =
-                    members.SelectMany(m => m.FeeLogs.Where(fl => fl.PaymentStatusID == PaymentStatus.NI_PLACAL)).ToList
+                    members.SelectMany(m => m.FeeLogs.Where(fl => fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL)).ToList
                         ();
 
                 if (feeLogs.Count > 0)

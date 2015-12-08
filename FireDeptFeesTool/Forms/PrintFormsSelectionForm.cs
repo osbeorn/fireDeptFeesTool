@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using FireDeptFeesTool.Controls;
-using FireDeptFeesTool.Enums;
+using FireDeptFeesTool.Common.Enums;
 
 namespace FireDeptFeesTool.Forms.UPNDocsList
 {

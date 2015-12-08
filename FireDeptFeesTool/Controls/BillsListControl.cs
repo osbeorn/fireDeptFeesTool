@@ -5,13 +5,13 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Windows.Forms;
-using FireDeptFeesTool.Enums;
+using FireDeptFeesTool.Common.Enums;
 using FireDeptFeesTool.Forms;
 using FireDeptFeesTool.Forms.UPNDocsList;
-using FireDeptFeesTool.Helpers;
-using FireDeptFeesTool.Lib;
-using FireDeptFeesTool.Model;
-using FireDeptFeesTool.ViewModels;
+using FireDeptFeesTool.Common.Helpers;
+using FireDeptFeesTool.Common.Lib;
+using FireDeptFeesTool.Model.Main;
+using FireDeptFeesTool.Model.View;
 using Microsoft.Reporting.WinForms;
 
 namespace FireDeptFeesTool.Controls
@@ -84,8 +84,8 @@ namespace FireDeptFeesTool.Controls
                                                 .Count(
                                                     fl =>
                                                         (ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_OD) == 0 || fl.Year >= ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_OD)) &&
-                                                        (ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_DO) == 0 || fl.Year <= ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_DO)) &&
-                                                        fl.PaymentStatusID == PaymentStatus.NI_PLACAL
+                                                        ((ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_DO) == 0 || fl.Year <= ConfigHelper.GetConfigValue<int>(ConfigFields.OPOMINI_DO)) && fl.Year <= DateTime.Now.Year) &&
+                                                        fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL
                                                 )
                                         )
                                         : (
@@ -93,7 +93,7 @@ namespace FireDeptFeesTool.Controls
                                                 .Count(
                                                     fl =>
                                                         fl.Year == year &&
-                                                        fl.PaymentStatusID == PaymentStatus.NI_PLACAL
+                                                        fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL
                                                 )
                                         )
                                     )
@@ -143,10 +143,10 @@ namespace FireDeptFeesTool.Controls
                               m.FeeLogs.
                                   Where(fl =>
                                       (opominiOdYear == 0 || fl.Year >= opominiOdYear) &&
-                                      (opominiDoYear == 0 || fl.Year <= opominiDoYear)
+                                      ((opominiDoYear == 0 || fl.Year <= opominiDoYear) && fl.Year <= DateTime.Now.Year)
                                   ).
                                   Any(fl =>
-                                      fl.PaymentStatusID == PaymentStatus.NI_PLACAL
+                                      fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL
                                   )
                         ).
                         Select(m => m.VulkanID);
@@ -162,7 +162,7 @@ namespace FireDeptFeesTool.Controls
                                         fl.Year == year
                                   ).
                                   Any(fl =>
-                                      fl.PaymentStatusID == PaymentStatus.NI_PLACAL
+                                      fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL
                                   )
                         ).
                         Select(m => m.VulkanID);
@@ -485,7 +485,7 @@ namespace FireDeptFeesTool.Controls
                             m.FeeLogs.
                                 Any(
                                     fl =>
-                                    fl.PaymentStatusID == PaymentStatus.NI_PLACAL
+                                    fl.PaymentStatus == PaymentStatusEnum.NI_PLACAL
                                 )
                         ).
                         SelectMany(m => m.FeeLogs);

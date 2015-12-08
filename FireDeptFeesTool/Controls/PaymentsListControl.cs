@@ -11,10 +11,10 @@ using System.Text;
 using System.Windows.Forms;
 using DynamicTable;
 using FireDeptFeesTool.Forms;
-using FireDeptFeesTool.Helpers;
-using FireDeptFeesTool.Lib;
-using FireDeptFeesTool.Model;
-using FireDeptFeesTool.ViewModels;
+using FireDeptFeesTool.Common.Helpers;
+using FireDeptFeesTool.Common.Lib;
+using FireDeptFeesTool.Model.Main;
+using FireDeptFeesTool.Model.View;
 using Microsoft.Reporting.WinForms;
 
 namespace FireDeptFeesTool.Controls
@@ -62,7 +62,7 @@ namespace FireDeptFeesTool.Controls
 
                 var feeLogs = members.SelectMany(m => m.FeeLogs).ToList();
 
-                var paymentStatuses = db.PaymentStatus.ToList();
+                var paymentStatuses = PaymentStatusHelper.GetPaymentStatusList();
                 IEnumerable<int> years = null;
                 if (feeLogs.Count > 0)
                 {
@@ -81,7 +81,7 @@ namespace FireDeptFeesTool.Controls
                                           Name = "Year" + year,
                                           HeaderText = year.ToString(),
                                           DisplayMember = "Text",
-                                          ValueMember = "PaymentStatusID",
+                                          ValueMember = "Status",
                                           DataPropertyName = "Year" + year,
                                           FlatStyle = FlatStyle.Flat
                                       };
@@ -115,8 +115,8 @@ namespace FireDeptFeesTool.Controls
                             FeeLogs log = member.FeeLogs.FirstOrDefault(l => l.Year == year);
                             values[5 + i] =
                                 log != null
-                                    ? log.PaymentStatusID
-                                    : PaymentStatus.NI_PODATKA;
+                                    ? log.PaymentStatus
+                                    : PaymentStatusEnum.NI_PODATKA;
                             i++;
                         }
                     }
@@ -174,17 +174,17 @@ namespace FireDeptFeesTool.Controls
         {
             DataGridViewCell cell;
             if (e.RowIndex > -1 && e.ColumnIndex > 4 &&
-                ((int) e.Value == PaymentStatus.NI_PODATKA || (int) e.Value == PaymentStatus.VETERAN || (int) e.Value == PaymentStatus.MLADOLETNIK))
+                ((int) e.Value == (int) PaymentStatusEnum.NI_PODATKA || (int) e.Value == (int) PaymentStatusEnum.VETERAN || (int) e.Value == (int) PaymentStatusEnum.MLADOLETNIK))
             {
                 cell = ((DataGridView) sender)[e.ColumnIndex, e.RowIndex];
                 cell.Style.BackColor = Color.LightGray;
             }
-            if (e.RowIndex > -1 && e.ColumnIndex > 4 && (int) e.Value == PaymentStatus.PLACAL)
+            if (e.RowIndex > -1 && e.ColumnIndex > 4 && (int) e.Value == (int) PaymentStatusEnum.PLACAL)
             {
                 cell = ((DataGridView) sender)[e.ColumnIndex, e.RowIndex];
                 cell.Style.BackColor = Color.LightGreen;
             }
-            else if (e.RowIndex > -1 && e.ColumnIndex > 4 && (int) e.Value == PaymentStatus.NI_PLACAL)
+            else if (e.RowIndex > -1 && e.ColumnIndex > 4 && (int)e.Value == (int) PaymentStatusEnum.NI_PLACAL)
             {
                 cell = ((DataGridView) sender)[e.ColumnIndex, e.RowIndex];
                 cell.Style.BackColor = Color.LightSalmon;
@@ -251,29 +251,29 @@ namespace FireDeptFeesTool.Controls
                                 switch (stat)
                                 {
                                     case "DA":
-                                        log.PaymentStatusID = PaymentStatus.PLACAL;
+                                        log.PaymentStatus = PaymentStatusEnum.PLACAL;
                                         break;
                                     case "NE":
-                                        log.PaymentStatusID = PaymentStatus.NI_PLACAL;
+                                        log.PaymentStatus = PaymentStatusEnum.NI_PLACAL;
                                         break;
                                     case "VETERAN":
-                                        log.PaymentStatusID = PaymentStatus.VETERAN;
+                                        log.PaymentStatus = PaymentStatusEnum.VETERAN;
                                         break;
                                     case "XXX":
-                                        log.PaymentStatusID = PaymentStatus.MLADOLETNIK;
+                                        log.PaymentStatus = PaymentStatusEnum.MLADOLETNIK;
                                         break;
                                     default:
                                         if (member.GetMemberAgeForYear(year) < 18)
                                         {
-                                            log.PaymentStatusID = PaymentStatus.MLADOLETNIK;
+                                            log.PaymentStatus = PaymentStatusEnum.MLADOLETNIK;
                                         }
                                         else if (member.GetMemberAgeForYear(year) >= 60)
                                         {
-                                            log.PaymentStatusID = PaymentStatus.VETERAN;
+                                            log.PaymentStatus = PaymentStatusEnum.VETERAN;
                                         }
                                         else
                                         {
-                                            log.PaymentStatusID = PaymentStatus.NI_PODATKA;
+                                            log.PaymentStatus = PaymentStatusEnum.NI_PODATKA;
                                         }
                                         break;
                                 }
@@ -380,7 +380,7 @@ namespace FireDeptFeesTool.Controls
                             FeeLogs log = db.Member.Find(rowId).FeeLogs.SingleOrDefault(l => l.Year == changedColName);
                             if (log != null)
                             {
-                                log.PaymentStatusID = (int) changedRow.Row.ItemArray[colIndex];
+                                log.PaymentStatus = (PaymentStatusEnum) Enum.Parse(typeof(PaymentStatusEnum), changedRow.Row.ItemArray[colIndex].ToString(), true);
                             }
                             else
                             {
@@ -388,7 +388,7 @@ namespace FireDeptFeesTool.Controls
                                                    {
                                                        VulkanID = rowId,
                                                        Year = changedColName,
-                                                       PaymentStatusID = (int) changedRow.Row.ItemArray[colIndex]
+                                                       PaymentStatus = (PaymentStatusEnum) Enum.Parse(typeof(PaymentStatusEnum), changedRow.Row.ItemArray[colIndex].ToString(), true)
                                                    }
                                     );
                             }
@@ -445,7 +445,12 @@ namespace FireDeptFeesTool.Controls
             {
                 if (!db.Member.Where(m => m.MustPay).All(m => m.FeeLogs.Any(fl => fl.Year == currentYear)))
                 {
-                    db.Member.ToList().ForEach(m => m.AddDefaultFeeLogForCurrentYear());
+                    db.Member.ToList().ForEach(m =>
+                        m.AddDefaultFeeLogForCurrentYear(
+                            ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANI),
+                            ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANICE)
+                        )
+                    );
                     db.SaveChanges();
                 }
             }
@@ -480,7 +485,13 @@ namespace FireDeptFeesTool.Controls
                 {
                     if (!db.Member.Where(m => m.MustPay).All(m => m.FeeLogs.Any(fl => fl.Year == selectedYear)))
                     {
-                        db.Member.ToList().ForEach(m => m.AddDefaultFeeLogForYear(selectedYear));
+                        db.Member.ToList().ForEach(m =>
+                            m.AddDefaultFeeLogForYear(
+                                selectedYear,
+                                ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANI),
+                                ConfigHelper.GetConfigValue<decimal>(ConfigFields.ZNESEK_CLANICE)
+                            )
+                        );
                         db.SaveChanges();
                     }
                 }
@@ -563,7 +574,7 @@ namespace FireDeptFeesTool.Controls
                 using (var db = new FeeStatusesDBContext())
                 {
                     var cell = ((DataGridView)sender)[e.ColumnIndex, e.RowIndex] as DataGridViewComboBoxCell; 
-                    cell.ToolTipText = PaymentStatusID.GetPaymentStatusDesc(cell.Type as int?);
+                    cell.ToolTipText = PaymentStatus.GetPaymentStatusDesc(cell.Type as int?);
                 }
             }
             */
@@ -660,6 +671,11 @@ namespace FireDeptFeesTool.Controls
         {
             includeDeleted = includeDeletedToolStripMenuItem.Checked;
             BindPaymentsDataGridView(onlyMustPayers, includeDeleted);
+        }
+
+        private void PaymentsDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            int i = 0;
         }
     }
 }

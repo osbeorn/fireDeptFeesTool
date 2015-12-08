@@ -47,15 +47,15 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.saveChangesButton = new System.Windows.Forms.Button();
             this.paymentsDataGridView = new System.Windows.Forms.DataGridView();
-            this.addOptionButton = new System.Windows.Forms.Button();
-            this.importPaymentDataButton = new System.Windows.Forms.Button();
-            this.printButton = new System.Windows.Forms.Button();
-            this.additionalDisplayOptionsButton = new System.Windows.Forms.Button();
             this.Active = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.VulkanID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MemberSurname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MemberName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.addOptionButton = new System.Windows.Forms.Button();
+            this.importPaymentDataButton = new System.Windows.Forms.Button();
+            this.printButton = new System.Windows.Forms.Button();
+            this.additionalDisplayOptionsButton = new System.Windows.Forms.Button();
             this.addOptionButtonContextMenuStrip.SuspendLayout();
             this.importDataContextMenuStrip.SuspendLayout();
             this.printButtonContextMenuStrip.SuspendLayout();
@@ -227,51 +227,8 @@
             this.paymentsDataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.PaymentsDataGridView_CellPainting);
             this.paymentsDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.PaymentsDataGridView_CellValueChanged);
             this.paymentsDataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.PaymentsDataGridView_DataBindingComplete);
+            this.paymentsDataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.PaymentsDataGridView_DataError);
             this.paymentsDataGridView.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.PaymentsDataGridView_RowPostPaint);
-            // 
-            // addOptionButton
-            // 
-            this.addOptionButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.addOptionButton.Location = new System.Drawing.Point(83, 447);
-            this.addOptionButton.Name = "addOptionButton";
-            this.addOptionButton.Size = new System.Drawing.Size(74, 23);
-            this.addOptionButton.TabIndex = 4;
-            this.addOptionButton.Text = "Dodaj";
-            this.addOptionButton.UseVisualStyleBackColor = true;
-            this.addOptionButton.Click += new System.EventHandler(this.AddOptionButton_Click);
-            // 
-            // importPaymentDataButton
-            // 
-            this.importPaymentDataButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.importPaymentDataButton.Location = new System.Drawing.Point(3, 447);
-            this.importPaymentDataButton.Name = "importPaymentDataButton";
-            this.importPaymentDataButton.Size = new System.Drawing.Size(74, 23);
-            this.importPaymentDataButton.TabIndex = 2;
-            this.importPaymentDataButton.Text = "Uvoz";
-            this.importPaymentDataButton.UseVisualStyleBackColor = true;
-            this.importPaymentDataButton.Click += new System.EventHandler(this.ImportPaymentDataButton_Click);
-            // 
-            // printButton
-            // 
-            this.printButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.printButton.Location = new System.Drawing.Point(243, 447);
-            this.printButton.Name = "printButton";
-            this.printButton.Size = new System.Drawing.Size(74, 23);
-            this.printButton.TabIndex = 5;
-            this.printButton.Text = "Tiskaj";
-            this.printButton.UseVisualStyleBackColor = true;
-            this.printButton.Click += new System.EventHandler(this.PrintButton_Click);
-            // 
-            // additionalDisplayOptionsButton
-            // 
-            this.additionalDisplayOptionsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.additionalDisplayOptionsButton.Location = new System.Drawing.Point(163, 447);
-            this.additionalDisplayOptionsButton.Name = "additionalDisplayOptionsButton";
-            this.additionalDisplayOptionsButton.Size = new System.Drawing.Size(74, 23);
-            this.additionalDisplayOptionsButton.TabIndex = 6;
-            this.additionalDisplayOptionsButton.Text = "Prikaz";
-            this.additionalDisplayOptionsButton.UseVisualStyleBackColor = true;
-            this.additionalDisplayOptionsButton.Click += new System.EventHandler(this.AdditionalDisplayOptionsButton_Click);
             // 
             // Active
             // 
@@ -320,6 +277,50 @@
             this.DateOfBirth.Name = "DateOfBirth";
             this.DateOfBirth.ReadOnly = true;
             this.DateOfBirth.Width = 97;
+            // 
+            // addOptionButton
+            // 
+            this.addOptionButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.addOptionButton.Location = new System.Drawing.Point(83, 447);
+            this.addOptionButton.Name = "addOptionButton";
+            this.addOptionButton.Size = new System.Drawing.Size(74, 23);
+            this.addOptionButton.TabIndex = 4;
+            this.addOptionButton.Text = "Dodaj";
+            this.addOptionButton.UseVisualStyleBackColor = true;
+            this.addOptionButton.Click += new System.EventHandler(this.AddOptionButton_Click);
+            // 
+            // importPaymentDataButton
+            // 
+            this.importPaymentDataButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.importPaymentDataButton.Location = new System.Drawing.Point(3, 447);
+            this.importPaymentDataButton.Name = "importPaymentDataButton";
+            this.importPaymentDataButton.Size = new System.Drawing.Size(74, 23);
+            this.importPaymentDataButton.TabIndex = 2;
+            this.importPaymentDataButton.Text = "Uvoz";
+            this.importPaymentDataButton.UseVisualStyleBackColor = true;
+            this.importPaymentDataButton.Click += new System.EventHandler(this.ImportPaymentDataButton_Click);
+            // 
+            // printButton
+            // 
+            this.printButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.printButton.Location = new System.Drawing.Point(243, 447);
+            this.printButton.Name = "printButton";
+            this.printButton.Size = new System.Drawing.Size(74, 23);
+            this.printButton.TabIndex = 5;
+            this.printButton.Text = "Tiskaj";
+            this.printButton.UseVisualStyleBackColor = true;
+            this.printButton.Click += new System.EventHandler(this.PrintButton_Click);
+            // 
+            // additionalDisplayOptionsButton
+            // 
+            this.additionalDisplayOptionsButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.additionalDisplayOptionsButton.Location = new System.Drawing.Point(163, 447);
+            this.additionalDisplayOptionsButton.Name = "additionalDisplayOptionsButton";
+            this.additionalDisplayOptionsButton.Size = new System.Drawing.Size(74, 23);
+            this.additionalDisplayOptionsButton.TabIndex = 6;
+            this.additionalDisplayOptionsButton.Text = "Prikaz";
+            this.additionalDisplayOptionsButton.UseVisualStyleBackColor = true;
+            this.additionalDisplayOptionsButton.Click += new System.EventHandler(this.AdditionalDisplayOptionsButton_Click);
             // 
             // PaymentsListControl
             // 

@@ -158,7 +158,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(IIf(Fields!PaymentStatusID.Value = 1, 1, 0))</Value>
+                              <Value>=Sum(IIf(Fields!PaymentStatus.Value = 1, 1, 0))</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -225,7 +225,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Sum(IIf(Fields!PaymentStatusID.Value = 2, 1, 0))</Value>
+                              <Value>=Sum(IIf(Fields!PaymentStatus.Value = 2, 1, 0))</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -294,7 +294,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Count(Fields!PaymentStatusID.Value, "DataSet1")</Value>
+                              <Value>=Count(Fields!PaymentStatus.Value, "DataSet1")</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -337,11 +337,11 @@
             <TablixMember>
               <Group Name="Details">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!PaymentStatusID.Value</GroupExpression>
+                  <GroupExpression>=Fields!PaymentStatus.Value</GroupExpression>
                 </GroupExpressions>
                 <Filters>
                   <Filter>
-                    <FilterExpression>=Fields!PaymentStatusID.Value</FilterExpression>
+                    <FilterExpression>=Fields!PaymentStatus.Value</FilterExpression>
                     <Operator>Equal</Operator>
                     <FilterValues>
                       <FilterValue DataType="Integer">1</FilterValue>
@@ -351,13 +351,13 @@
               </Group>
             </TablixMember>
             <TablixMember>
-              <Group Name="PaymentStatusID">
+              <Group Name="PaymentStatus">
                 <GroupExpressions>
-                  <GroupExpression>=Fields!PaymentStatusID.Value</GroupExpression>
+                  <GroupExpression>=Fields!PaymentStatus.Value</GroupExpression>
                 </GroupExpressions>
                 <Filters>
                   <Filter>
-                    <FilterExpression>=Fields!PaymentStatusID.Value</FilterExpression>
+                    <FilterExpression>=Fields!PaymentStatus.Value</FilterExpression>
                     <Operator>Equal</Operator>
                     <FilterValues>
                       <FilterValue DataType="Integer">2</FilterValue>
@@ -367,7 +367,7 @@
               </Group>
               <SortExpressions>
                 <SortExpression>
-                  <Value>=Fields!PaymentStatusID.Value</Value>
+                  <Value>=Fields!PaymentStatus.Value</Value>
                 </SortExpression>
               </SortExpressions>
             </TablixMember>
@@ -424,8 +424,8 @@
           <DataField>PaymentStatusDesc</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="PaymentStatusID">
-          <DataField>PaymentStatusID</DataField>
+        <Field Name="PaymentStatus">
+          <DataField>PaymentStatus</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>

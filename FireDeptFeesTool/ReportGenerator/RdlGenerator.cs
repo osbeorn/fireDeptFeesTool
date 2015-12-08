@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using FireDeptFeesTool.Lib;
+using FireDeptFeesTool.Common.Lib;
 using Rdl;
 
 namespace DynamicTable

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using FireDeptFeesTool.Forms;
-using FireDeptFeesTool.Helpers;
 
 namespace FireDeptFeesTool
 {
@@ -15,11 +14,7 @@ namespace FireDeptFeesTool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new ImportForm());
-            //Application.Run(new MainForm());
             Application.Run(new ShellForm());
-            //Application.Run(new PrintSelection());
-            //Application.Run(new ManageSettingsForm());
         }
     }
 }
