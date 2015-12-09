@@ -5,21 +5,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FireDeptFeesTool.Model.Main
 {
-    [Table("feelogs")]
+    [Table("fee_logs", Schema = "public")]
     public partial class FeeLogs
     {
-        [Key, Column(Order = 0)]
+        [Key, Column("year", Order = 0)]
         public int Year { get; set; }
 
-        [Key, Column(Order = 1)]
-        [ForeignKey("Member")]
+        [Key, ForeignKey("Member"), Column("vulkan_id", Order = 1)]
         public string VulkanID { get; set; }
 
-        [Required]
+        [Column("payment_status"), Required]
         public PaymentStatusEnum PaymentStatus { get; set; }
 
+        [Column("fee_payed")]
         public Nullable<decimal> FeePayed { get; set; }
 
+        [Column("fee_to_pay")]
         public Nullable<decimal> FeeToPay { get; set; }
 
         public virtual Member Member { get; set; }

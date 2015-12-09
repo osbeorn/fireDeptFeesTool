@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FireDeptFeesTool.Model.Main
 {
-    [Table("member")]
+    [Table("member", Schema = "public")]
     public partial class Member
     {
         public Member()
@@ -13,32 +13,28 @@ namespace FireDeptFeesTool.Model.Main
             this.FeeLogs = new HashSet<FeeLogs>();
         }
 
-        [Key]
-        [MinLength(6), MaxLength(6)]
+        [Key, Column("vulkan_id"), MinLength(6), MaxLength(6)]
         public string VulkanID { get; set; }
 
-        [Required]
-        [MaxLength(100)]
+        [Column("name"), Required, MaxLength(100)]
         public string Name { get; set; }
 
-        [Required]
-        [MaxLength(100)]
+        [Column("surname"), Required, MaxLength(100)]
         public string Surname { get; set; }
 
-        [Required]
+        [Column("date_of_birth"), Required]
         public System.DateTime DateOfBirth { get; set; }
 
-        [Required]
-        [MaxLength(255)]
+        [Column("address"), Required, MaxLength(255)]
         public string Address { get; set; }
 
-        [Required]
+        [Column("gender"), Required]
         public bool Gender { get; set; }
 
-        [Required]
+        [Column("must_pay"), Required]
         public bool MustPay { get; set; }
 
-        [Required]
+        [Column("active"), Required]
         public bool Active { get; set; }
 
         public virtual ICollection<FeeLogs> FeeLogs { get; set; }
