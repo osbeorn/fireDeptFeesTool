@@ -50,6 +50,13 @@ namespace FireDeptFeesTool.Lib
                                                 Control = ControlsHelper.CreateCustomFormatDateTimePicker("yyyy", new DateTime(2008, 1, 1)),
                                                 ParameterType = typeof(DateTime)
                                             },
+                                        new ReportParameterControl
+                                        {
+                                            Name = "ToYear",
+                                            Label = "Do leta",
+                                            Control = ControlsHelper.CreateCustomFormatDateTimePicker("yyyy", DateTime.Today),
+                                            ParameterType = typeof(DateTime)
+                                        },
                                     },
         };
 

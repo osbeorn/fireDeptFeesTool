@@ -228,7 +228,10 @@ namespace FireDeptFeesTool.Controls
                         string surname = lineData[1];
                         DateTime dateOfBirth = DateTime.ParseExact(lineData[4], "d.M.yyyy", CultureInfo.InvariantCulture);
                         string address = lineData[6] + ", " + lineData[8] + " " + lineData[9];
-                        bool gender = lineData[3].Equals("Moški"); // true == moski, false == zenska
+
+                        string genderString = lineData[3].ToUpperInvariant();
+                        bool gender = genderString.StartsWith("M"); // true == moski, false == zenska
+
                         bool mustPay = SetMustPayStatus(gender, dateOfBirth);
 
                         // TODO updating

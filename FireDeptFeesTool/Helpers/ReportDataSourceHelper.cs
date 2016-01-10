@@ -58,12 +58,16 @@ namespace FireDeptFeesTool.Helpers
         {
             using (var db = new FeeStatusesDBContext())
             {
-                var dateTime = parameters["FromYear"] as DateTime?;
-                var year = dateTime.HasValue ? dateTime.Value.Year : 0;
+                var dateTimeFrom = parameters["FromYear"] as DateTime?;
+                var yearFrom = dateTimeFrom.HasValue ? dateTimeFrom.Value.Year : 0;
+
+                var dateTimeTo = parameters["ToYear"] as DateTime?;
+                var yearTo = dateTimeTo.HasValue ? dateTimeTo.Value.Year : 0;
 
                 var logsList = db.FeeLogs
                                    .Where(l =>
-                                          l.Year >= year &&
+                                          l.Year >= yearFrom &&
+                                          l.Year <= yearTo &&
                                           l.PaymentStatusID == PaymentStatus.NI_PLACAL &&
                                           l.Member.MustPay &&
                                           l.Member.Active

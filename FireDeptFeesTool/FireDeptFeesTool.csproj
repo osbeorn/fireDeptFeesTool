@@ -295,6 +295,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Reports\MemberStickers3x8.rdlc" />
     <EmbeddedResource Include="Reports\MemberStickers2x6.rdlc" />
     <EmbeddedResource Include="Reports\RegularNonPayers.rdlc" />
     <EmbeddedResource Include="Reports\SelectedYearNonPayers.rdlc" />
