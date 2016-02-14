@@ -11,7 +11,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>3.8cm</Height>
+              <Height>3.7cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -26,7 +26,7 @@
                                 <TextRun>
                                   <Value>=Fields!NameAndSurname.Value</Value>
                                   <Style>
-                                    <FontSize>12pt</FontSize>
+                                    <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -35,18 +35,14 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox7</rd:DefaultName>
-                          <Top>1.0987cm</Top>
-                          <Left>0.86995cm</Left>
+                          <Top>0.73506cm</Top>
+                          <Left>0.4cm</Left>
                           <Height>0.6cm</Height>
-                          <Width>5.76546cm</Width>
+                          <Width>6.26458cm</Width>
                           <Style>
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                         <Textbox Name="Textbox8">
@@ -58,7 +54,6 @@
                                 <TextRun>
                                   <Value>=Fields!StreetAddress.Value</Value>
                                   <Style>
-                                    <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -67,19 +62,15 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox8</rd:DefaultName>
-                          <Top>1.87509cm</Top>
-                          <Left>0.86995cm</Left>
+                          <Top>1.5432cm</Top>
+                          <Left>0.4cm</Left>
                           <Height>0.6cm</Height>
-                          <Width>5.76546cm</Width>
+                          <Width>6.23541cm</Width>
                           <ZIndex>1</ZIndex>
                           <Style>
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                         <Textbox Name="Textbox9">
@@ -91,7 +82,6 @@
                                 <TextRun>
                                   <Value>=Fields!PostOffice.Value</Value>
                                   <Style>
-                                    <FontSize>11pt</FontSize>
                                     <FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
@@ -100,19 +90,15 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox9</rd:DefaultName>
-                          <Top>2.65148cm</Top>
-                          <Left>0.86995cm</Left>
+                          <Top>2.28784cm</Top>
+                          <Left>0.4cm</Left>
                           <Height>0.6cm</Height>
-                          <Width>5.76546cm</Width>
+                          <Width>6.23541cm</Width>
                           <ZIndex>2</ZIndex>
                           <Style>
                             <Border>
                               <Style>None</Style>
                             </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </ReportItems>
@@ -145,7 +131,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
-        <Height>3.8cm</Height>
+        <Height>3.7cm</Height>
         <Width>6.9cm</Width>
         <Style>
           <Border>
@@ -154,7 +140,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>3.8cm</Height>
+    <Height>3.7cm</Height>
     <Style>
       <Border>
         <Style>None</Style>
@@ -170,7 +156,7 @@
     <TopMargin>0cm</TopMargin>
     <BottomMargin>0cm</BottomMargin>
     <Columns>3</Columns>
-    <ColumnSpacing>1cm</ColumnSpacing>
+    <ColumnSpacing>0cm</ColumnSpacing>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
