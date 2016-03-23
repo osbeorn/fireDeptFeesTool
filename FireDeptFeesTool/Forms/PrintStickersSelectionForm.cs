@@ -19,7 +19,8 @@ namespace FireDeptFeesTool.Forms
         private static readonly Dictionary<string, string> availableFormats = new Dictionary<string, string>
                                                                            {
                                                                                { "FireDeptFeesTool.Reports.MemberStickers2x6.rdlc", "A4 - 2x6"},
-                                                                               { "FireDeptFeesTool.Reports.MemberStickers3x8.rdlc", "A4 - 3x8"}
+                                                                               { "FireDeptFeesTool.Reports.MemberStickers3x8.rdlc", "A4 - 3x8 : 69x37 mm"},
+                                                                               { "FireDeptFeesTool.Reports.MemberStickers3x8_2.rdlc", "A4 - 3x8 : 64.6x33.8 mm"}
                                                                            };
 
         public PrintStickersSelectionForm(BillsListControl parent)
