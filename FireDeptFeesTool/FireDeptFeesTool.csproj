@@ -139,6 +139,7 @@
     <Compile Include="Forms\SelectYearRange.Designer.cs">
       <DependentUpon>SelectYearRange.cs</DependentUpon>
     </Compile>
+    <Compile Include="Lib\DataGridViewCheckBoxWithLabelColumn.cs" />
     <Compile Include="Lib\Reports.cs" />
     <Compile Include="Enums\ReportTypes.cs" />
     <Compile Include="Forms\AboutForm.cs">
@@ -297,6 +298,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Reports\MemberStickers3x8_2.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\MemberStickers3x8.rdlc" />
     <EmbeddedResource Include="Reports\MemberStickers2x6.rdlc" />
     <EmbeddedResource Include="Reports\RegularNonPayers.rdlc" />

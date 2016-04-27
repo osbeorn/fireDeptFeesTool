@@ -29,8 +29,10 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.confirmButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.membersDiffDataGridView = new System.Windows.Forms.DataGridView();
-            this.OldVulkanID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OldVulkanID = new FireDeptFeesTool.Lib.DataGridViewCheckBoxWithLabelColumn();
             this.OldSurname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OldName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OldAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,8 +45,7 @@
             this.NewDateOfBirth = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NewGender = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Action = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.confirmButton = new System.Windows.Forms.Button();
-            this.cancelButton = new System.Windows.Forms.Button();
+            this.dataGridViewCheckBoxWithLabelColumn1 = new FireDeptFeesTool.Lib.DataGridViewCheckBoxWithLabelColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.membersDiffDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -66,6 +67,29 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(811, 481);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // confirmButton
+            // 
+            this.confirmButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.confirmButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.confirmButton.Location = new System.Drawing.Point(654, 452);
+            this.confirmButton.Name = "confirmButton";
+            this.confirmButton.Size = new System.Drawing.Size(74, 23);
+            this.confirmButton.TabIndex = 1;
+            this.confirmButton.Text = "Potrdi";
+            this.confirmButton.UseVisualStyleBackColor = true;
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.Location = new System.Drawing.Point(734, 452);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(74, 23);
+            this.cancelButton.TabIndex = 2;
+            this.cancelButton.Text = "Prekliči";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // membersDiffDataGridView
             // 
@@ -94,10 +118,13 @@
             // 
             // OldVulkanID
             // 
-            this.OldVulkanID.DataPropertyName = "OldVulkanID";
+            this.OldVulkanID.DataPropertyName = "OldVulkanIDSelected";
             this.OldVulkanID.HeaderText = "OldVulkanID";
+            this.OldVulkanID.Label = null;
             this.OldVulkanID.Name = "OldVulkanID";
             this.OldVulkanID.ReadOnly = true;
+            this.OldVulkanID.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.OldVulkanID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // OldSurname
             // 
@@ -105,6 +132,7 @@
             this.OldSurname.HeaderText = "OldSurname";
             this.OldSurname.Name = "OldSurname";
             this.OldSurname.ReadOnly = true;
+            this.OldSurname.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // OldName
             // 
@@ -183,28 +211,15 @@
             this.Action.Name = "Action";
             this.Action.ReadOnly = true;
             // 
-            // confirmButton
+            // dataGridViewCheckBoxWithLabelColumn1
             // 
-            this.confirmButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.confirmButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.confirmButton.Location = new System.Drawing.Point(654, 452);
-            this.confirmButton.Name = "confirmButton";
-            this.confirmButton.Size = new System.Drawing.Size(74, 23);
-            this.confirmButton.TabIndex = 1;
-            this.confirmButton.Text = "Potrdi";
-            this.confirmButton.UseVisualStyleBackColor = true;
-            // 
-            // cancelButton
-            // 
-            this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(734, 452);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(74, 23);
-            this.cancelButton.TabIndex = 2;
-            this.cancelButton.Text = "Prekliči";
-            this.cancelButton.UseVisualStyleBackColor = true;
-            this.cancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.dataGridViewCheckBoxWithLabelColumn1.DataPropertyName = "OldSurname";
+            this.dataGridViewCheckBoxWithLabelColumn1.HeaderText = "OldSurname";
+            this.dataGridViewCheckBoxWithLabelColumn1.Label = null;
+            this.dataGridViewCheckBoxWithLabelColumn1.Name = "dataGridViewCheckBoxWithLabelColumn1";
+            this.dataGridViewCheckBoxWithLabelColumn1.ReadOnly = true;
+            this.dataGridViewCheckBoxWithLabelColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewCheckBoxWithLabelColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // ImportMembersDiffForm
             // 
@@ -214,6 +229,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ImportMembersDiffForm";
             this.Text = "ImportMembersDiffForm";
+            this.Load += new System.EventHandler(this.ImportMembersDiffForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.membersDiffDataGridView)).EndInit();
             this.ResumeLayout(false);
@@ -224,7 +240,10 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.DataGridView membersDiffDataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OldVulkanID;
+        private System.Windows.Forms.Button confirmButton;
+        private System.Windows.Forms.Button cancelButton;
+        private Lib.DataGridViewCheckBoxWithLabelColumn dataGridViewCheckBoxWithLabelColumn1;
+        private Lib.DataGridViewCheckBoxWithLabelColumn OldVulkanID;
         private System.Windows.Forms.DataGridViewTextBoxColumn OldSurname;
         private System.Windows.Forms.DataGridViewTextBoxColumn OldName;
         private System.Windows.Forms.DataGridViewTextBoxColumn OldAddress;
@@ -237,8 +256,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn NewDateOfBirth;
         private System.Windows.Forms.DataGridViewTextBoxColumn NewGender;
         private System.Windows.Forms.DataGridViewTextBoxColumn Action;
-        private System.Windows.Forms.Button confirmButton;
-        private System.Windows.Forms.Button cancelButton;
 
     }
 }

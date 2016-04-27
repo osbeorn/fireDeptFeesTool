@@ -13,6 +13,8 @@ using FireDeptFeesTool.Lib;
 using FireDeptFeesTool.Model;
 using FireDeptFeesTool.ViewModels;
 using Microsoft.Reporting.WinForms;
+using System.Drawing.Text;
+using System.Runtime.InteropServices;
 
 namespace FireDeptFeesTool.Controls
 {
@@ -245,8 +247,20 @@ namespace FireDeptFeesTool.Controls
             }
 
             /* fonti */
+            // font za talone
             var talonFont = new Font("Courier New", 7, FontStyle.Regular, GraphicsUnit.Point);
+
+            // font za nalog
             var nalogFont = new Font("Courier New", 12, FontStyle.Regular, GraphicsUnit.Point);
+
+            // font za OCR vrstico
+            var ocrFontResource = Properties.Resources.OCR_FONT;
+            var ocrFontData = Marshal.AllocCoTaskMem(ocrFontResource.Length);
+            var pfc = new PrivateFontCollection();
+            pfc.AddMemoryFont(ocrFontData, ocrFontResource.Length);
+            Marshal.FreeCoTaskMem(ocrFontData);
+            var ocrFontFamily = pfc.Families.First();
+            var ocrFont = new Font(ocrFontFamily, 12, FontStyle.Regular, GraphicsUnit.Point);
 
             Debug.WriteLine("MarginBoundsLeft: " + e.MarginBounds.Left);
             Debug.WriteLine("MarginBoundsTop: " + e.MarginBounds.Top);
@@ -255,11 +269,6 @@ namespace FireDeptFeesTool.Controls
             var whiteBrush = new SolidBrush(Color.White);
 
             e.Graphics.PageUnit = GraphicsUnit.Millimeter;
-
-            /*
-            e.Graphics.DrawString("To je testni izpis za talon ...".ToUpperInvariant(), talonFont, brush, x, y);
-            e.Graphics.DrawString("To je testni izpis za nalog ...".ToUpperInvariant(), nalogFont, brush, x, y + 20);
-            */
 
             var farAlign = new StringFormat {Alignment = StringAlignment.Far};
 

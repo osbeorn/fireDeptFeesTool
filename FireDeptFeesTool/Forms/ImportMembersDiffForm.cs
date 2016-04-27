@@ -106,6 +106,56 @@ namespace FireDeptFeesTool.Forms
             this.Hide();
         }
 
+        private void ImportMembersDiffForm_Load(object sender, EventArgs e)
+        {
+            //var controls = this.membersDiffDataGridView.Controls.Find("OldVulkanID", true);
+
+            //int i = 0;
+            //foreach (DataGridViewRow row in this.membersDiffDataGridView.Rows)
+            //{
+            //    var dataRow = row.DataBoundItem as MemberViewModel;
+            //    if (dataRow == null)
+            //        continue;
+
+            //    var control = controls[i];
+
+            //    i++;
+            //}
+
+            //for (int i = -1; i < this.membersDiffDataGridView.Rows.Count; i++)
+            //{
+            //    var chkBox = new CheckBox();
+
+            //    var rect = this.membersDiffDataGridView.GetCellDisplayRectangle(0, i, true);
+            //    rect.Y = rect.Location.Y + rect.Height / 4 - 2;
+            //    rect.X = rect.Location.X + rect.Width / 4 - 2;
+
+            //    chkBox.Name = "CheckBoxHeader_" + (i + 1);
+            //    chkBox.Size = new Size(16, 16);
+            //    chkBox.Location = rect.Location;
+            //    chkBox.CheckedChanged += CheckBoxCell_CheckedChanged;
+
+            //    this.membersDiffDataGridView.Controls.Add(chkBox);
+            //}
+        }
+
+        private void CheckBoxCell_CheckedChanged(object sender, EventArgs e)
+        {
+            var headerBox = ((CheckBox) membersDiffDataGridView.Controls.Find("CheckBoxHeader", true)[0]);
+
+            foreach (DataGridViewRow row in this.membersDiffDataGridView.Rows)
+            {
+                var dataRow = row.DataBoundItem as MemberViewModel;
+                if (dataRow == null)
+                    continue;
+
+                dataRow.Selected = headerBox.Checked;
+            }
+
+            this.membersDiffDataGridView.EndEdit();
+            this.membersDiffDataGridView.Refresh();
+        }
+
         #endregion
     }
 }
