@@ -340,6 +340,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Fonts\OCR10BTNormal.ttf" />
     <None Include="Schemas\camt.053.001.02.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -363,7 +364,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Classes\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

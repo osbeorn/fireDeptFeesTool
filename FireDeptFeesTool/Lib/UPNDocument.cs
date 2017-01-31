@@ -25,6 +25,7 @@ namespace FireDeptFeesTool.Lib
         //public bool ObvezenVnosVsehPolj { get; set; }
         //public bool PreveriKontrolneStevilke { get; set; }
         //public bool SamodejnoPripraviOCR { get; set; }
+        public string VrsticaOCR { get; set; }
 
         // Dodatni properyji za pomoč
         public Member Member { get; set; }

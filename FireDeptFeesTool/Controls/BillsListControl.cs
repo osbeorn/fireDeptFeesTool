@@ -24,9 +24,12 @@ namespace FireDeptFeesTool.Controls
 
         public const string BREME_IME = "{0} {1}, {2}";
         public const string BREME_SKLIC = "{0}-{1}";
+        public const string BREME_SKLIC_12 = "{0}0{1}0";
         public const string DOBRO_MODEL = "SI00";
+        public const string DOBRO_MODEL_12 = "SI12";
         public const string NAMEN = "PLAČILO ČLANARINE ZA LETO {0}";
         public const string KODA_NAMENA = "OTHR";
+        public const string VRSTICA_OCR = "{0} {1} {2} {3} {4}";
 
         #endregion format strings
 
@@ -69,13 +72,16 @@ namespace FireDeptFeesTool.Controls
 
                 foreach (var member in memberQuery) // obvezniki za plačevanje članarine
                 {
+                    var dobroSklic = String.Format(BREME_SKLIC_12, DateTime.Now.Year, member.VulkanID);
+                    dobroSklic = GenerateControlNumber(dobroSklic);
+
                     docs.Add(
                         new UPNDocument
                             {
                                 BremeIme = String.Format(BREME_IME, member.Surname, member.Name, member.Address), // član/plačnik
                                 DobroIBAN = ConfigHelper.GetConfigValue<string>(ConfigFields.IBAN_PREJEMNIKA), // IBAN prejemnika
-                                DobroModel = DOBRO_MODEL, // model sklica
-                                DobroSklic = String.Format(BREME_SKLIC, DateTime.Now.Year, member.VulkanID), // sklic == 'ID člana'-'tekoče leto'
+                                DobroModel = DOBRO_MODEL_12, // model sklica
+                                DobroSklic = dobroSklic, // sklic == 'tekoče leto'0'ID člana'0'kontrolna številka'
                                 DobroIme = ConfigHelper.GetConfigValue<string>(ConfigFields.NAZIV_DRUSTVA), // prejemnik
                                 DobroBIC = ConfigHelper.GetConfigValue<string>(ConfigFields.BIC_BANKE), // bic banke
                                 Znesek = 
@@ -108,7 +114,8 @@ namespace FireDeptFeesTool.Controls
                                 //DatumPlacila = DateTime.Now.ToString("dd.MM.yyyy"), // rok plačila
                                 Namen = String.Format(NAMEN, year), // namen
                                 KodaNamena = KODA_NAMENA, // koda namena
-                                Member = member // celotni Member objekt
+                                Member = member, // celotni Member objekt,
+                                VrsticaOCR = GenerateControlNumber(dobroSklic)
                             }
                         );
                 }
@@ -120,6 +127,27 @@ namespace FireDeptFeesTool.Controls
             UnCheckAllRows(false);
             ClearSelection(documentListDataGridView);
             SelectRecords(year, true);
+        }
+
+        public string GenerateControlNumber(string sklic)
+        {
+            var sum = 0;
+            var ponder = 2;
+
+            for (int i = sklic.Length - 1; i >= 0; i--)
+            {
+                var num = int.Parse(sklic[i].ToString());
+                sum += ponder * num;
+                ponder++;
+            }
+
+            var mod = sum % 11;
+            var controlNum = 11 - mod;
+
+            if (controlNum >= 10)
+                controlNum = 0;
+
+            return sklic + controlNum;
         }
 
         public void InitializeDataGridView(List<int> years)
@@ -256,11 +284,12 @@ namespace FireDeptFeesTool.Controls
             // font za OCR vrstico
             var ocrFontResource = Properties.Resources.OCR_FONT;
             var ocrFontData = Marshal.AllocCoTaskMem(ocrFontResource.Length);
+            Marshal.Copy(ocrFontResource, 0, ocrFontData, ocrFontResource.Length);
             var pfc = new PrivateFontCollection();
             pfc.AddMemoryFont(ocrFontData, ocrFontResource.Length);
             Marshal.FreeCoTaskMem(ocrFontData);
             var ocrFontFamily = pfc.Families.First();
-            var ocrFont = new Font(ocrFontFamily, 12, FontStyle.Regular, GraphicsUnit.Point);
+            var ocrFont = new Font(ocrFontFamily, 10, FontStyle.Regular, GraphicsUnit.Point);
 
             Debug.WriteLine("MarginBoundsLeft: " + e.MarginBounds.Left);
             Debug.WriteLine("MarginBoundsTop: " + e.MarginBounds.Top);
@@ -272,13 +301,11 @@ namespace FireDeptFeesTool.Controls
 
             var farAlign = new StringFormat {Alignment = StringAlignment.Far};
 
-            var farCenterAlign = new StringFormat
-                                     {Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Center};
+            var farCenterAlign = new StringFormat {Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Center};
 
             var nearAlign = new StringFormat {Alignment = StringAlignment.Near};
 
-            var nearCenterAlign = new StringFormat
-                                      {Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center};
+            var nearCenterAlign = new StringFormat {Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center};
 
             UPNDocument docRow;
             for (int i = 0; i < (paperType == PaperType.Laser ? 2 : 3);)
@@ -358,6 +385,13 @@ namespace FireDeptFeesTool.Controls
 
                 #endregion obmocja-nalog
 
+                #region obmocja-ocr
+
+                /* ocr vrstica - 53 znakov */
+                var vrsticaOCR = new UPNRectangle(7.76f, 12.32f, 142.38f, 7.02f, UPNFormHeight, UPNTalonMargin, yMargin, xOffset, yOffset);
+
+                #endregion obmocja-ocr
+
                 e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), imePlacnikaT.X, imePlacnikaT.Y, imePlacnikaT.Width, imePlacnikaT.Height);
                 e.Graphics.DrawString(docRow.BremeIme, talonFont, brush, new RectangleF(imePlacnikaT.X, imePlacnikaT.Y + 0.4f, imePlacnikaT.Width, imePlacnikaT.Height), nearAlign);
 
@@ -423,6 +457,18 @@ namespace FireDeptFeesTool.Controls
 
                 e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), imePrejemnikaN.X, imePrejemnikaN.Y, imePrejemnikaN.Width, imePrejemnikaN.Height);
                 e.Graphics.DrawString(docRow.DobroIme, nalogFont, brush, new RectangleF(imePrejemnikaN.X, imePrejemnikaN.Y, imePrejemnikaN.Width, imePrejemnikaN.Height), nearCenterAlign);
+
+                e.Graphics.DrawRectangle(new Pen(whiteBrush, 0.1f), vrsticaOCR.X, vrsticaOCR.Y, vrsticaOCR.Width, vrsticaOCR.Height);
+
+                e.Graphics.DrawString(
+                    String.Format(VRSTICA_OCR,
+                                  docRow.DobroSklic + "l", // referenca
+                                  docRow.DobroIBAN.Substring(10) + "m", // račun
+                                  docRow.Znesek.ToString("F").Replace(",", "").Replace(".", "").PadLeft(10, '0') + "n", //znesek
+                                  docRow.DobroIBAN.Substring(5) + "000" + "l", // oznaka banke
+                                  "56" + "m"), // 'tekst'
+                    ocrFont, brush,
+                    new RectangleF(vrsticaOCR.X, vrsticaOCR.Y, vrsticaOCR.Width, vrsticaOCR.Height), nearCenterAlign);
 
                 rowsPrinted++;
                 i++;
