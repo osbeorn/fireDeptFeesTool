@@ -203,7 +203,7 @@ namespace FireDeptFeesTool.Controls
                     var row = documentListDataGridView.Rows[i].DataBoundItem as UPNDocument;
                     if (row == null) continue;
 
-                    if (idList.Contains(row.DobroSklic.Substring(5)))
+                    if (idList.Contains(row.DobroSklic.Substring(5, 6)))
                     {
                         row.Selected = true;
                     }

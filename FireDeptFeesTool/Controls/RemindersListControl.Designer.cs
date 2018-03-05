@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.paymentDebtsDataGridView = new System.Windows.Forms.DataGridView();
             this.MemberVulkanID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,9 +40,13 @@
             this.yearFromComboBox = new System.Windows.Forms.ComboBox();
             this.yearToComboBox = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.PrepareRemindersButton = new System.Windows.Forms.Button();
+            this.prepareRemindersButton = new System.Windows.Forms.Button();
+            this.prepareRemindersContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.prepareDataForCurrentYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.prepareDataForSelectedYearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.paymentDebtsDataGridView)).BeginInit();
+            this.prepareRemindersContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -60,7 +65,7 @@
             this.tableLayoutPanel1.Controls.Add(this.yearFromComboBox, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.yearToComboBox, 4, 1);
             this.tableLayoutPanel1.Controls.Add(this.label2, 3, 1);
-            this.tableLayoutPanel1.Controls.Add(this.PrepareRemindersButton, 6, 1);
+            this.tableLayoutPanel1.Controls.Add(this.prepareRemindersButton, 6, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -74,22 +79,22 @@
             // 
             this.paymentDebtsDataGridView.AllowUserToAddRows = false;
             this.paymentDebtsDataGridView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightCyan;
-            this.paymentDebtsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightCyan;
+            this.paymentDebtsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.paymentDebtsDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.paymentDebtsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.paymentDebtsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MemberVulkanID,
             this.MemberSurnameAndName});
             this.tableLayoutPanel1.SetColumnSpan(this.paymentDebtsDataGridView, 7);
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Azure;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.paymentDebtsDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Azure;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.paymentDebtsDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.paymentDebtsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.paymentDebtsDataGridView.Location = new System.Drawing.Point(3, 3);
             this.paymentDebtsDataGridView.Name = "paymentDebtsDataGridView";
@@ -168,16 +173,38 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "-";
             // 
-            // PrepareRemindersButton
+            // prepareRemindersButton
             // 
-            this.PrepareRemindersButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.PrepareRemindersButton.Location = new System.Drawing.Point(655, 374);
-            this.PrepareRemindersButton.Name = "PrepareRemindersButton";
-            this.PrepareRemindersButton.Size = new System.Drawing.Size(74, 23);
-            this.PrepareRemindersButton.TabIndex = 7;
-            this.PrepareRemindersButton.Text = "Pripravi";
-            this.PrepareRemindersButton.UseVisualStyleBackColor = true;
-            this.PrepareRemindersButton.Click += new System.EventHandler(this.PrepareRemindersButton_Click);
+            this.prepareRemindersButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.prepareRemindersButton.Location = new System.Drawing.Point(655, 374);
+            this.prepareRemindersButton.Name = "prepareRemindersButton";
+            this.prepareRemindersButton.Size = new System.Drawing.Size(74, 23);
+            this.prepareRemindersButton.TabIndex = 7;
+            this.prepareRemindersButton.Text = "Pripravi";
+            this.prepareRemindersButton.UseVisualStyleBackColor = true;
+            this.prepareRemindersButton.Click += new System.EventHandler(this.PrepareRemindersButton_Click);
+            // 
+            // prepareRemindersContextMenuStrip
+            // 
+            this.prepareRemindersContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.prepareDataForCurrentYearToolStripMenuItem,
+            this.prepareDataForSelectedYearToolStripMenuItem});
+            this.prepareRemindersContextMenuStrip.Name = "prepareBillsContextMenuStrip";
+            this.prepareRemindersContextMenuStrip.Size = new System.Drawing.Size(171, 48);
+            // 
+            // prepareDataForCurrentYearToolStripMenuItem
+            // 
+            this.prepareDataForCurrentYearToolStripMenuItem.Name = "prepareDataForCurrentYearToolStripMenuItem";
+            this.prepareDataForCurrentYearToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.prepareDataForCurrentYearToolStripMenuItem.Text = "Za tekoče leto";
+            this.prepareDataForCurrentYearToolStripMenuItem.Click += new System.EventHandler(this.PrepareDataForCurrentYearToolStripMenuItem_Click);
+            // 
+            // prepareDataForSelectedYearToolStripMenuItem
+            // 
+            this.prepareDataForSelectedYearToolStripMenuItem.Name = "prepareDataForSelectedYearToolStripMenuItem";
+            this.prepareDataForSelectedYearToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.prepareDataForSelectedYearToolStripMenuItem.Text = "Za poljubno leto...";
+            this.prepareDataForSelectedYearToolStripMenuItem.Click += new System.EventHandler(this.PrepareDataForSelectedYearToolStripMenuItem_Click);
             // 
             // RemindersListControl
             // 
@@ -191,6 +218,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.paymentDebtsDataGridView)).EndInit();
+            this.prepareRemindersContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -206,6 +234,9 @@
         private System.Windows.Forms.ComboBox yearFromComboBox;
         private System.Windows.Forms.ComboBox yearToComboBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button PrepareRemindersButton;
+        private System.Windows.Forms.Button prepareRemindersButton;
+        private System.Windows.Forms.ContextMenuStrip prepareRemindersContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem prepareDataForCurrentYearToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem prepareDataForSelectedYearToolStripMenuItem;
     }
 }

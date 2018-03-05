@@ -352,7 +352,23 @@ namespace FireDeptFeesTool.Controls
 
         private void PrepareRemindersButton_Click(object sender, EventArgs e)
         {
-            InitializePaymentDebtsDataGridView();
+            //InitializePaymentDebtsDataGridView();
+            prepareRemindersContextMenuStrip.Show(prepareRemindersButton, new Point(0, prepareRemindersButton.Height));
+        }
+
+        private void PrepareDataForCurrentYearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InitializePaymentDebtsDataGridView(/*DateTime.Now.Year*/);
+        }
+
+        private void PrepareDataForSelectedYearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var selectYear = new SelectYearForm();
+
+            if (selectYear.ShowDialog() == DialogResult.OK)
+            {
+                InitializePaymentDebtsDataGridView(/*selectYear.Year, false*/);
+            }
         }
     }
 }
